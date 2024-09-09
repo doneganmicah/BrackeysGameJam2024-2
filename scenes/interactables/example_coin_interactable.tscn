@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://hwjsj48uxy54"]
+[gd_scene load_steps=19 format=3 uid="uid://hwjsj48uxy54"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_d8rwk"]
 [ext_resource type="Texture2D" uid="uid://c77be1sefdq2l" path="res://assets/placeholder_interactable.png" id="2_vax72"]
@@ -23,6 +23,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ljklj"]
+radius = 7.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kfuvk"]
 atlas = ExtResource("2_vax72")
@@ -121,6 +124,9 @@ radius = 5.09902
 
 [node name="CoinInteractable" instance=ExtResource("1_d8rwk")]
 script = SubResource("GDScript_g11ls")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_ljklj")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_s27sb")

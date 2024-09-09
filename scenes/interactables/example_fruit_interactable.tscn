@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bc5j1grdhhmgu"]
+[gd_scene load_steps=10 format=3 uid="uid://bc5j1grdhhmgu"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_10vvl"]
 [ext_resource type="Texture2D" uid="uid://bh6c1c8kq0huo" path="res://assets/placeholder_fruit.png" id="2_v4l5m"]
@@ -24,6 +24,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f7dhw"]
+radius = 5.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfk24"]
 atlas = ExtResource("2_v4l5m")
@@ -63,6 +66,9 @@ animations = [{
 
 [node name="example_fruit_interactable" instance=ExtResource("1_10vvl")]
 script = SubResource("GDScript_lu64u")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_f7dhw")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 z_index = -1

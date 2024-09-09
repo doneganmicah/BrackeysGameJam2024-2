@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfbksbircn62t"]
+
+[ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_dsxpy"]
+[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_blocks.png" id="2_6cjjy"]
+
+[sub_resource type="GDScript" id="GDScript_oabf2"]
+resource_name = "sign_interactable"
+script/source = "#region Interactable boiler plate
+extends Interactable
+
+# Is called when interacted with
+# to get the instance of the player use _player from parent.
+func interact() -> void:
+	print(\"Sign!\")
+	print(\"The sign says \\\"Hello World!\\\"\")
+#endregion
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e1hlj"]
+radius = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qa670"]
+atlas = ExtResource("2_6cjjy")
+region = Rect2(128, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_47y0n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qa670")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="example_sign_interactable" instance=ExtResource("1_dsxpy")]
+script = SubResource("GDScript_oabf2")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_e1hlj")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_47y0n")
+autoplay = "default"

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxan806ganrm"]
+[gd_scene load_steps=6 format=3 uid="uid://cxan806ganrm"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_nbrqa"]
 [ext_resource type="PackedScene" uid="uid://hwjsj48uxy54" path="res://scenes/interactables/example_coin_interactable.tscn" id="2_0e8xd"]
 [ext_resource type="PackedScene" uid="uid://bc5j1grdhhmgu" path="res://scenes/interactables/example_fruit_interactable.tscn" id="3_j57r4"]
 [ext_resource type="PackedScene" uid="uid://4a202gih6uqw" path="res://scenes/interactables/example_box_interactable.tscn" id="4_bmdhc"]
+[ext_resource type="PackedScene" uid="uid://dfbksbircn62t" path="res://scenes/interactables/example_sign_interactable.tscn" id="5_o4ymq"]
 
 [node name="InteractTest" type="Node2D"]
 
@@ -14,7 +15,7 @@ zoom = Vector2(4, 4)
 [node name="Player" parent="." instance=ExtResource("1_nbrqa")]
 
 [node name="CoinInteractable" parent="." instance=ExtResource("2_0e8xd")]
-position = Vector2(40, -1)
+position = Vector2(45, 18)
 
 [node name="example_fruit_interactable" parent="." instance=ExtResource("3_j57r4")]
 position = Vector2(51.7405, -38.3044)
@@ -24,3 +25,6 @@ position = Vector2(-40, -46)
 
 [node name="example_box_interactable" parent="." instance=ExtResource("4_bmdhc")]
 position = Vector2(-50, 23)
+
+[node name="example_sign_interactable" parent="." instance=ExtResource("5_o4ymq")]
+position = Vector2(1, 33)
