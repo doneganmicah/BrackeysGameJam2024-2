@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=4 uid="uid://owhd7frdhx34"]
+
+[ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
+[ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/LevelBlocking.png" id="2_kjxbd"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
+texture = ExtResource("2_kjxbd")
+0:0/0 = 0
+0:0/0/z_index = 12
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -5, 8, -5, 8, 8, 2, 8)
+1:0/0 = 0
+1:0/0/z_index = 1
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
+2:0/0 = 0
+2:0/0/z_index = 12
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, -2, -5, -2, 8, -8, 8)
+0:1/0 = 0
+0:1/0/z_index = 12
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -8, 8, -8, 8, 8, 2, 8)
+1:1/0 = 0
+2:1/0 = 0
+2:1/0/z_index = 12
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -2, -8, -2, 8, -8, 8)
+0:2/0 = 0
+0:2/0/z_index = 12
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -8, 8, -8, 8, 5, 2, 5)
+1:2/0 = 0
+1:2/0/z_index = 12
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4.5, 8, -4.5, 8, 5, -8, 5)
+2:2/0 = 0
+2:2/0/z_index = 12
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -2, -8, -2, 5, -8, 5)
+
+[sub_resource type="TileSet" id="TileSet_ccmty"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_kpago")
+
+[node name="LevelProto" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_03mbu")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = 1
+tile_map_data = PackedByteArray("AAD7/wQAAAABAAIAAAD8/wQAAAABAAIAAAD9/wQAAAABAAIAAAD+/wQAAAABAAIAAAD//wQAAAABAAIAAAAAAAQAAAABAAIAAAABAAQAAAABAAIAAAACAAQAAAABAAIAAAADAAQAAAABAAIAAAAEAAQAAAABAAIAAAD7//3/AAABAAEAAAD7//7/AAABAAEAAAD7////AAABAAEAAAD7/wAAAAABAAEAAAD7/wEAAAABAAEAAAD7/wIAAAABAAEAAAD7/wMAAAABAAEAAAD8//3/AAABAAEAAAD8//7/AAABAAEAAAD8////AAABAAEAAAD8/wAAAAABAAEAAAD8/wEAAAABAAEAAAD8/wIAAAABAAEAAAD8/wMAAAABAAEAAAD9//3/AAABAAEAAAD9//7/AAABAAEAAAD9////AAABAAEAAAD9/wAAAAABAAEAAAD9/wEAAAABAAEAAAD9/wIAAAABAAEAAAD9/wMAAAABAAEAAAD+//3/AAABAAEAAAD+//7/AAABAAEAAAD+////AAABAAEAAAD+/wAAAAABAAEAAAD+/wEAAAABAAEAAAD+/wIAAAABAAEAAAD+/wMAAAABAAEAAAD///3/AAABAAEAAAD///7/AAABAAEAAAD/////AAABAAEAAAD//wAAAAABAAEAAAD//wEAAAABAAEAAAD//wIAAAABAAEAAAD//wMAAAABAAEAAAAAAP3/AAABAAEAAAAAAP7/AAABAAEAAAAAAP//AAABAAEAAAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAEAAAAAAAMAAAABAAEAAAABAP3/AAABAAEAAAABAP7/AAABAAEAAAABAP//AAABAAEAAAABAAAAAAABAAEAAAABAAEAAAABAAEAAAABAAIAAAABAAEAAAABAAMAAAABAAEAAAACAP3/AAABAAEAAAACAP7/AAABAAEAAAACAP//AAABAAEAAAACAAAAAAABAAEAAAACAAEAAAABAAEAAAACAAIAAAABAAEAAAACAAMAAAABAAEAAAADAP3/AAABAAEAAAADAP7/AAABAAEAAAADAP//AAABAAEAAAADAAAAAAABAAEAAAADAAEAAAABAAEAAAADAAIAAAABAAEAAAADAAMAAAABAAEAAAAEAP3/AAABAAEAAAAEAP7/AAABAAEAAAAEAP//AAABAAEAAAAEAAAAAAABAAEAAAAEAAEAAAABAAEAAAAEAAIAAAABAAEAAAAEAAMAAAABAAEAAAD6//z/AAAAAAAAAAAFAPz/AAACAAAAAAD7//z/AAABAAAAAAD8//z/AAABAAAAAAD9//z/AAABAAAAAAD+//z/AAABAAAAAAD///z/AAABAAAAAAAAAPz/AAABAAAAAAABAPz/AAABAAAAAAACAPz/AAABAAAAAAADAPz/AAABAAAAAAAEAPz/AAABAAAAAAAFAP3/AAACAAEAAAAFAP7/AAACAAEAAAAFAP//AAACAAEAAAAFAAAAAAACAAEAAAAFAAEAAAACAAEAAAAFAAIAAAACAAEAAAAFAAMAAAACAAEAAAD6//3/AAAAAAEAAAD6//7/AAAAAAEAAAD6////AAAAAAEAAAD6/wAAAAAAAAEAAAD6/wEAAAAAAAEAAAD6/wIAAAAAAAEAAAD6/wMAAAAAAAEAAAD6/wQAAAAAAAIAAAAFAAQAAAACAAIAAAA=")
+tile_set = SubResource("TileSet_ccmty")
+
+[node name="Layout" type="Node" parent="."]
+
+[node name="Kitchen" type="Polygon2D" parent="Layout"]
+z_index = 1
+position = Vector2(-48, -35)
+scale = Vector2(3.1, 1.2)
+color = Color(0.517647, 0, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="LivingRoom" type="Polygon2D" parent="Layout"]
+z_index = 2
+position = Vector2(0, 32)
+scale = Vector2(3.1, 3.1)
+color = Color(0.517647, 0, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="BackDoor" type="Polygon2D" parent="Layout"]
+z_index = 2
+position = Vector2(24, -40)
+scale = Vector2(2.3, 0.7)
+color = Color(0.517647, 0, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="FrontDoor" type="Polygon2D" parent="Layout"]
+z_index = 2
+position = Vector2(-72, 48)
+scale = Vector2(0.7, 1.5)
+color = Color(0.517647, 0, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
