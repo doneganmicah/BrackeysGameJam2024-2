@@ -1,0 +1,132 @@
+[gd_scene load_steps=18 format=3 uid="uid://hwjsj48uxy54"]
+
+[ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_d8rwk"]
+[ext_resource type="Texture2D" uid="uid://c77be1sefdq2l" path="res://assets/placeholder_interactable.png" id="2_vax72"]
+
+[sub_resource type="GDScript" id="GDScript_g11ls"]
+resource_name = "CoinInteractable"
+script/source = "#region Interactable boiler plate
+extends Interactable
+
+# Is called when interacted with
+# to get the instance of the player use _player from parent.
+func interact() -> void:
+	print(\"Coin!\")
+#endregion
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfuvk"]
+atlas = ExtResource("2_vax72")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ys1l7"]
+atlas = ExtResource("2_vax72")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjvui"]
+atlas = ExtResource("2_vax72")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsdd8"]
+atlas = ExtResource("2_vax72")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4fjo"]
+atlas = ExtResource("2_vax72")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bww86"]
+atlas = ExtResource("2_vax72")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmkhb"]
+atlas = ExtResource("2_vax72")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xts5c"]
+atlas = ExtResource("2_vax72")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3hg3"]
+atlas = ExtResource("2_vax72")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcd3f"]
+atlas = ExtResource("2_vax72")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q81xx"]
+atlas = ExtResource("2_vax72")
+region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sh6xx"]
+atlas = ExtResource("2_vax72")
+region = Rect2(176, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s27sb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfuvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ys1l7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjvui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsdd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4fjo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bww86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmkhb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xts5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3hg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcd3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q81xx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sh6xx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_38u57"]
+radius = 5.09902
+
+[node name="CoinInteractable" instance=ExtResource("1_d8rwk")]
+script = SubResource("GDScript_g11ls")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_s27sb")
+autoplay = "default"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." index="2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="0"]
+shape = SubResource("CircleShape2D_38u57")

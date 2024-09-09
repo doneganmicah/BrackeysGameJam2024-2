@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://bc5j1grdhhmgu"]
+
+[ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_10vvl"]
+[ext_resource type="Texture2D" uid="uid://bh6c1c8kq0huo" path="res://assets/placeholder_fruit.png" id="2_v4l5m"]
+
+[sub_resource type="GDScript" id="GDScript_lu64u"]
+resource_name = "FruitInteractable"
+script/source = "#region Interactable boiler plate
+extends Interactable
+
+# Is called when interacted with
+# to get the instance of the player use _player from parent.
+func interact() -> void:
+	print(\"Fruit!\")
+	_player.speed = 100
+#endregion
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfk24"]
+atlas = ExtResource("2_v4l5m")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2md6o"]
+atlas = ExtResource("2_v4l5m")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8ld2"]
+atlas = ExtResource("2_v4l5m")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45vcv"]
+atlas = ExtResource("2_v4l5m")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lxmdr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfk24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2md6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8ld2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45vcv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="example_fruit_interactable" instance=ExtResource("1_10vvl")]
+script = SubResource("GDScript_lu64u")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+z_index = -1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_lxmdr")
+autoplay = "default"
+frame_progress = 0.375633
