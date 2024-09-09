@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://4a202gih6uqw"]
+
+[ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_e7dt2"]
+[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_blocks.png" id="2_nblsh"]
+
+[sub_resource type="GDScript" id="GDScript_hio5c"]
+resource_name = "box_interactable"
+script/source = "#region Interactable boiler plate
+extends Interactable
+
+# Is called when interacted with
+# to get the instance of the player use _player from parent.
+func interact() -> void:
+	print(\"Box!\")
+	self.queue_free()
+#endregion
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6pgeh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5em0w"]
+atlas = ExtResource("2_nblsh")
+region = Rect2(112, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p5bca"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5em0w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_te7am"]
+size = Vector2(16, 16)
+
+[node name="example_box_interactable" instance=ExtResource("1_e7dt2")]
+y_sort_enabled = true
+script = SubResource("GDScript_hio5c")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_6pgeh")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_p5bca")
+autoplay = "default"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." index="2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="0"]
+shape = SubResource("RectangleShape2D_te7am")
