@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=4 uid="uid://owhd7frdhx34"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
-[ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/LevelBlocking.png" id="2_kjxbd"]
+[ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
 texture = ExtResource("2_kjxbd")

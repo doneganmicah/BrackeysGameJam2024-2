@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dfbksbircn62t"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_dsxpy"]
-[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_blocks.png" id="2_6cjjy"]
+[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_6cjjy"]
 
 [sub_resource type="GDScript" id="GDScript_oabf2"]
 resource_name = "sign_interactable"

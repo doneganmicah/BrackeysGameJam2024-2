@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bc5j1grdhhmgu"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_10vvl"]
-[ext_resource type="Texture2D" uid="uid://bh6c1c8kq0huo" path="res://assets/placeholder_fruit.png" id="2_v4l5m"]
+[ext_resource type="Texture2D" uid="uid://bh6c1c8kq0huo" path="res://assets/placeholder_assets/placeholder_fruit.png" id="2_v4l5m"]
 
 [sub_resource type="GDScript" id="GDScript_lu64u"]
 resource_name = "FruitInteractable"
