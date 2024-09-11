@@ -1,0 +1,212 @@
+[gd_scene load_steps=19 format=3 uid="uid://ckif30bwjtonq"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
+[ext_resource type="Script" path="res://scripts/hazards/hazard_water_leak.gd" id="1_qhabx"]
+[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_i2nm6"]
+[ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="4_02lvl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivmgs"]
+size = Vector2(7.98619, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nahdy"]
+atlas = ExtResource("2_i2nm6")
+region = Rect2(0, 112, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1huxy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nahdy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wrn3y"]
+radius = 0.998273
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0r74p"]
+radius = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ed17i"]
+atlas = ExtResource("4_02lvl")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s06t"]
+atlas = ExtResource("4_02lvl")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ago36"]
+atlas = ExtResource("4_02lvl")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmotl"]
+atlas = ExtResource("4_02lvl")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfler"]
+atlas = ExtResource("4_02lvl")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_txx6u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ed17i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s06t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ago36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmotl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfler")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_urp3s"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ogeow"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhhr4"]
+radius = 5.0
+
+[node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl")]
+script = ExtResource("1_qhabx")
+time_till_puddle_recesses = 600
+puddle_target = 600
+puddle_tr = NodePath("Puddles/Puddle4/AnimatedSprite2D")
+puddle_br = NodePath("Puddles/Puddle2/AnimatedSprite2D")
+puddle_tl = NodePath("Puddles/Puddle1/AnimatedSprite2D")
+puddle_bl = NodePath("Puddles/Puddle3/AnimatedSprite2D")
+
+[node name="Bucket" type="RigidBody2D" parent="." groups=["Bucket"]]
+z_index = 10
+y_sort_enabled = true
+position = Vector2(-14, -5)
+scale = Vector2(1.00173, 1)
+collision_layer = 2
+collision_mask = 6
+physics_material_override = ExtResource("1_iahnv")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 5.766
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket"]
+z_index = 5
+z_as_relative = false
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ivmgs")
+one_way_collision_margin = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bucket"]
+y_sort_enabled = true
+position = Vector2(0.0138158, -3)
+sprite_frames = SubResource("SpriteFrames_1huxy")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="Bucket" groups=["Bucket"]]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket/Area2D"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_wrn3y")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -3)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(0, 8)
+scale = Vector2(4.74314, 2.32)
+polygon = PackedVector2Array(-11.8065, -14.2241, -11.8065, 13.7931, 11.8065, 13.7931, 9.90905, 9.91379, -9.90905, 9.91379, -9.90905, -9.91379, 9.90905, -9.91379, 9.90905, 9.91379, 11.8065, 13.7931, 11.8065, -14.2241)
+
+[node name="Puddles" type="Node" parent="."]
+
+[node name="Puddle1" type="Area2D" parent="Puddles"]
+z_index = 5
+position = Vector2(-37, -12)
+rotation = 0.319687
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle1"]
+z_index = 5
+shape = SubResource("CircleShape2D_0r74p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle1"]
+scale = Vector2(0.442, 0.472)
+sprite_frames = SubResource("SpriteFrames_txx6u")
+autoplay = "default"
+frame_progress = 0.76772
+
+[node name="Puddle2" type="Area2D" parent="Puddles"]
+z_index = 5
+position = Vector2(36, 19)
+rotation = -0.583854
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle2"]
+z_index = 5
+shape = SubResource("CircleShape2D_urp3s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle2"]
+scale = Vector2(0.472, 0.472)
+sprite_frames = SubResource("SpriteFrames_txx6u")
+autoplay = "default"
+frame_progress = 0.209651
+
+[node name="Puddle3" type="Area2D" parent="Puddles"]
+z_index = 5
+position = Vector2(-37, 13)
+rotation = 0.259347
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle3"]
+z_index = 5
+shape = SubResource("CircleShape2D_ogeow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle3"]
+scale = Vector2(0.472, 0.472)
+sprite_frames = SubResource("SpriteFrames_txx6u")
+autoplay = "default"
+
+[node name="Puddle4" type="Area2D" parent="Puddles"]
+z_index = 5
+position = Vector2(27, -13)
+rotation = -0.924263
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle4"]
+z_index = 5
+shape = SubResource("CircleShape2D_lhhr4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle4"]
+scale = Vector2(0.472, 0.472)
+sprite_frames = SubResource("SpriteFrames_txx6u")
+autoplay = "default"
+frame_progress = 0.926866
+
+[connection signal="area_entered" from="Puddles/Puddle1" to="." method="_on_puddle_area_entered" binds= [3]]
+[connection signal="area_exited" from="Puddles/Puddle1" to="." method="_on_puddle_area_exited" binds= [3]]
+[connection signal="area_entered" from="Puddles/Puddle2" to="." method="_on_puddle_area_entered" binds= [2]]
+[connection signal="area_exited" from="Puddles/Puddle2" to="." method="_on_puddle_area_exited" binds= [2]]
+[connection signal="area_entered" from="Puddles/Puddle3" to="." method="_on_puddle_area_entered" binds= [4]]
+[connection signal="area_exited" from="Puddles/Puddle3" to="." method="_on_puddle_area_exited" binds= [4]]
+[connection signal="area_entered" from="Puddles/Puddle4" to="." method="_on_puddle_area_entered" binds= [1]]
+[connection signal="area_exited" from="Puddles/Puddle4" to="." method="_on_puddle_area_exited" binds= [1]]

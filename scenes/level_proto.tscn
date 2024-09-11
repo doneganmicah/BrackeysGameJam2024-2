@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://owhd7frdhx34"]
+[gd_scene load_steps=8 format=4 uid="uid://owhd7frdhx34"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
-
-[ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
-
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
+[ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
+[ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="3_rvoox"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
 texture = ExtResource("2_kjxbd")
@@ -45,6 +44,7 @@ script/source = "extends Timer
 [node name="LevelProto" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_03mbu")]
+y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
@@ -68,7 +68,7 @@ z_index = 2
 position = Vector2(0, 8)
 scale = Vector2(4.7, 2.3)
 color = Color(0.517647, 0, 0, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 9.19758, 10, 10, -10, 10)
 
 [node name="BackDoor" type="Polygon2D" parent="Layout"]
 z_index = 2
@@ -157,13 +157,19 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer")]
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak")]
 script = ExtResource("1_jutxf")
-_time_multiplier = 10
+attempt_leak_max = 60
 _player = NodePath("../Player")
 _interval_timer = NodePath("Timer")
+haz_water_leak = NodePath("../HazardWaterLeak")
 
 [node name="Timer" type="Timer" parent="GameHandler"]
 script = SubResource("GDScript_tcg43")
+
+[node name="HazardWaterLeak" parent="." instance=ExtResource("3_rvoox")]
+z_index = 5
+position = Vector2(0, 3)
+time_till_puddle_recesses = 120
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]

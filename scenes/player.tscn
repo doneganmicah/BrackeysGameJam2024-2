@@ -54,10 +54,15 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_llsie"]
-size = Vector2(9, 17)
+size = Vector2(9, 6)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
+collision_layer = 5
+collision_mask = 3
+motion_mode = 1
+platform_on_leave = 2
+platform_floor_layers = 4278190080
 script = ExtResource("1_jrioe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -68,5 +73,5 @@ autoplay = "PLACEHOLDER"
 frame_progress = 0.351745
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -1.5)
+position = Vector2(0.5, 5)
 shape = SubResource("RectangleShape2D_llsie")
