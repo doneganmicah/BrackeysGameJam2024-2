@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://dlcln0yjt22yu"]
+
+[ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="1_2h1to"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfler"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ed17i"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s06t"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ago36"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmotl"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(64, 0, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfler")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ed17i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s06t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ago36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmotl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
