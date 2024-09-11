@@ -37,15 +37,23 @@ var storm_intensity = 0;
 @export var attempt_leak_max = 30 # is the maximum amount of time between leak attemps
 var time_since_last_leak = 0      # The time since the last leak attempt
 
+@export_subgroup("Electrical Outage")
+@export var attempt_strike_min = 15 # Is the minimum amount of time between strike attempts
+@export var attempt_strike_max = 45 # is the maximum amount of time between strike attempts
+@export var outage_chance = 5       # The base chance for an outage to occur. storm_intensity is added to this
+var time_since_last_strike = 0
+
 @export_category("Control Nodes")
 @export var _player : Player        # Instance of the player
 @export var _interval_timer : Timer # This is the instance of the Timer node which triggers every seccond
 @export_group("Hazards")
 @export var haz_water_leak : HazWaterLeak # instance of HazWaterLeak
+@export var haz_electrical_outage : BreakerBox
 
 # Local variables
 var _timer_flag : bool # Raises to signify the timer has expired
 var rng = RandomNumberGenerator.new()
+var attempt = 0         # A random number
 
 ################################################################################
 ##                                  Functions                                 ##
@@ -86,9 +94,11 @@ func update_progress():
 	# Upload finished before time expired
 	if(upload_progression >= upload_target):
 		win_game()
+		return
 	# Time expired before upload finished
 	if(current_time >= end_time):
 		lose_game()
+		return
 		
 	# DEBUG PRINTS
 	#print("Upload Progress:")
@@ -101,29 +111,53 @@ func update_progress():
 	#print("storm intensity")
 	#print(storm_intensity)
 	
-	# Hazard management
+	# Hazard management # I probably should have funcitonizeed this but it was too late before i realized how big it would get
 	time_since_last_leak += 1
+	time_since_last_strike += 1
 	
-	# Should attempt spawn water leak hazard
+	#region Attempt spawn water leak Hazard
 	# Time to leak is determined by mapping storm_intensity (a value 0-10)
 	# against a max amount of time to spawn and min amount to spawn
 	# meaning if the storm is high in intensity the time till next spawn will be shorter
 	var time_to_leak = map(storm_intensity, 0, 10, attempt_leak_max, attempt_leak_min)
-	var attempt = rng.randi_range(0, 100)
+	attempt = rng.randi_range(0, 100)
 	
-	# we reached the time to spawn so spawn and reset the attempt timer
+	# we reached the time to spawn, so spawn and reset the attempt timer
 	if (time_since_last_leak >= time_to_leak):
 		haz_water_leak.haz_attempt_spawn()
 		time_since_last_leak = 0 
 	else:
-		# This may need some bias modifier.
+		# This may need some bias modifier. Attempts to spawn a little sooner with rare chance
 		# But we calculate the percentage of the the time since we last spawned and the next spawn time
 		# and then roll against that with the chance to spawn
 		# Example: tsll = 3, ttl = 15, at = 76 will result in  IF 76 < 20: then spawn
 		if attempt < (time_since_last_leak / time_to_leak * 100):
 			haz_water_leak.haz_attempt_spawn()
 			time_since_last_leak = 0 
+	#endregion
 	
+	#region Attempt spawn lightning strike
+	# this and the rest of the events will take the same principle when trying to spawn.
+	var time_to_strike = map(storm_intensity, 0, 10, attempt_strike_max, attempt_strike_min)
+	attempt = rng.randi_range(0, 100)
+	var power_roll = rng.randi_range(0,100)
+	
+	# we reached the time to spawn, so spawn and reset the attempt timer
+	if (time_since_last_strike >= time_to_strike):
+		print("Lightning Struck")
+		haz_electrical_outage.draw_lightning = true
+		if(power_roll <= outage_chance + storm_intensity):
+			haz_electrical_outage.break_power()
+		time_since_last_strike = 0
+	else:
+		# Attempts to spawn early with rarer chance
+		if attempt < (time_since_last_strike / time_to_strike * 100):
+			print("Lightning Struck")
+			haz_electrical_outage.draw_lightning = true
+			if(power_roll <= outage_chance + storm_intensity):
+				haz_electrical_outage.break_power()
+			time_since_last_strike = 0
+	#endregion
 	
 	# Hazard ticks
 	haz_water_leak.haz_tick() # Tick the water leak hazard

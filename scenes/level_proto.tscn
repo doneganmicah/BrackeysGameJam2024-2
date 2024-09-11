@@ -158,12 +158,15 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak")]
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak", "haz_electrical_outage")]
 script = ExtResource("1_jutxf")
 attempt_leak_max = 60
+attempt_strike_min = 5
+outage_chance = 10
 _player = NodePath("../Player")
 _interval_timer = NodePath("Timer")
 haz_water_leak = NodePath("../HazardWaterLeak")
+haz_electrical_outage = NodePath("../breaker_box_interactable")
 
 [node name="Timer" type="Timer" parent="GameHandler"]
 script = SubResource("GDScript_tcg43")
@@ -172,9 +175,10 @@ script = SubResource("GDScript_tcg43")
 position = Vector2(0, 3)
 time_till_puddle_recesses = 120
 
-[node name="breaker_box_interactable" parent="." instance=ExtResource("5_1ocpd")]
+[node name="breaker_box_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("5_1ocpd")]
 z_index = 10
 y_sort_enabled = true
 position = Vector2(-76, 14)
+game_controller = NodePath("../GameHandler")
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]

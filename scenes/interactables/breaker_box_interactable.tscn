@@ -25,9 +25,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y23k5"]
 size = Vector2(8, 4)
 
-[node name="breaker_box_interactable" instance=ExtResource("1_gwfdh")]
+[node name="breaker_box_interactable" node_paths=PackedStringArray("temp_bolt", "btn_left", "btn_right", "btn_center", "temp_control") instance=ExtResource("1_gwfdh")]
 script = ExtResource("2_cro4d")
 power_status = 1
+temp_bolt = NodePath("Polygon2D")
+btn_left = NodePath("Placehold UI event/CheckButton")
+btn_right = NodePath("Placehold UI event/CheckButton2")
+btn_center = NodePath("Placehold UI event/CheckButton3")
+temp_control = NodePath("Placehold UI event")
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2(3.5, -4)
@@ -45,3 +50,63 @@ position = Vector2(0, -7)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="0"]
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_y23k5")
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="3"]
+position = Vector2(0, -6)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-36, -18, -31, -18, -34, -12, -31, -12, -39, -2, -36, -10, -38, -10)
+
+[node name="Placehold UI event" type="Control" parent="." index="4"]
+visible = false
+z_index = 25
+layout_mode = 3
+anchors_preset = 0
+offset_left = -32.0
+offset_top = -61.0
+offset_right = 43.0
+offset_bottom = 3.0
+scale = Vector2(1.74792, 1.61228)
+
+[node name="ColorRect" type="ColorRect" parent="Placehold UI event" index="0"]
+z_index = 25
+layout_mode = 0
+offset_left = 17.0
+offset_top = 21.0
+offset_right = 57.0
+offset_bottom = 51.0
+scale = Vector2(1, 0.840001)
+color = Color(0.450648, 0.450648, 0.450648, 1)
+
+[node name="CheckButton" type="CheckButton" parent="Placehold UI event" index="1"]
+z_index = 25
+layout_mode = 0
+offset_left = 28.0
+offset_top = 18.0
+offset_right = 72.0
+offset_bottom = 42.0
+rotation = 1.57079
+scale = Vector2(0.693788, 0.467725)
+
+[node name="CheckButton2" type="CheckButton" parent="Placehold UI event" index="2"]
+z_index = 25
+layout_mode = 0
+offset_left = 43.0
+offset_top = 18.0
+offset_right = 87.0
+offset_bottom = 42.0
+rotation = 1.57079
+scale = Vector2(0.693788, 0.467725)
+
+[node name="CheckButton3" type="CheckButton" parent="Placehold UI event" index="3"]
+z_index = 25
+layout_mode = 0
+offset_left = 57.0
+offset_top = 18.0
+offset_right = 101.0
+offset_bottom = 42.0
+rotation = 1.57079
+scale = Vector2(0.693788, 0.467725)
+
+[connection signal="pressed" from="Placehold UI event/CheckButton" to="." method="_on_breaker_switched" binds= [0]]
+[connection signal="pressed" from="Placehold UI event/CheckButton2" to="." method="_on_breaker_switched" binds= [1]]
+[connection signal="pressed" from="Placehold UI event/CheckButton3" to="." method="_on_breaker_switched" binds= [2]]
