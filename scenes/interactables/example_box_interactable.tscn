@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://4a202gih6uqw"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_e7dt2"]
-[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_blocks.png" id="2_nblsh"]
+[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_nblsh"]
 
 [sub_resource type="GDScript" id="GDScript_hio5c"]
 resource_name = "box_interactable"

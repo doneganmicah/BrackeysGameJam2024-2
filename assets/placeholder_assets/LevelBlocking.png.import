@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c77be1sefdq2l"
-path="res://.godot/imported/placeholder_interactable.png-f5204e6049c875a18b1638bb817ea2ba.ctex"
+uid="uid://ce2dm51tinu22"
+path="res://.godot/imported/LevelBlocking.png-c0238fd745259eb188ef01673caf629e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/placeholder_interactable.png"
-dest_files=["res://.godot/imported/placeholder_interactable.png-f5204e6049c875a18b1638bb817ea2ba.ctex"]
+source_file="res://assets/placeholder_assets/LevelBlocking.png"
+dest_files=["res://.godot/imported/LevelBlocking.png-c0238fd745259eb188ef01673caf629e.ctex"]
 
 [params]
 

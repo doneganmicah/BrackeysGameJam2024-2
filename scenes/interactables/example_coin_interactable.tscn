@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://hwjsj48uxy54"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_d8rwk"]
-[ext_resource type="Texture2D" uid="uid://c77be1sefdq2l" path="res://assets/placeholder_interactable.png" id="2_vax72"]
+[ext_resource type="Texture2D" uid="uid://c77be1sefdq2l" path="res://assets/placeholder_assets/placeholder_interactable.png" id="2_vax72"]
 
 [sub_resource type="GDScript" id="GDScript_g11ls"]
 resource_name = "CoinInteractable"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bh6c1c8kq0huo"
-path="res://.godot/imported/placeholder_fruit.png-d705c8ed5dbae007f9daaef1209cad11.ctex"
+uid="uid://os0yetgkqd22"
+path="res://.godot/imported/rugs.png-a2f5d3bb412ac6c564f3d5c18461c103.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/placeholder_fruit.png"
-dest_files=["res://.godot/imported/placeholder_fruit.png-d705c8ed5dbae007f9daaef1209cad11.ctex"]
+source_file="res://assets/rugs.png"
+dest_files=["res://.godot/imported/rugs.png-a2f5d3bb412ac6c564f3d5c18461c103.ctex"]
 
 [params]
 
