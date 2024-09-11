@@ -157,11 +157,12 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer")]
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak")]
 script = ExtResource("1_jutxf")
-_time_multiplier = 10
+attempt_leak_max = 60
 _player = NodePath("../Player")
 _interval_timer = NodePath("Timer")
+haz_water_leak = NodePath("../HazardWaterLeak")
 
 [node name="Timer" type="Timer" parent="GameHandler"]
 script = SubResource("GDScript_tcg43")
@@ -169,5 +170,6 @@ script = SubResource("GDScript_tcg43")
 [node name="HazardWaterLeak" parent="." instance=ExtResource("3_rvoox")]
 z_index = 5
 position = Vector2(0, 3)
+time_till_puddle_recesses = 120
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]

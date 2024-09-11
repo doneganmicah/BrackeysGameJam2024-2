@@ -2,10 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="1_2h1to"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lfler"]
-atlas = ExtResource("1_2h1to")
-region = Rect2(0, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ed17i"]
 atlas = ExtResource("1_2h1to")
 region = Rect2(256, 0, 64, 64)
@@ -22,12 +18,13 @@ region = Rect2(128, 0, 64, 64)
 atlas = ExtResource("1_2h1to")
 region = Rect2(64, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfler"]
+atlas = ExtResource("1_2h1to")
+region = Rect2(0, 0, 64, 64)
+
 [resource]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lfler")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ed17i")
 }, {
@@ -39,8 +36,11 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wmotl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfler")
 }],
 "loop": true,
 "name": &"default",
-"speed": 1.0
+"speed": 0.0
 }]

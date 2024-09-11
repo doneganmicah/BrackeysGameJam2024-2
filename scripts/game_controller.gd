@@ -29,18 +29,28 @@ const MAX_GAME_TIME  = 600 # The maximum amount of time a round should last (10m
 @export_range(0, MAX_GAME_TIME) var current_time = 0: # The current time of the round
 	get: return current_time # Read-Only
 @export var _time_multiplier = 1 # Speed the game up for debugging purposes, this also multiplies upload speed
+
 @export_group("Hazards")
+var storm_intensity = 0;
+@export_subgroup("Water Leak")
+@export var attempt_leak_min = 15 # is the minimum amount of time between leak attemps
+@export var attempt_leak_max = 30 # is the maximum amount of time between leak attemps
+var time_since_last_leak = 0      # The time since the last leak attempt
 
 @export_category("Control Nodes")
 @export var _player : Player        # Instance of the player
 @export var _interval_timer : Timer # This is the instance of the Timer node which triggers every seccond
+@export_group("Hazards")
+@export var haz_water_leak : HazWaterLeak # instance of HazWaterLeak
 
 # Local variables
 var _timer_flag : bool # Raises to signify the timer has expired
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	start_game()
+	haz_water_leak.game_controller =  self as GameController
+	start_game() # will be called by player at some point
 	pass # Replace with function body.
 
 
@@ -53,6 +63,7 @@ func _process(delta: float) -> void:
 # This function is used to start the game round
 func start_game() -> void:
 	print("starting game")
+	rng.set_seed(Time.get_ticks_usec())
 	_interval_timer.start() # Start the timer
 
 # This function is used to stop the game and cleanup
@@ -67,22 +78,55 @@ func update_progress():
 	# Tick up the progression and timer
 	upload_progression += (upload_speed + upload_booster) * abs(_time_multiplier) # can also be affected by the time multiplier
 	current_time += 1 * abs(_time_multiplier)
-	
+	# May need tweaked if end_time is changed
+	storm_intensity = abs(pow(current_time * 0.011, 2) + sin(current_time * 0.1) + sin(current_time * 0.001 + 1) + sin(current_time * 0.05 + 10))
+	storm_intensity = int(clamp(storm_intensity, 0, 10))
 	# Upload finished before time expired
 	if(upload_progression >= upload_target):
-		win_game()
+		pass #win_game()
 	# Time expired before upload finished
 	if(current_time >= end_time):
-		lose_game()
+		pass #lose_game()
 		
 	# DEBUG PRINTS
-	print("Upload Progress:")
-	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
-	var percent = map(upload_progression, 0, upload_target, 0, 100)
-	print("{perc}%".format({"perc": percent }))
-	print("Game Time:")
-	print(current_time)
-	print(get_clock_time())
+	#print("Upload Progress:")
+	#print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
+	#var percent = map(upload_progression, 0, upload_target, 0, 100)
+	#print("{perc}%".format({"perc": percent }))
+	#print("Game Time:")
+	#print(current_time)
+	#print(get_clock_time())
+	#print("storm intensity")
+	#print(storm_intensity)
+	
+	# Hazard management
+	time_since_last_leak += 1
+	
+	# Should attempt spawn water leak hazard
+	# Time to leak is determined by mapping storm_intensity (a value 0-10)
+	# against a max amount of time to spawn and min amount to spawn
+	# meaning if the storm is high in intensity the time till next spawn will be shorter
+	var time_to_leak = map(storm_intensity, 0, 10, attempt_leak_max, attempt_leak_min)
+	var attempt = rng.randi_range(0, 100)
+	
+	# we reached the time to spawn so spawn and reset the attempt timer
+	if (time_since_last_leak >= time_to_leak):
+		haz_water_leak.haz_attempt_spawn()
+		time_since_last_leak = 0 
+	else:
+		# This may need some bias modifier.
+		# But we calculate the percentage of the the time since we last spawned and the next spawn time
+		# and then roll against that with the chance to spawn
+		# Example: tsll = 3, ttl = 15, at = 76 will result in  IF 76 < 20: then spawn
+		if attempt < (time_since_last_leak / time_to_leak * 100):
+			haz_water_leak.haz_attempt_spawn()
+			time_since_last_leak = 0 
+	
+	
+	# Hazard ticks
+	haz_water_leak.haz_tick() # Tick the water leak hazard
+	
+	
 # A game winning condition has been met.
 func win_game():
 	print("The game has been won")
