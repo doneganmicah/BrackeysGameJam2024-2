@@ -146,7 +146,7 @@ func update_progress():
 	if (time_since_last_strike >= time_to_strike):
 		print("Lightning Struck")
 		haz_electrical_outage.draw_lightning = true
-		if(power_roll <= outage_chance + storm_intensity):
+		if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
 			haz_electrical_outage.break_power()
 		time_since_last_strike = 0
 	else:
@@ -154,7 +154,7 @@ func update_progress():
 		if attempt < (time_since_last_strike / time_to_strike * 100):
 			print("Lightning Struck")
 			haz_electrical_outage.draw_lightning = true
-			if(power_roll <= outage_chance + storm_intensity):
+			if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
 				haz_electrical_outage.break_power()
 			time_since_last_strike = 0
 	#endregion
