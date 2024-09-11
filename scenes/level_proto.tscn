@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://owhd7frdhx34"]
+[gd_scene load_steps=7 format=4 uid="uid://owhd7frdhx34"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
+
 [ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
+
+[ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
 texture = ExtResource("2_kjxbd")
@@ -34,6 +37,10 @@ texture = ExtResource("2_kjxbd")
 [sub_resource type="TileSet" id="TileSet_ccmty"]
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_kpago")
+
+[sub_resource type="GDScript" id="GDScript_tcg43"]
+script/source = "extends Timer
+"
 
 [node name="LevelProto" type="Node2D"]
 
@@ -149,3 +156,14 @@ rotation = 0.67993
 scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer")]
+script = ExtResource("1_jutxf")
+_time_multiplier = 10
+_player = NodePath("../Player")
+_interval_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="GameHandler"]
+script = SubResource("GDScript_tcg43")
+
+[connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]
