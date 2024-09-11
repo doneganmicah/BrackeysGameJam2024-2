@@ -2,6 +2,8 @@ extends CharacterBody2D
 class_name Player
 
 @export var speed = 50.0
+@export var push_force = 100
+@export var max_push_velocity = 150
 
 var _interactable : Interactable # The instance of the interactable within interaction range
 
@@ -13,6 +15,12 @@ func _physics_process(delta: float) -> void:
 		velocity = direction * speed
 	else:
 		velocity = Vector2.ZERO
+
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collision_bucket = collision.get_collider()
+		if collision_bucket.is_in_group("Bucket"):
+			collision_bucket.apply_central_impulse(collision.get_normal() * -push_force)
 
 	move_and_slide()
 

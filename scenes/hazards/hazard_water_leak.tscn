@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckif30bwjtonq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2rds"]
+size = Vector2(68, 20)
+
+[node name="HazardWaterLeak" type="Node2D"]
+
+[node name="Carpet Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Carpet Area"]
+position = Vector2(34, 9)
+shape = SubResource("RectangleShape2D_a2rds")
