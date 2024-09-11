@@ -47,12 +47,14 @@ var time_since_last_leak = 0      # The time since the last leak attempt
 var _timer_flag : bool # Raises to signify the timer has expired
 var rng = RandomNumberGenerator.new()
 
+################################################################################
+##                                  Functions                                 ##
+################################################################################
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	haz_water_leak.game_controller =  self as GameController
 	start_game() # will be called by player at some point
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -83,10 +85,10 @@ func update_progress():
 	storm_intensity = int(clamp(storm_intensity, 0, 10))
 	# Upload finished before time expired
 	if(upload_progression >= upload_target):
-		pass #win_game()
+		win_game()
 	# Time expired before upload finished
 	if(current_time >= end_time):
-		pass #lose_game()
+		lose_game()
 		
 	# DEBUG PRINTS
 	#print("Upload Progress:")

@@ -7,6 +7,10 @@ class_name Interactable
 
 var _player : Player:
 	get: return _player
+	
+var can_interact : bool:
+	get: return can_interact
+	set(value): can_interact = value
 
 # The primary function to be overriden by the inheriting class
 func interact() -> void:
