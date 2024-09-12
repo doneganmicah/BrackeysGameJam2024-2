@@ -54,7 +54,7 @@ func haz_attempt_spawn():
 			puddle.leaking = false
 
 func puddle_overflowed(puddle_id):
-	print("Bucket overflowed")
+	#print("Bucket overflowed")
 	# Run consequence
 	pass
 	
@@ -109,10 +109,10 @@ class Puddle:
 	# Ticks called every second and checks if puddle overflows
 	func tick():
 		#debug print
-		if(leaking):
-			print("Puddle {id}".format({"id": puddle_id}))
-			print("Bucket: {b}".format({"b": bucketed}))
-			print("{pp}/{pt}".format({"pp": puddle_progression, "pt": haz.puddle_target}))
+		#if(leaking):
+			#print("Puddle {id}".format({"id": puddle_id}))
+			#print("Bucket: {b}".format({"b": bucketed}))
+			#print("{pp}/{pt}".format({"pp": puddle_progression, "pt": haz.puddle_target}))
 		
 		# update the puddle progressions
 		if(bucketed or !leaking): # Start recessing

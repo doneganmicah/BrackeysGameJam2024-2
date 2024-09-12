@@ -1,36 +1,37 @@
-[gd_scene load_steps=8 format=4 uid="uid://owhd7frdhx34"]
+[gd_scene load_steps=9 format=4 uid="uid://owhd7frdhx34"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
 [ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="3_rvoox"]
+[ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="5_1ocpd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
 texture = ExtResource("2_kjxbd")
 0:0/0 = 0
-0:0/0/z_index = 12
+0:0/0/z_index = 20
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -5, 8, -5, 8, 8, 2, 8)
 1:0/0 = 0
 1:0/0/z_index = 1
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
 2:0/0 = 0
-2:0/0/z_index = 12
+2:0/0/z_index = 20
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, -2, -5, -2, 8, -8, 8)
 0:1/0 = 0
-0:1/0/z_index = 12
+0:1/0/z_index = 20
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -8, 8, -8, 8, 8, 2, 8)
 1:1/0 = 0
 2:1/0 = 0
-2:1/0/z_index = 12
+2:1/0/z_index = 20
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -2, -8, -2, 8, -8, 8)
 0:2/0 = 0
-0:2/0/z_index = 12
+0:2/0/z_index = 20
 0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -8, 8, -8, 8, 5, 2, 5)
 1:2/0 = 0
-1:2/0/z_index = 12
+1:2/0/z_index = 20
 1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4.5, 8, -4.5, 8, 5, -8, 5)
 2:2/0 = 0
-2:2/0/z_index = 12
+2:2/0/z_index = 20
 2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -2, -8, -2, 5, -8, 5)
 
 [sub_resource type="TileSet" id="TileSet_ccmty"]
@@ -42,9 +43,9 @@ script/source = "extends Timer
 "
 
 [node name="LevelProto" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_03mbu")]
-y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
@@ -157,19 +158,27 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak")]
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak", "haz_electrical_outage")]
 script = ExtResource("1_jutxf")
 attempt_leak_max = 60
+attempt_strike_min = 5
+outage_chance = 10
 _player = NodePath("../Player")
 _interval_timer = NodePath("Timer")
 haz_water_leak = NodePath("../HazardWaterLeak")
+haz_electrical_outage = NodePath("../breaker_box_interactable")
 
 [node name="Timer" type="Timer" parent="GameHandler"]
 script = SubResource("GDScript_tcg43")
 
 [node name="HazardWaterLeak" parent="." instance=ExtResource("3_rvoox")]
-z_index = 5
 position = Vector2(0, 3)
 time_till_puddle_recesses = 120
+
+[node name="breaker_box_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("5_1ocpd")]
+z_index = 10
+y_sort_enabled = true
+position = Vector2(-76, 14)
+game_controller = NodePath("../GameHandler")
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]
