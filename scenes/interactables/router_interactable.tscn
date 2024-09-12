@@ -1,0 +1,138 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctthnbjjb2muc"]
+
+[ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_r7a2g"]
+[ext_resource type="Texture2D" uid="uid://xmapq8mnsixu" path="res://assets/decorations.png" id="2_ey751"]
+[ext_resource type="Script" path="res://scripts/interactables/router_interactable.gd" id="2_w37f0"]
+[ext_resource type="Texture2D" uid="uid://bemqjbm8rscax" path="res://assets/placeholder_assets/placeholder_dial.png" id="4_afunn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xudu6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3xa3"]
+atlas = ExtResource("2_ey751")
+region = Rect2(576, 112, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wtvqd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3xa3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ockj"]
+size = Vector2(15, 15)
+
+[node name="router_interactable" node_paths=PackedStringArray("dial_area", "lrg_gr_area", "sm_gr_area", "dial", "dial_range", "dial_ui", "placeholde_light") instance=ExtResource("1_r7a2g")]
+y_sort_enabled = true
+script = ExtResource("2_w37f0")
+signal_integrity = 500
+degrade_time_max = 30
+degrade_time_min = 15
+dial_speed_sec = 225.0
+current_degradation = null
+dial_area = NodePath("Control/Dial/dial/Area2D")
+lrg_gr_area = NodePath("Control/Dial/range/Bigger Green")
+sm_gr_area = NodePath("Control/Dial/range/Smalle Green")
+dial = NodePath("Control/Dial/dial")
+dial_range = NodePath("Control/Dial/range")
+dial_ui = NodePath("Control")
+placeholde_light = NodePath("Polygon2D")
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2(-3, 8)
+shape = SubResource("CircleShape2D_xudu6")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+z_index = 10
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_wtvqd")
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="2"]
+z_index = 10
+position = Vector2(0, 1)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-4, 6, -4, 5, 3, 5, 3, 6)
+
+[node name="Control" type="Control" parent="." index="3"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -118.0
+offset_top = 53.0
+offset_right = -19.0
+offset_bottom = 139.0
+scale = Vector2(0.460617, 0.460617)
+
+[node name="ColorRect" type="ColorRect" parent="Control" index="0"]
+z_index = 25
+layout_mode = 0
+offset_left = 75.0
+offset_top = 48.0
+offset_right = 127.0
+offset_bottom = 85.0
+color = Color(0.351563, 0.351563, 0.351563, 1)
+
+[node name="Button" type="Button" parent="Control/ColorRect" index="0"]
+z_index = 25
+layout_mode = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 46.0
+offset_bottom = 34.0
+text = "Kick"
+
+[node name="Dial" type="Node2D" parent="Control" index="1"]
+
+[node name="dial" type="Sprite2D" parent="Control/Dial" index="0"]
+z_index = 23
+position = Vector2(99, 0)
+rotation = -0.760308
+texture = ExtResource("4_afunn")
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 256)
+
+[node name="Area2D" type="Area2D" parent="Control/Dial/dial" index="0"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Control/Dial/dial/Area2D" index="0"]
+polygon = PackedVector2Array(-82.7649, -82.9571, -74.7796, -73.2333, -73.5256, -74.7174)
+
+[node name="range" type="Sprite2D" parent="Control/Dial" index="1"]
+z_index = 21
+position = Vector2(99, 0)
+texture = ExtResource("4_afunn")
+region_enabled = true
+region_rect = Rect2(512, 0, 256, 256)
+
+[node name="Bigger Green" type="Area2D" parent="Control/Dial/range" index="0" groups=["dial_green"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Control/Dial/range/Bigger Green" index="0"]
+polygon = PackedVector2Array(36.7066, 73.4963, 51.3827, 102.67, -0.25676, 119.378, -51.5928, 103.011, -36.3016, 72.4552)
+
+[node name="Smalle Green" type="Area2D" parent="Control/Dial/range" index="1" groups=["dial_green"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Control/Dial/range/Smalle Green" index="0"]
+polygon = PackedVector2Array(-19.9176, -79.8962, -27.785, -110.868, 0.0933228, -115.201, 27.3781, -111.109, 19.9608, -79.9885)
+
+[node name="case" type="Sprite2D" parent="Control/Dial" index="2"]
+z_index = 20
+position = Vector2(99, 0)
+texture = ExtResource("4_afunn")
+region_enabled = true
+region_rect = Rect2(768, 0, 256, 256)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Control/Dial/case" index="0"]
+z_index = 2
+texture = ExtResource("4_afunn")
+region_enabled = true
+region_rect = Rect2(256, 0, 256, 256)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="0"]
+position = Vector2(-0.5, 4.5)
+shape = SubResource("RectangleShape2D_5ockj")
+
+[connection signal="button_down" from="Control/ColorRect/Button" to="." method="_on_button_pressed"]

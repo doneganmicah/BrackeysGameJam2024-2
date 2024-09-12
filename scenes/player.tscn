@@ -54,7 +54,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_llsie"]
-size = Vector2(9, 6)
+size = Vector2(9, 5)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
@@ -67,15 +67,13 @@ platform_floor_layers = 4278190080
 script = ExtResource("1_jrioe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 10
 y_sort_enabled = true
-position = Vector2(-1, -9)
 sprite_frames = SubResource("SpriteFrames_cw3q0")
 animation = &"PLACEHOLDER"
 autoplay = "PLACEHOLDER"
-frame_progress = 0.351745
-offset = Vector2(0, -10)
+frame_progress = 0.556358
+offset = Vector2(0, -17)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(0.5, -1.5)
 shape = SubResource("RectangleShape2D_llsie")

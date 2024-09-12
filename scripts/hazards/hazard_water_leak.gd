@@ -48,7 +48,7 @@ func haz_attempt_spawn():
 	var no_drip = rng.randi_range(0,100)
 	for puddle : Puddle in puddles:
 		# If the puddle is chosen and there is a chance for a drip
-		if(puddle.puddle_id == new_drip and no_drip > chance_no_drip):
+		if(puddle.id == new_drip and no_drip > chance_no_drip):
 			puddle.leaking = true
 		else: # turn the drip off
 			puddle.leaking = false
@@ -68,7 +68,7 @@ func _on_puddle_area_entered(area: Area2D, extra_arg_0: int) -> void:
 	if area.is_in_group("Bucket"): # double check is bucket, you never know
 		for puddle : Puddle in puddles:
 			# If the puddle is the one that was entered set bucketed to true
-			if(puddle.puddle_id == extra_arg_0):
+			if(puddle.id == extra_arg_0):
 				puddle.bucketed = true
 			else: # we can make the assumption that the bucket isnt elsewhere
 				puddle.bucketed = false
@@ -80,7 +80,7 @@ func _on_puddle_area_exited(area: Area2D, extra_arg_0: int) -> void:
 	if area.is_in_group("Bucket"): # double check is bucket, you never know
 		for puddle : Puddle in puddles:
 			# If the puddle is the one that was entered set bucketed to true
-			if(puddle.puddle_id == extra_arg_0):
+			if(puddle.id == extra_arg_0):
 				puddle.bucketed = false
 
 ################################################################################
@@ -90,20 +90,22 @@ func _on_puddle_area_exited(area: Area2D, extra_arg_0: int) -> void:
 class Puddle:
 	var puddle_size = 0        # Size of the puddle in sprite indexes
 	var puddle_progression = 0 # The size of the puddle in game code
-	var puddle_id = 0          # What puddle am I
+	var id = 0          # What puddle am I
 	var puddle_grow_speed      # grow speed calculated
 	var puddle_shrink_speed    # shrink speed calculated
 	var bucketed = false       # If the puddle has a bucket on it
 	var leaking = false         # Am I leaking?
 	var haz : HazWaterLeak     # Instance of the hazard
-	var sprite : AnimatedSprite2D
+	var puddle_sprite : AnimatedSprite2D
 	
 	# Constructor
 	func _init(puddle_id, hazard : HazWaterLeak, sprite : AnimatedSprite2D) -> void:
-		self.puddle_id = puddle_id
+		self.id = puddle_id
 		self.haz = hazard
-		self.sprite = sprite
+		self.puddle_sprite = sprite
+		@warning_ignore("integer_division") # The integer division is the intended behavior
 		puddle_grow_speed   = haz.puddle_target / haz.time_till_puddle_kills
+		@warning_ignore("integer_division") # The integer division is the intended behavior
 		puddle_shrink_speed = haz.puddle_target / haz.time_till_puddle_recesses
 	
 	# Ticks called every second and checks if puddle overflows
@@ -121,8 +123,8 @@ class Puddle:
 			puddle_progression = clamp(puddle_progression + puddle_grow_speed, 0, haz.puddle_target)
 			# Has the puddle maxxed and overflowed
 			if(puddle_progression >= haz.puddle_target):
-				haz.puddle_overflowed(puddle_id)
+				haz.puddle_overflowed(id)
 		
 		# update the puddle sprite  # also this line is pain just let me create a util class and let me include that its not that hard i dont want to have to write the same funciton in every class or do weird object chaining or write global scene scripts have to load them and pull from that with children. I just want to include util.gd thats all.
 		puddle_size = clamp(haz.game_controller.map(puddle_progression, 0, haz.puddle_target, 0, haz.puddle_max_size), 0, haz.puddle_max_size)
-		sprite.set_frame(puddle_size)
+		puddle_sprite.set_frame(puddle_size)

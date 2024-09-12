@@ -10,6 +10,7 @@ class_name Player
 var _interactable : Interactable # The instance of the interactable within interaction range
 
 func _physics_process(delta: float) -> void:
+	var _unused = delta # remove unused var warning
 	if(!can_move): return
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_vector("player_left", "player_right", "player_up", "player_down")
@@ -31,6 +32,7 @@ func _physics_process(delta: float) -> void:
 	
 
 func _process(delta: float) -> void:
+	var _unused = delta # remove unused var warning
 	if (Input.is_action_just_pressed("player_interact")):
 		if (_interactable != null):
 			if(_interactable.can_interact):

@@ -93,7 +93,6 @@ puddle_tl = NodePath("Puddles/Puddle1/AnimatedSprite2D")
 puddle_bl = NodePath("Puddles/Puddle3/AnimatedSprite2D")
 
 [node name="Bucket" type="RigidBody2D" parent="." groups=["Bucket"]]
-z_index = 10
 y_sort_enabled = true
 scale = Vector2(1.00173, 1)
 collision_layer = 2
@@ -111,12 +110,11 @@ shape = SubResource("RectangleShape2D_ivmgs")
 one_way_collision_margin = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bucket"]
-z_index = 10
 y_sort_enabled = true
-position = Vector2(0.0138158, 3)
+position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_1huxy")
 autoplay = "default"
-offset = Vector2(0, -8)
+offset = Vector2(0, -6)
 
 [node name="Area2D" type="Area2D" parent="Bucket" groups=["Bucket"]]
 position = Vector2(0.0138158, -1)
