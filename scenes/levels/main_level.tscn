@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://cnmw8hlqyueoh"]
+[gd_scene load_steps=20 format=4 uid="uid://dnim4fe2dgi75"]
 
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="1_5jao3"]
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_vj1d1"]

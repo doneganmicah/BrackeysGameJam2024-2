@@ -60,6 +60,7 @@ var flick_speed = 2
 var flick_count = 0
 var length_counter = 0
 func _physics_process(delta: float) -> void:
+	var _unused = delta # remove unused var warning
 	if(draw_lightning):
 		if(!flicked):
 			# Light off
@@ -86,6 +87,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _process(delta: float) -> void:
+	var _unused = delta # remove unused var warning
 	# Enable interaction when power goes off 
 	if(power_status == ON):    can_interact = false
 	elif(power_status == OFF): can_interact = true
@@ -114,6 +116,7 @@ func run_switch():
 
 func _on_breaker_switched(extra_arg_0: int) -> void:
 	var good = 0
+	print(extra_arg_0)
 	for btn : CheckButton in switches:
 		if btn.button_pressed: good += 1
 	if(good == 3): 
