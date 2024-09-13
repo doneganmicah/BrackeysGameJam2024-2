@@ -1,23 +1,23 @@
-[gd_scene load_steps=22 format=3 uid="uid://ckif30bwjtonq"]
+[gd_scene load_steps=23 format=3 uid="uid://ckif30bwjtonq"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://assets/materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
 [ext_resource type="Script" path="res://scripts/hazards/hazard_water_leak.gd" id="1_qhabx"]
-[ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_i2nm6"]
-[ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="4_02lvl"]
+[ext_resource type="Texture2D" uid="uid://d1mp17ltk2fj" path="res://assets/Bucket.png" id="3_6bero"]
+[ext_resource type="Texture2D" uid="uid://brhvmo5lab5bp" path="res://assets/Puddle1.png" id="4_5ffyv"]
 [ext_resource type="Texture2D" uid="uid://dw0o8nggpip3b" path="res://assets/particles/water_droplet.png" id="5_84wdu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ivmgs"]
-size = Vector2(7.98619, 5.5)
+size = Vector2(5.98964, 3)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nahdy"]
-atlas = ExtResource("2_i2nm6")
-region = Rect2(0, 112, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovrd0"]
+atlas = ExtResource("3_6bero")
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1huxy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nahdy")
+"texture": SubResource("AtlasTexture_ovrd0")
 }],
 "loop": true,
 "name": &"default",
@@ -25,48 +25,55 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wrn3y"]
-radius = 0.998273
+radius = 1.98273
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0r74p"]
 radius = 5.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ed17i"]
-atlas = ExtResource("4_02lvl")
-region = Rect2(256, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_uybbb"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3s06t"]
-atlas = ExtResource("4_02lvl")
-region = Rect2(192, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_iewsp"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ago36"]
-atlas = ExtResource("4_02lvl")
-region = Rect2(128, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfuiq"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wmotl"]
-atlas = ExtResource("4_02lvl")
-region = Rect2(64, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_f87d8"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lfler"]
-atlas = ExtResource("4_02lvl")
-region = Rect2(0, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0sgn"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnuno"]
+atlas = ExtResource("4_5ffyv")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_txx6u"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ed17i")
+"texture": SubResource("AtlasTexture_uybbb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3s06t")
+"texture": SubResource("AtlasTexture_iewsp")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ago36")
+"texture": SubResource("AtlasTexture_hfuiq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wmotl")
+"texture": SubResource("AtlasTexture_f87d8")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lfler")
+"texture": SubResource("AtlasTexture_h0sgn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnuno")
 }],
 "loop": true,
 "name": &"default",
@@ -120,13 +127,14 @@ linear_damp = 5.766
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket"]
 z_index = 5
 z_as_relative = false
-position = Vector2(0.0138158, 0)
+position = Vector2(-5.95017e-08, 0.5)
 shape = SubResource("RectangleShape2D_ivmgs")
 one_way_collision_margin = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bucket"]
 y_sort_enabled = true
 position = Vector2(0, 1)
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_1huxy")
 autoplay = "default"
 offset = Vector2(0, -6)
@@ -164,18 +172,17 @@ z_index = 5
 shape = SubResource("CircleShape2D_0r74p")
 
 [node name="Sprite top left" type="AnimatedSprite2D" parent="Puddles/Puddle top left"]
-scale = Vector2(0.442, 0.472)
+scale = Vector2(0.9, 0.9)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
-frame_progress = 0.76772
 
 [node name="Particle top left" type="CPUParticles2D" parent="Puddles/Puddle top left"]
 material = SubResource("CanvasItemMaterial_hf5fb")
-position = Vector2(-4.39977, -13.2907)
+position = Vector2(-7.85021, -26.8956)
 rotation = -0.319687
 emitting = false
 amount = 2
-lifetime = 0.5
+lifetime = 0.7
 texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
@@ -183,7 +190,7 @@ anim_offset_max = 1.0
 
 [node name="Puddle bottom right" type="Area2D" parent="Puddles"]
 z_index = 5
-position = Vector2(36, 19)
+position = Vector2(38, 19)
 rotation = -0.583854
 collision_layer = 256
 collision_mask = 256
@@ -193,18 +200,19 @@ z_index = 5
 shape = SubResource("CircleShape2D_urp3s")
 
 [node name="Sprite bot right" type="AnimatedSprite2D" parent="Puddles/Puddle bottom right"]
-scale = Vector2(0.472, 0.472)
+rotation = 0.0902009
+scale = Vector2(0.9, 0.9)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.209651
 
 [node name="Particle bot right" type="CPUParticles2D" parent="Puddles/Puddle bottom right"]
 material = SubResource("CanvasItemMaterial_hf5fb")
-position = Vector2(7.43431, -13.0664)
+position = Vector2(14.8836, -22.5273)
 rotation = 0.583854
 emitting = false
 amount = 2
-lifetime = 0.5
+lifetime = 0.7
 texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
@@ -212,7 +220,7 @@ anim_offset_max = 1.0
 
 [node name="Puddle bottom left" type="Area2D" parent="Puddles"]
 z_index = 5
-position = Vector2(-37, 13)
+position = Vector2(-38, 12)
 rotation = 0.259347
 collision_layer = 256
 collision_mask = 256
@@ -222,17 +230,19 @@ z_index = 5
 shape = SubResource("CircleShape2D_ogeow")
 
 [node name="Sprite bot left" type="AnimatedSprite2D" parent="Puddles/Puddle bottom left"]
-scale = Vector2(0.472, 0.472)
+position = Vector2(2.89967, -0.769348)
+rotation = 3.47203
+scale = Vector2(0.9, 0.9)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 
 [node name="Particle bot left" type="CPUParticles2D" parent="Puddles/Puddle bottom left"]
 material = SubResource("CanvasItemMaterial_hf5fb")
-position = Vector2(-3.59029, -13.5318)
+position = Vector2(-5.70113, -25.3869)
 rotation = -0.259347
 emitting = false
 amount = 2
-lifetime = 0.5
+lifetime = 0.7
 texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
@@ -240,7 +250,7 @@ anim_offset_max = 1.0
 
 [node name="Puddle top right" type="Area2D" parent="Puddles"]
 z_index = 5
-position = Vector2(27, -13)
+position = Vector2(31, -12)
 rotation = -0.924263
 collision_layer = 256
 collision_mask = 256
@@ -250,22 +260,58 @@ z_index = 5
 shape = SubResource("CircleShape2D_lhhr4")
 
 [node name="Sprite top right" type="AnimatedSprite2D" parent="Puddles/Puddle top right"]
-scale = Vector2(0.472, 0.472)
+position = Vector2(-0.602423, -0.798177)
+rotation = 0.167825
+scale = Vector2(0.9, 0.9)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.926866
 
 [node name="Particel top right" type="CPUParticles2D" parent="Puddles/Puddle top right"]
 material = SubResource("CanvasItemMaterial_hf5fb")
-position = Vector2(12.7708, -9.63877)
+position = Vector2(21.5508, -16.2654)
 rotation = 0.924263
 emitting = false
 amount = 2
-lifetime = 0.5
+lifetime = 0.7
 texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
+
+[node name="PowerStrips" type="Node" parent="."]
+
+[node name="Strip1" type="Polygon2D" parent="PowerStrips"]
+z_index = 2
+position = Vector2(-50, 14)
+rotation = -0.590766
+scale = Vector2(0.125, 0.35)
+color = Color(1, 0.654902, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Strip2" type="Polygon2D" parent="PowerStrips"]
+z_index = 2
+position = Vector2(-24, -17)
+rotation = -0.157832
+scale = Vector2(0.125, 0.35)
+color = Color(1, 0.654902, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Strip3" type="Polygon2D" parent="PowerStrips"]
+z_index = 2
+position = Vector2(44, -15)
+rotation = 0.37193
+scale = Vector2(0.125, 0.35)
+color = Color(1, 0.654902, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Strip4" type="Polygon2D" parent="PowerStrips"]
+z_index = 2
+position = Vector2(51, 22)
+rotation = 0.67993
+scale = Vector2(0.125, 0.35)
+color = Color(1, 0.654902, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [connection signal="area_entered" from="Puddles/Puddle top left" to="." method="_on_puddle_area_entered" binds= [3]]
 [connection signal="area_exited" from="Puddles/Puddle top left" to="." method="_on_puddle_area_exited" binds= [3]]
