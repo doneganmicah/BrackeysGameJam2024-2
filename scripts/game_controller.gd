@@ -38,13 +38,18 @@ var storm_intensity = 0;
 @export_subgroup("Water Leak")
 @export var attempt_leak_min = 15 # is the minimum amount of time between leak attemps
 @export var attempt_leak_max = 30 # is the maximum amount of time between leak attemps
-var time_since_last_leak = 0      # The time since the last leak attempt
+var time_since_last_leak = 30     # The time since the last leak attempt
 
 @export_subgroup("Electrical Outage")
 @export var attempt_strike_min = 15 # Is the minimum amount of time between strike attempts
 @export var attempt_strike_max = 45 # is the maximum amount of time between strike attempts
 @export var outage_chance = 5       # The base chance for an outage to occur. storm_intensity is added to this
 var time_since_last_strike = 0
+
+@export_subgroup("Door")
+@export var attempt_door_min = 10 # Is the minimum amount of time between door openings
+@export var attempt_door_max = 45 # Is the maximum amount of time between door openings
+var time_since_last_door = 0
 
 @export_category("Control Nodes")
 @export var _player : Player        # Instance of the player
@@ -53,6 +58,10 @@ var time_since_last_strike = 0
 @export var haz_water_leak : HazWaterLeak # instance of HazWaterLeak
 @export var haz_electrical_outage : BreakerBox # instance of the breaker box
 @export var haz_signal_integrity : Router # instance of the wifi router
+@export var haz_door_open : BackDoor # instance of the swinging back door
+@export var time_txt : Label
+@export var perc_txt : Label
+
 
 # Local variables
 var _timer_flag : bool # Raises to signify the timer has expired
@@ -70,6 +79,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var _unused = delta # removes unused warning
 	if(_timer_flag):
 		update_progress()
 		_timer_flag = false
@@ -105,22 +115,25 @@ func update_progress():
 		return
 		
 	# DEBUG PRINTS
-	print("Upload Progress:")
-	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
+	#print("Upload Progress:")
+	#print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
-	print("{perc}%".format({"perc": percent }))
-	print("Upload Speed: {sp}".format({"sp": upload_speed}))
-	print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
-	print("Degrading at: {de}".format({"de": haz_signal_integrity.current_degradation}))
-	print("Game Time:")
-	print(current_time)
-	print(get_clock_time())
-	print("storm intensity")
-	print(storm_intensity)
+	perc_txt.text = "{perc}%".format({"perc": percent})
+	time_txt.text = get_clock_time()
+	#print("{perc}%".format({"perc": percent }))
+	#print("Upload Speed: {sp}".format({"sp": upload_speed}))
+	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
+	#print("Degrading at: {de}".format({"de": haz_signal_integrity.current_degradation}))
+	#print("Game Time:")
+	#print(current_time)
+	#print(get_clock_time())
+	#print("storm intensity")
+	#print(storm_intensity)
 	
 	# Hazard management # I probably should have funcitonizeed this but it was too late before i realized how big it would get
 	time_since_last_leak += 1
 	time_since_last_strike += 1
+	time_since_last_door += 1
 	
 	#region Attempt spawn water leak Hazard
 	# Time to leak is determined by mapping storm_intensity (a value 0-10)
@@ -137,8 +150,7 @@ func update_progress():
 		# This may need some bias modifier. Attempts to spawn a little sooner with rare chance
 		# But we calculate the percentage of the the time since we last spawned and the next spawn time
 		# and then roll against that with the chance to spawn
-		# Example: tsll = 3, ttl = 15, at = 76 will result in  IF 76 < 20: then spawn
-		if attempt < (time_since_last_leak / time_to_leak * 100):
+		if attempt < map((time_since_last_leak / time_to_leak * 100), 0, 100, 0, 45):
 			haz_water_leak.haz_attempt_spawn()
 			time_since_last_leak = 0 
 	#endregion
@@ -158,7 +170,7 @@ func update_progress():
 		time_since_last_strike = 0
 	else:
 		# Attempts to spawn early with rarer chance
-		if attempt < (time_since_last_strike / time_to_strike * 100):
+		if attempt < map((time_since_last_strike / time_to_strike * 100), 0, 100, 0, 45):
 			print("Lightning Struck")
 			haz_electrical_outage.draw_lightning = true
 			if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
@@ -166,9 +178,25 @@ func update_progress():
 			time_since_last_strike = 0
 	#endregion
 	
+	#region Attempt door swing open hazard
+	var time_to_door = map(storm_intensity, 0, 10, attempt_door_max, attempt_door_min)
+	attempt = rng.randi_range(0, 100)
+	
+	# we reached the time to door, so open the door
+	if(time_since_last_door >= time_to_door):
+		haz_door_open.swing_open()
+		time_since_last_door = 0
+	else:
+		# Attempts to spawn early with rare chance
+		if(attempt < map((time_since_last_door / time_to_door * 100), 0, 100, 0, 45)):
+			haz_door_open.swing_open()
+			time_since_last_door = 0
+	#endregion
+	
 	# Hazard ticks
 	haz_water_leak.haz_tick() # Tick the water leak hazard
 	haz_signal_integrity.haz_tick(storm_intensity) # Tick the signal integrity hazard
+	haz_door_open.haz_tick()
 	
 	
 # A game winning condition has been met.

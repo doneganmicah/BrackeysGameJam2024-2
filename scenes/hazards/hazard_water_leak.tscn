@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://ckif30bwjtonq"]
+[gd_scene load_steps=22 format=3 uid="uid://ckif30bwjtonq"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
 [ext_resource type="Script" path="res://scripts/hazards/hazard_water_leak.gd" id="1_qhabx"]
 [ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_i2nm6"]
 [ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="4_02lvl"]
+[ext_resource type="Texture2D" uid="uid://dw0o8nggpip3b" path="res://assets/particles/water_droplet.png" id="5_84wdu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ivmgs"]
 size = Vector2(7.98619, 5.5)
@@ -72,6 +73,16 @@ animations = [{
 "speed": 0.0
 }]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hf5fb"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_vojwg"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_urp3s"]
 radius = 5.0
 
@@ -81,16 +92,20 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_lhhr4"]
 radius = 5.0
 
-[node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl")]
+[node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl", "particle_tr", "particle_br", "particle_tl", "particle_bl")]
 z_index = 10
 y_sort_enabled = true
 script = ExtResource("1_qhabx")
 time_till_puddle_recesses = 600
 puddle_target = 600
-puddle_tr = NodePath("Puddles/Puddle4/AnimatedSprite2D")
-puddle_br = NodePath("Puddles/Puddle2/AnimatedSprite2D")
-puddle_tl = NodePath("Puddles/Puddle1/AnimatedSprite2D")
-puddle_bl = NodePath("Puddles/Puddle3/AnimatedSprite2D")
+puddle_tr = NodePath("Puddles/Puddle top right/Sprite top right")
+puddle_br = NodePath("Puddles/Puddle bottom right/Sprite bot right")
+puddle_tl = NodePath("Puddles/Puddle top left/Sprite top left")
+puddle_bl = NodePath("Puddles/Puddle bottom left/Sprite bot left")
+particle_tr = NodePath("Puddles/Puddle top right/Particel top right")
+particle_br = NodePath("Puddles/Puddle bottom right/Particle bot right")
+particle_tl = NodePath("Puddles/Puddle top left/Particle top left")
+particle_bl = NodePath("Puddles/Puddle bottom left/Particle bot left")
 
 [node name="Bucket" type="RigidBody2D" parent="." groups=["Bucket"]]
 y_sort_enabled = true
@@ -137,78 +152,126 @@ polygon = PackedVector2Array(-11.8065, -14.2241, -11.8065, 13.7931, 11.8065, 13.
 
 [node name="Puddles" type="Node" parent="."]
 
-[node name="Puddle1" type="Area2D" parent="Puddles"]
+[node name="Puddle top left" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(-37, -12)
 rotation = 0.319687
 collision_layer = 256
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle top left"]
 z_index = 5
 shape = SubResource("CircleShape2D_0r74p")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle1"]
+[node name="Sprite top left" type="AnimatedSprite2D" parent="Puddles/Puddle top left"]
 scale = Vector2(0.442, 0.472)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.76772
 
-[node name="Puddle2" type="Area2D" parent="Puddles"]
+[node name="Particle top left" type="CPUParticles2D" parent="Puddles/Puddle top left"]
+material = SubResource("CanvasItemMaterial_hf5fb")
+position = Vector2(-4.39977, -13.2907)
+rotation = -0.319687
+emitting = false
+amount = 2
+lifetime = 0.5
+texture = ExtResource("5_84wdu")
+gravity = Vector2(0, 100)
+scale_amount_curve = SubResource("Curve_vojwg")
+anim_offset_max = 1.0
+
+[node name="Puddle bottom right" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(36, 19)
 rotation = -0.583854
 collision_layer = 256
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle bottom right"]
 z_index = 5
 shape = SubResource("CircleShape2D_urp3s")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle2"]
+[node name="Sprite bot right" type="AnimatedSprite2D" parent="Puddles/Puddle bottom right"]
 scale = Vector2(0.472, 0.472)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.209651
 
-[node name="Puddle3" type="Area2D" parent="Puddles"]
+[node name="Particle bot right" type="CPUParticles2D" parent="Puddles/Puddle bottom right"]
+material = SubResource("CanvasItemMaterial_hf5fb")
+position = Vector2(7.43431, -13.0664)
+rotation = 0.583854
+emitting = false
+amount = 2
+lifetime = 0.5
+texture = ExtResource("5_84wdu")
+gravity = Vector2(0, 100)
+scale_amount_curve = SubResource("Curve_vojwg")
+anim_offset_max = 1.0
+
+[node name="Puddle bottom left" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(-37, 13)
 rotation = 0.259347
 collision_layer = 256
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle bottom left"]
 z_index = 5
 shape = SubResource("CircleShape2D_ogeow")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle3"]
+[node name="Sprite bot left" type="AnimatedSprite2D" parent="Puddles/Puddle bottom left"]
 scale = Vector2(0.472, 0.472)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 
-[node name="Puddle4" type="Area2D" parent="Puddles"]
+[node name="Particle bot left" type="CPUParticles2D" parent="Puddles/Puddle bottom left"]
+material = SubResource("CanvasItemMaterial_hf5fb")
+position = Vector2(-3.59029, -13.5318)
+rotation = -0.259347
+emitting = false
+amount = 2
+lifetime = 0.5
+texture = ExtResource("5_84wdu")
+gravity = Vector2(0, 100)
+scale_amount_curve = SubResource("Curve_vojwg")
+anim_offset_max = 1.0
+
+[node name="Puddle top right" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(27, -13)
 rotation = -0.924263
 collision_layer = 256
 collision_mask = 256
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puddles/Puddle top right"]
 z_index = 5
 shape = SubResource("CircleShape2D_lhhr4")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Puddles/Puddle4"]
+[node name="Sprite top right" type="AnimatedSprite2D" parent="Puddles/Puddle top right"]
 scale = Vector2(0.472, 0.472)
 sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.926866
 
-[connection signal="area_entered" from="Puddles/Puddle1" to="." method="_on_puddle_area_entered" binds= [3]]
-[connection signal="area_exited" from="Puddles/Puddle1" to="." method="_on_puddle_area_exited" binds= [3]]
-[connection signal="area_entered" from="Puddles/Puddle2" to="." method="_on_puddle_area_entered" binds= [2]]
-[connection signal="area_exited" from="Puddles/Puddle2" to="." method="_on_puddle_area_exited" binds= [2]]
-[connection signal="area_entered" from="Puddles/Puddle3" to="." method="_on_puddle_area_entered" binds= [4]]
-[connection signal="area_exited" from="Puddles/Puddle3" to="." method="_on_puddle_area_exited" binds= [4]]
-[connection signal="area_entered" from="Puddles/Puddle4" to="." method="_on_puddle_area_entered" binds= [1]]
-[connection signal="area_exited" from="Puddles/Puddle4" to="." method="_on_puddle_area_exited" binds= [1]]
+[node name="Particel top right" type="CPUParticles2D" parent="Puddles/Puddle top right"]
+material = SubResource("CanvasItemMaterial_hf5fb")
+position = Vector2(12.7708, -9.63877)
+rotation = 0.924263
+emitting = false
+amount = 2
+lifetime = 0.5
+texture = ExtResource("5_84wdu")
+gravity = Vector2(0, 100)
+scale_amount_curve = SubResource("Curve_vojwg")
+anim_offset_max = 1.0
+
+[connection signal="area_entered" from="Puddles/Puddle top left" to="." method="_on_puddle_area_entered" binds= [3]]
+[connection signal="area_exited" from="Puddles/Puddle top left" to="." method="_on_puddle_area_exited" binds= [3]]
+[connection signal="area_entered" from="Puddles/Puddle bottom right" to="." method="_on_puddle_area_entered" binds= [2]]
+[connection signal="area_exited" from="Puddles/Puddle bottom right" to="." method="_on_puddle_area_exited" binds= [2]]
+[connection signal="area_entered" from="Puddles/Puddle bottom left" to="." method="_on_puddle_area_entered" binds= [4]]
+[connection signal="area_exited" from="Puddles/Puddle bottom left" to="." method="_on_puddle_area_exited" binds= [4]]
+[connection signal="area_entered" from="Puddles/Puddle top right" to="." method="_on_puddle_area_entered" binds= [1]]
+[connection signal="area_exited" from="Puddles/Puddle top right" to="." method="_on_puddle_area_exited" binds= [1]]
