@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://owhd7frdhx34"]
+[gd_scene load_steps=25 format=4 uid="uid://c7t6obuvy83ui"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
@@ -6,13 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="3_rvoox"]
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="5_1ocpd"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="6_d2he6"]
-[ext_resource type="PackedScene" uid="uid://dm4xm18uuhhrr" path="res://scenes/interactables/door_interactable.tscn" id="7_scnk1"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="7_scnk1"]
+[ext_resource type="Material" uid="uid://xnrvsceye8mn" path="res://assets/shaders/animated_surge_material.tres" id="8_avnke"]
+[ext_resource type="Texture2D" uid="uid://duoxsvtj131ky" path="res://assets/surge_test_tex.png" id="8_wpqcj"]
+[ext_resource type="Texture2D" uid="uid://brkkob21aolxk" path="res://assets/surge_test_sheet.png" id="10_livgt"]
 
 [sub_resource type="Environment" id="Environment_ir1o5"]
 background_mode = 3
 glow_enabled = true
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_sg71d"]
+glow_blend_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_npgfg"]
 offsets = PackedFloat32Array(0.140562, 1)
@@ -62,12 +64,81 @@ sources/0 = SubResource("TileSetAtlasSource_kpago")
 script/source = "extends Timer
 "
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ykaw"]
+atlas = ExtResource("10_livgt")
+region = Rect2(0, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7b8qy"]
+atlas = ExtResource("10_livgt")
+region = Rect2(128, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7vcr"]
+atlas = ExtResource("10_livgt")
+region = Rect2(256, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3c7a"]
+atlas = ExtResource("10_livgt")
+region = Rect2(384, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk4b2"]
+atlas = ExtResource("10_livgt")
+region = Rect2(512, 0, 128, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xx0ac"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ykaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7b8qy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7vcr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3c7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk4b2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="Curve2D" id="Curve2D_kvxl8"]
+_data = {
+"points": PackedVector2Array(-26.1434, -52.2867, 26.1434, 52.2867, 100, -38, -12.5992, -45.1997, 12.5992, 45.1997, 98, 74)
+}
+point_count = 2
+
+[sub_resource type="GDScript" id="GDScript_b56vx"]
+resource_name = "path_test"
+script/source = "extends Path2D
+
+@export var line : Line2D
+@export var sprites : AnimatedSprite2D
+var textures = []
+var index = 0
+var counter = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	for point in self.curve.get_baked_points():
+		line.add_point(point + self.position)
+	 # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta: float) -> void:
+	pass
+"
+
 [node name="LevelProto" type="Node2D"]
 y_sort_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ir1o5")
-camera_attributes = SubResource("CameraAttributesPractical_sg71d")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="WorldEnvironment"]
 color = Color(0.787551, 0.86201, 0.491636, 1)
@@ -257,5 +328,30 @@ z_index = 9
 position = Vector2(24, -63)
 time_till_puddle_kills = 20
 game_controller = NodePath("../GameHandler")
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = 20
+texture_repeat = 2
+material = ExtResource("8_avnke")
+scale = Vector2(1.024, 1)
+width = 5.0
+default_color = Color(1, 1, 0.00392157, 1)
+texture = ExtResource("8_wpqcj")
+texture_mode = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Line2D"]
+visible = false
+texture_repeat = 2
+sprite_frames = SubResource("SpriteFrames_xx0ac")
+frame_progress = 0.984565
+
+[node name="Path2D" type="Path2D" parent="." node_paths=PackedStringArray("line", "sprites")]
+z_index = 9
+position = Vector2(-102, 0)
+scale = Vector2(1.024, 1)
+curve = SubResource("Curve2D_kvxl8")
+script = SubResource("GDScript_b56vx")
+line = NodePath("../Line2D")
+sprites = NodePath("../Line2D/AnimatedSprite2D")
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]
