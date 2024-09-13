@@ -28,6 +28,7 @@ const NUMBER_FRAMES = 6
 @export var door_sprite : AnimatedSprite2D
 @export var door_puddle : AnimatedSprite2D
 @export var game_controller : GameController
+@export var breaker_box : BreakerBox
 
 # local variables
 var _flag_interacted = false
@@ -66,7 +67,7 @@ func haz_tick():
 	
 	if(puddle_progression >= puddle_target):
 		door_puddle.set_frame(NUMBER_FRAMES - 1)
-		print("Door puddle overflowed")
+		breaker_box.break_power()
 	else:
 		door_puddle.set_frame(puddle_size)
 		

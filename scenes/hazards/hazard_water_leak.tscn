@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://ckif30bwjtonq"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
+[ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://assets/materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
 [ext_resource type="Script" path="res://scripts/hazards/hazard_water_leak.gd" id="1_qhabx"]
 [ext_resource type="Texture2D" uid="uid://cigtt0p6jyn1" path="res://assets/placeholder_assets/placeholder_blocks.png" id="2_i2nm6"]
 [ext_resource type="Texture2D" uid="uid://cqorj10u0nllb" path="res://assets/placeholder_water_puddle.png" id="4_02lvl"]

@@ -13,7 +13,6 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 ##                                  Variables                                 ##
 ################################################################################
 @export_category("Hazard Settings")
-@export_group("Puddles")
 @export var time_till_puddle_kills    = 15 # The time in seconds for a puddle to KILL (from start)
 @export var time_till_puddle_recesses = 30 # The time in seconds for a puddle to shrink (from full)
 @export var puddle_max_size = 4
@@ -29,6 +28,7 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 @export var particle_br : CPUParticles2D
 @export var particle_tl : CPUParticles2D
 @export var particle_bl : CPUParticles2D
+@export var breaker_box : BreakerBox
 
 var game_controller : GameController: # instance of the game controller
 	set(value): game_controller = value
@@ -58,7 +58,8 @@ func haz_attempt_spawn():
 			puddle.leaking = false
 
 func puddle_overflowed(puddle_id):
-	#print("Bucket overflowed")
+	print("Bucket overflowed")
+	breaker_box.break_power()
 	# Run consequence
 	pass
 	
@@ -131,12 +132,13 @@ class Puddle:
 			puddle_progression = clamp(puddle_progression - puddle_shrink_speed, 0, haz.puddle_target)
 		elif(leaking and !bucketed):         # Start growing
 			puddle_progression = clamp(puddle_progression + puddle_grow_speed, 0, haz.puddle_target)
-			# Has the puddle maxxed and overflowed
-			if(puddle_progression >= haz.puddle_target):
-				haz.puddle_overflowed(id)
-				puddle_sprite.set_frame(haz.puddle_max_size)
-			else:
-				puddle_sprite.set_frame(puddle_size)
+		
+		# Has the puddle maxxed and overflowed
+		if(puddle_progression >= haz.puddle_target):
+			haz.puddle_overflowed(id)
+			puddle_sprite.set_frame(haz.puddle_max_size)
+		else:
+			puddle_sprite.set_frame(puddle_size)
 		# update the puddle sprite  # also this line is pain just let me create a util class and let me include that its not that hard i dont want to have to write the same funciton in every class or do weird object chaining or write global scene scripts have to load them and pull from that with children. I just want to include util.gd thats all.
 		
 		

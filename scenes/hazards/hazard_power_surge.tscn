@@ -1,0 +1,164 @@
+[gd_scene load_steps=10 format=3 uid="uid://cfa8s1lrnoc7v"]
+
+[ext_resource type="Script" path="res://scripts/hazards/hazard_power_surge.gd" id="1_dyr1v"]
+[ext_resource type="PackedScene" uid="uid://kascg51opnxk" path="res://scenes/interactables/powerstrip_interactable.tscn" id="2_uw7te"]
+[ext_resource type="Script" path="res://scripts/hazards/power_cable.gd" id="8_y8gxr"]
+[ext_resource type="Texture2D" uid="uid://6ogcn43qh45f" path="res://assets/surge_test_tex.png" id="9_432he"]
+[ext_resource type="Material" uid="uid://xnrvsceye8mn" path="res://assets/materials/shaders/animated_surge_material.tres" id="9_2001v"]
+
+[sub_resource type="Curve2D" id="Curve2D_3js6n"]
+bake_interval = 118.59
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -80, -26, 0, 0, 0, 0, -78.1951, -25.4303, 0, 0, 0, 0, -76.302, -24.7064, 0, 0, 0, 0, -74.0191, -23.8712, 0, 0, 0, 0, -71.5134, -22.9246, 0, 0, 0, 0, -69.5646, -21.5883, 0, 0, 0, 0, -67.56, -20.2519, 0, 0, 0, 0, -65.7782, -19.0269, 0, 0, 0, 0, -64.0625, -17.8125, 0, 0, 0, 0, -62.375, -16, -9.6055, -12.4163, 9.6055, 12.4163, -60.7557, -15.1239, 0, 0, 0, 0, -59.2079, -12.902, 0, 0, 0, 0, -56.875, -9.375, 0, 0, 0, 0, -56.3125, -7.375, 0, 0, 0, 0, -55.7001, -5.55207, 0, 0, 0, 0, -55.125, -3.9375, 0, 0, 0, 0, -54.4751, -1.98847, 0, 0, 0, 0, -53.8125, 0.6875, 0, 0, 0, 0, -53.5285, 3.02283, 0, 0, 0, 0, -52.916, 5.63985, 0, 0, 0, 0, -52.1921, 7.81141, 0, 0, 0, 0, -52.5, 9.4375, 0, 0, 0, 0, -52.3125, 10.75, 0, 0, 0, 0, -51.4126, 12.6, 0, 0, 0, 0, -46.3287, 17.6945, 0, 0, 0, 0, -45.3434, 20.0613, 0, 0, 0, 0, -44.1184, 22.2885, 0, 0, 0, 0, -42.7821, 24.5715, 0, 0, 0, 0, -41.3344, 26.8544, 0, 0, 0, 0, -39.8867, 29.5828, 0, 0, 0, 0, -38.8844, 32.3668, 0, 0, 0, 0, -37.375, 34.625, 0, 0, 0, 0, -33.6504, 39.1042, 0, 0, 0, 0, -31, 40.5, 0, 0, 0, 0, -28.25, 42.375, 0, 0, 0, 0, -25.0755, 44.1712, 0, 0, 0, 0, -21.375, 46.375, 0, 0, 0, 0, -17.0018, 48.403, 0, 0, 0, 0, -10.7655, 51.0757)
+}
+point_count = 39
+
+[sub_resource type="Curve2D" id="Curve2D_62euj"]
+bake_interval = 118.83
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -42.1273, -59.6349, 0, 0, 0, 0, -41.7527, -55.8891, 0, 0, 0, 0, -35.3849, -50.5514, 0, 0, 0, 0, -34.6419, -44.0433, 0, 0, 0, 0, -33.2311, -40.2505, 0, 0, 0, 0, -30.3282, -38.0031, 0, 0, 0, 0, -29.6727, -34.9128, 0, 0, 0, 0, -29.0735, -31.0502, 0, 0, 0, 0, -27.625, -26.375, 0, 0, 0, 0, -26, -22.875, 0, 0, 0, 0, -24.2413, -19.6488, 0, 0, 0, 0, -23.5831, -14.2441, 0, 0, 0, 0, -22.125, -9.3125, 0, 0, 0, 0, -20.5, -4.5625, 0, 0, 0, 0, -18.2847, -0.520576, 0, 0, 0, 0, -16.9303, 3.22803, 0, 0, 0, 0, -15.1579, 6.94614, 0, 0, 0, 0, -13.8201, 10.8889, 0, 0, 0, 0, -13.1257, 14.6589, 0, 0, 0, 0, -12.3485, 18.7453, 0, 0, 0, 0, -11.5382, 22.8936, 0, 0, 0, 0, -11.375, 28.9375, 0, 0, 0, 0, -10.6875, 33.3125, 0, 0, 0, 0, -9.4375, 37.4375, -0.662164, 2.51622, 0.662164, -2.51622, -7.21089, 44.3064)
+}
+point_count = 25
+
+[sub_resource type="Curve2D" id="Curve2D_qjycl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 61.3944, -58.196, 0, 0, 0, 0, 61.25, -52.1665, 0, 0, 0, 0, 58.9681, -49.6862, 0, 0, 0, 0, 57.2815, -47.4043, 0, 0, 0, 0, 55.9917, -44.6264, 0, 0, 0, 0, 55.5949, -41.3524, 0, 0, 0, 0, 55.198, -38.0783, 0, 0, 0, 0, 54.6028, -34.5067, 0, 0, 0, 0, 53.6106, -31.6295, 0, 0, 0, 0, 52.3209, -28.7523, 0, 0, 0, 0, 50.6343, -26.3712, 0, 0, 0, 0, 49.3445, -24.0894, 0, 0, 0, 0, 47.261, -21.113, 0, 0, 0, 0, 45.376, -18.5335, 0, 0, 0, 0, 42.8957, -12.7791, 0, 0, 0, 0, 40.9114, -9.30668, 0, 0, 0, 0, 37.1789, -6.05653, 0, 0, 0, 0, 32.9472, -5.38835, 0, 0, 0, 0, 28.2699, -3.94064, 0, 0, 0, 0, 23.5927, -0.711134, 0, 0, 0, 0, 20.92, 2.62974, 0, 0, 0, 0, 18.2473, 6.19333, 0, 0, 0, 0, 17.0223, 9.75692, 0, 0, 0, 0, 15.7973, 14.4341, 0, 0, 0, 0, 13.5701, 19, 0, 0, 0, 0, 10.5633, 22.675, 0, 0, 0, 0, 8.33606, 26.2386, 0, 0, 0, 0, 6.66563, 29.6908, 0, 0, 0, 0, 5.88609, 33.3657, 0, 0, 0, 0, 5.21792, 36.4839, 0, 0, 0, 0, 4.77247, 39.0452, 0, 0, 0, 0, 3.40641, 42.2094)
+}
+point_count = 32
+
+[sub_resource type="Curve2D" id="Curve2D_7jwau"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 81.0945, -31.8145, 0, 0, 0, 0, 79.6803, -28.1906, 0, 0, 0, 0, 76.5867, -25.2738, 0, 0, 0, 0, 73.4931, -22.9757, 0, 0, 0, 0, 71.1066, -20.5892, 0, 0, 0, 0, 69.4272, -18.026, 0, 0, 0, 0, 68.3666, -14.9324, 0, 0, 0, 0, 68.6317, -11.3969, 0, 0, 0, 0, 69.8692, -8.30326, 0, 0, 0, 0, 71.9021, -5.47484, 0, 0, 0, 0, 74.5424, -2.68907, 0, 0, 0, 0, 75.6649, 1.37986, 0, 0, 0, 0, 75.7912, 4.77818, 0, 0, 0, 0, 74.8189, 8.04855, 0, 0, 0, 0, 71.7253, 10.6118, 0, 0, 0, 0, 68.013, 11.4957, 0, 0, 0, 0, 64.3, 12.3239, 0, 0, 0, 0, 61.6341, 13.0254, 0, 0, 0, 0, 58.828, 14.4285, 0, 0, 0, 0, 56.583, 16.8137, 0, 0, 0, 0, 53.6366, 18.3571, 0, 0, 0, 0, 48.4452, 24.25, 0, 0, 0, 0, 46.9766, 27.4056, 0, 0, 0, 0, 44.9375, 30.2833, 0, 0, 0, 0, 42.4688, 33.3276, 0, 0, 0, 0, 39.4636, 35.3606, 0, 0, 0, 0, 36.0164, 36.6864, 0, 0, 0, 0, 32.039, 37.4819, 0, 0, 0, 0, 28.2383, 38.3658, 0, 0, 0, 0, 25.1447, 39.6032, 0, 0, 0, 0, 22.0511, 41.1058, 0, 0, 0, 0, 18.7807, 42.52, 0, 0, 0, 0, 14.3504, 43.8931, 0, 0, 0, 0, 10.1412, 45.1559)
+}
+point_count = 34
+
+[node name="HazardPowerSurge" type="Node2D" node_paths=PackedStringArray("surge_1", "surge_2", "surge_3", "surge_4")]
+script = ExtResource("1_dyr1v")
+surge_1 = NodePath("CablePath1")
+surge_2 = NodePath("CablePath2")
+surge_3 = NodePath("CablePath3")
+surge_4 = NodePath("CablePath4")
+
+[node name="powerstrip_interactable" parent="." node_paths=PackedStringArray("haz_controller") instance=ExtResource("2_uw7te")]
+position = Vector2(-49.3682, 14.2973)
+rotation = -0.910016
+haz_controller = NodePath("..")
+
+[node name="powerstrip_interactable2" parent="." node_paths=PackedStringArray("haz_controller") instance=ExtResource("2_uw7te")]
+position = Vector2(-24, -17)
+rotation = -0.153186
+haz_controller = NodePath("..")
+index = 1
+
+[node name="powerstrip_interactable3" parent="." node_paths=PackedStringArray("haz_controller") instance=ExtResource("2_uw7te")]
+position = Vector2(44, -15)
+rotation = 0.400485
+haz_controller = NodePath("..")
+index = 2
+
+[node name="powerstrip_interactable4" parent="." node_paths=PackedStringArray("haz_controller") instance=ExtResource("2_uw7te")]
+position = Vector2(51, 22)
+rotation = 0.690205
+scale = Vector2(1.01129, 1.05594)
+haz_controller = NodePath("..")
+index = 3
+
+[node name="Curves" type="Node" parent="."]
+
+[node name="Line2Ds" type="Node" parent="."]
+
+[node name="Cable1" type="Line2D" parent="Line2Ds"]
+z_index = 8
+width = 1.0
+default_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[node name="Surge1" type="Line2D" parent="Line2Ds"]
+light_mask = 1024
+z_index = 8
+texture_filter = 1
+texture_repeat = 2
+material = ExtResource("9_2001v")
+texture = ExtResource("9_432he")
+texture_mode = 1
+end_cap_mode = 2
+
+[node name="Cable2" type="Line2D" parent="Line2Ds"]
+z_index = 8
+width = 1.0
+default_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[node name="Surge2" type="Line2D" parent="Line2Ds"]
+light_mask = 1024
+z_index = 8
+texture_filter = 1
+texture_repeat = 2
+material = ExtResource("9_2001v")
+texture = ExtResource("9_432he")
+texture_mode = 1
+end_cap_mode = 2
+
+[node name="Cable3" type="Line2D" parent="Line2Ds"]
+z_index = 8
+width = 1.0
+default_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[node name="Surge3" type="Line2D" parent="Line2Ds"]
+light_mask = 1024
+z_index = 8
+texture_filter = 1
+texture_repeat = 2
+material = ExtResource("9_2001v")
+texture = ExtResource("9_432he")
+texture_mode = 1
+end_cap_mode = 2
+
+[node name="Cable4" type="Line2D" parent="Line2Ds"]
+z_index = 8
+width = 1.0
+default_color = Color(0.223103, 0.223103, 0.223103, 1)
+
+[node name="Surge4" type="Line2D" parent="Line2Ds"]
+light_mask = 1024
+z_index = 8
+texture_filter = 1
+texture_repeat = 2
+material = ExtResource("9_2001v")
+texture = ExtResource("9_432he")
+texture_mode = 1
+end_cap_mode = 2
+
+[node name="CablePath1" type="Path2D" parent="." node_paths=PackedStringArray("cable_line", "surge_line", "haz_controller")]
+light_mask = 1024
+z_index = 8
+curve = SubResource("Curve2D_3js6n")
+script = ExtResource("8_y8gxr")
+cable_line = NodePath("../Line2Ds/Cable1")
+surge_line = NodePath("../Line2Ds/Surge1")
+haz_controller = NodePath("..")
+
+[node name="CablePath2" type="Path2D" parent="." node_paths=PackedStringArray("cable_line", "surge_line", "haz_controller")]
+light_mask = 1024
+z_index = 8
+curve = SubResource("Curve2D_62euj")
+script = ExtResource("8_y8gxr")
+cable_line = NodePath("../Line2Ds/Cable2")
+surge_line = NodePath("../Line2Ds/Surge2")
+haz_controller = NodePath("..")
+
+[node name="CablePath3" type="Path2D" parent="." node_paths=PackedStringArray("cable_line", "surge_line", "haz_controller")]
+light_mask = 1024
+z_index = 8
+curve = SubResource("Curve2D_qjycl")
+script = ExtResource("8_y8gxr")
+cable_line = NodePath("../Line2Ds/Cable3")
+surge_line = NodePath("../Line2Ds/Surge3")
+haz_controller = NodePath("..")
+
+[node name="CablePath4" type="Path2D" parent="." node_paths=PackedStringArray("cable_line", "surge_line", "haz_controller")]
+light_mask = 1024
+z_index = 8
+curve = SubResource("Curve2D_7jwau")
+script = ExtResource("8_y8gxr")
+cable_line = NodePath("../Line2Ds/Cable4")
+surge_line = NodePath("../Line2Ds/Surge4")
+haz_controller = NodePath("..")

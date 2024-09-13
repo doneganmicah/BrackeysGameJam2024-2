@@ -1,15 +1,14 @@
-[gd_scene load_steps=25 format=4 uid="uid://c7t6obuvy83ui"]
+[gd_scene load_steps=16 format=4 uid="uid://c7t6obuvy83ui"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
+[ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="1_n1kr4"]
 [ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="3_rvoox"]
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="5_1ocpd"]
+[ext_resource type="PackedScene" uid="uid://cfa8s1lrnoc7v" path="res://scenes/hazards/hazard_power_surge.tscn" id="5_vy72o"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="6_d2he6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="7_scnk1"]
-[ext_resource type="Material" uid="uid://xnrvsceye8mn" path="res://assets/shaders/animated_surge_material.tres" id="8_avnke"]
-[ext_resource type="Texture2D" uid="uid://duoxsvtj131ky" path="res://assets/surge_test_tex.png" id="8_wpqcj"]
-[ext_resource type="Texture2D" uid="uid://brkkob21aolxk" path="res://assets/surge_test_sheet.png" id="10_livgt"]
 
 [sub_resource type="Environment" id="Environment_ir1o5"]
 background_mode = 3
@@ -28,14 +27,14 @@ fill = 1
 fill_from = Vector2(0.487179, 0.512821)
 fill_to = Vector2(0.034188, 0.0213675)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kpago"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c8tq5"]
 texture = ExtResource("2_kjxbd")
 0:0/0 = 0
 0:0/0/z_index = 20
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -5, 8, -5, 8, 8, 2, 8)
 1:0/0 = 0
 1:0/0/z_index = 1
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5.125, 8, -5, 8, 8, -8, 8)
 2:0/0 = 0
 2:0/0/z_index = 20
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, -2, -5, -2, 8, -8, 8)
@@ -58,80 +57,10 @@ texture = ExtResource("2_kjxbd")
 
 [sub_resource type="TileSet" id="TileSet_ccmty"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_kpago")
+sources/0 = SubResource("TileSetAtlasSource_c8tq5")
 
 [sub_resource type="GDScript" id="GDScript_tcg43"]
 script/source = "extends Timer
-"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ykaw"]
-atlas = ExtResource("10_livgt")
-region = Rect2(0, 0, 128, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7b8qy"]
-atlas = ExtResource("10_livgt")
-region = Rect2(128, 0, 128, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v7vcr"]
-atlas = ExtResource("10_livgt")
-region = Rect2(256, 0, 128, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s3c7a"]
-atlas = ExtResource("10_livgt")
-region = Rect2(384, 0, 128, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jk4b2"]
-atlas = ExtResource("10_livgt")
-region = Rect2(512, 0, 128, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_xx0ac"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8ykaw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7b8qy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v7vcr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s3c7a")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jk4b2")
-}],
-"loop": true,
-"name": &"default",
-"speed": 0.0
-}]
-
-[sub_resource type="Curve2D" id="Curve2D_kvxl8"]
-_data = {
-"points": PackedVector2Array(-26.1434, -52.2867, 26.1434, 52.2867, 100, -38, -12.5992, -45.1997, 12.5992, 45.1997, 98, 74)
-}
-point_count = 2
-
-[sub_resource type="GDScript" id="GDScript_b56vx"]
-resource_name = "path_test"
-script/source = "extends Path2D
-
-@export var line : Line2D
-@export var sprites : AnimatedSprite2D
-var textures = []
-var index = 0
-var counter = 0
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	for point in self.curve.get_baked_points():
-		line.add_point(point + self.position)
-	 # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	pass
 "
 
 [node name="LevelProto" type="Node2D"]
@@ -150,6 +79,15 @@ scale = Vector2(0.757813, 0.683594)
 energy = 1.4
 blend_mode = 2
 texture = SubResource("GradientTexture2D_3uwqy")
+
+[node name="PointLight2D2" type="PointLight2D" parent="WorldEnvironment"]
+light_mask = 0
+visibility_layer = 0
+scale = Vector2(16.3789, 13.8418)
+energy = 1.4
+blend_mode = 2
+range_item_cull_mask = 1024
+texture = ExtResource("1_n1kr4")
 
 [node name="Player" parent="." instance=ExtResource("1_03mbu")]
 
@@ -264,7 +202,7 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "time_txt", "perc_txt")]
+[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge", "time_txt", "perc_txt")]
 script = ExtResource("1_jutxf")
 attempt_leak_min = 20
 attempt_leak_max = 60
@@ -278,6 +216,7 @@ haz_water_leak = NodePath("../HazardWaterLeak")
 haz_electrical_outage = NodePath("../breaker_box_interactable")
 haz_signal_integrity = NodePath("../router_interactable")
 haz_door_open = NodePath("../door_interactable")
+haz_power_surge = NodePath("../HazardPowerSurge")
 time_txt = NodePath("Control/Label")
 perc_txt = NodePath("Control/Label2")
 
@@ -308,10 +247,16 @@ offset_right = -91.0
 offset_bottom = 32.0
 text = "{perc}"
 
-[node name="HazardWaterLeak" parent="." instance=ExtResource("3_rvoox")]
+[node name="HazardWaterLeak" parent="." node_paths=PackedStringArray("breaker_box") instance=ExtResource("3_rvoox")]
 position = Vector2(0, 3)
 time_till_puddle_kills = 20
 time_till_puddle_recesses = 35
+breaker_box = NodePath("../breaker_box_interactable")
+
+[node name="HazardPowerSurge" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("5_vy72o")]
+time_till_kills_max = 15.0
+time_till_kills_min = 8.0
+game_controller = NodePath("../GameHandler")
 
 [node name="breaker_box_interactable" parent="." node_paths=PackedStringArray("game_controller", "main_light") instance=ExtResource("5_1ocpd")]
 y_sort_enabled = true
@@ -323,35 +268,11 @@ main_light = NodePath("../WorldEnvironment/PointLight2D")
 position = Vector2(72, -45)
 game_controller = NodePath("../GameHandler")
 
-[node name="door_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("7_scnk1")]
+[node name="door_interactable" parent="." node_paths=PackedStringArray("game_controller", "breaker_box") instance=ExtResource("7_scnk1")]
 z_index = 9
 position = Vector2(24, -63)
 time_till_puddle_kills = 20
 game_controller = NodePath("../GameHandler")
-
-[node name="Line2D" type="Line2D" parent="."]
-z_index = 20
-texture_repeat = 2
-material = ExtResource("8_avnke")
-scale = Vector2(1.024, 1)
-width = 5.0
-default_color = Color(1, 1, 0.00392157, 1)
-texture = ExtResource("8_wpqcj")
-texture_mode = 1
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Line2D"]
-visible = false
-texture_repeat = 2
-sprite_frames = SubResource("SpriteFrames_xx0ac")
-frame_progress = 0.984565
-
-[node name="Path2D" type="Path2D" parent="." node_paths=PackedStringArray("line", "sprites")]
-z_index = 9
-position = Vector2(-102, 0)
-scale = Vector2(1.024, 1)
-curve = SubResource("Curve2D_kvxl8")
-script = SubResource("GDScript_b56vx")
-line = NodePath("../Line2D")
-sprites = NodePath("../Line2D/AnimatedSprite2D")
+breaker_box = NodePath("../breaker_box_interactable")
 
 [connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]

@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://xnrvsceye8mn"]
 
-[ext_resource type="Shader" path="res://assets/shaders/animated_surge.gdshader" id="1_fc21i"]
+[ext_resource type="Shader" path="res://assets/materials/shaders/animated_surge.gdshader" id="1_cy06m"]
 
 [resource]
-shader = ExtResource("1_fc21i")
+shader = ExtResource("1_cy06m")
 shader_parameter/scroll_speed = 0.5
 shader_parameter/glowing = 6.0
