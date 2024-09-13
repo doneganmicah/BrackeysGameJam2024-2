@@ -106,6 +106,8 @@ func _process(delta: float) -> void:
 
 
 func break_power():
+	if(power_status != ON): return
+	# TODO: Power Break noise
 	var index = rng.randi_range(0,2) 
 	switches[index].button_pressed = false
 	can_interact = true

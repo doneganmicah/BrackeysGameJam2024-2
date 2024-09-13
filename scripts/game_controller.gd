@@ -6,6 +6,11 @@ class_name GameController
 const UPLOAD_MAX_SPEED = 5 # Maximum value that the upload speed can be set to
 const MAX_GAME_TIME  = 600 # The maximum amount of time a round should last (10min)
 
+const LOSE_SURGE = 1
+const LOSE_BATTERY = 2
+const LOSE_TIME    = 3
+const LOSE_OTHER   = 4
+
 ################################################################################
 ##                                  Variables                                 ##
 ################################################################################
@@ -51,6 +56,9 @@ var time_since_last_strike = 0
 @export var attempt_door_max = 45 # Is the maximum amount of time between door openings
 var time_since_last_door = 0
 
+@export_subgroup("Power Surge")
+@export var spawn_chance_per_strike = 90
+
 @export_category("Control Nodes")
 @export var _player : Player        # Instance of the player
 @export var _interval_timer : Timer # This is the instance of the Timer node which triggers every seccond
@@ -59,6 +67,8 @@ var time_since_last_door = 0
 @export var haz_electrical_outage : BreakerBox # instance of the breaker box
 @export var haz_signal_integrity : Router # instance of the wifi router
 @export var haz_door_open : BackDoor # instance of the swinging back door
+@export var haz_power_surge : HazPowerSurge
+
 @export var time_txt : Label
 @export var perc_txt : Label
 
@@ -111,7 +121,7 @@ func update_progress():
 		return
 	# Time expired before upload finished
 	if(current_time >= end_time):
-		lose_game()
+		lose_game(LOSE_TIME)
 		return
 		
 	# DEBUG PRINTS
@@ -160,11 +170,14 @@ func update_progress():
 	var time_to_strike = map(storm_intensity, 0, 10, attempt_strike_max, attempt_strike_min)
 	attempt = rng.randi_range(0, 100)
 	var power_roll = rng.randi_range(0,100)
+	var surge_roll = rng.randi_range(0,100)
 	
 	# we reached the time to spawn, so spawn and reset the attempt timer
 	if (time_since_last_strike >= time_to_strike):
 		print("Lightning Struck")
 		haz_electrical_outage.draw_lightning = true
+		if(surge_roll <= spawn_chance_per_strike):
+			haz_power_surge.create_surge()
 		if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
 			haz_electrical_outage.break_power()
 		time_since_last_strike = 0
@@ -173,6 +186,8 @@ func update_progress():
 		if attempt < map((time_since_last_strike / time_to_strike * 100), 0, 100, 0, 45):
 			print("Lightning Struck")
 			haz_electrical_outage.draw_lightning = true
+			if(surge_roll <= spawn_chance_per_strike):
+				haz_power_surge.create_surge()
 			if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
 				haz_electrical_outage.break_power()
 			time_since_last_strike = 0
@@ -197,16 +212,18 @@ func update_progress():
 	haz_water_leak.haz_tick() # Tick the water leak hazard
 	haz_signal_integrity.haz_tick(storm_intensity) # Tick the signal integrity hazard
 	haz_door_open.haz_tick()
+	haz_power_surge.haz_tick(storm_intensity)
 	
 	
 # A game winning condition has been met.
 func win_game():
 	print("The game has been won")
+	perc_txt.text = "Win!"
 	stop_game()
 
 # A game losing condition has been met.
-func lose_game():
-	print("The game has been lost")
+func lose_game(lose : int):
+	perc_txt.text = "Lose! {reason}".format({"reason": lose})
 	stop_game()
 	
 # Return the current time of the game as a string interpolated between 11:50pm and 12:00am

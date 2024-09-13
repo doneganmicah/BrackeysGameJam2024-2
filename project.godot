@@ -67,3 +67,4 @@ player_special={
 
 textures/canvas_textures/default_texture_filter=0
 environment/defaults/default_clear_color=Color(0.0156863, 0, 0.145098, 1)
+viewport/hdr_2d=true

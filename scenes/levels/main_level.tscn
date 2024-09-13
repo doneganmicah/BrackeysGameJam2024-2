@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://der71mcenrvbo" path="res://assets/beds_shadow.png" id="6_ricoc"]
 [ext_resource type="Texture2D" uid="uid://xmapq8mnsixu" path="res://assets/decorations.png" id="7_632yp"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kh2i1"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6hvtg"]
 texture = ExtResource("1_5jao3")
 2:0/0 = 0
 3:0/0 = 0
@@ -1509,9 +1509,9 @@ texture = ExtResource("1_5jao3")
 6:50/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_b4gr2"]
-sources/2 = SubResource("TileSetAtlasSource_kh2i1")
+sources/2 = SubResource("TileSetAtlasSource_6hvtg")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_63e68"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t6yoa"]
 texture = ExtResource("1_5jao3")
 2:0/0 = 0
 3:0/0 = 0
@@ -3032,12 +3032,12 @@ texture = ExtResource("1_5jao3")
 
 [sub_resource type="TileSet" id="TileSet_gk4vl"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_63e68")
+sources/0 = SubResource("TileSetAtlasSource_t6yoa")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmw0v"]
 size = Vector2(169, 9)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r1ri8"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rcitb"]
 texture = ExtResource("3_mmnfi")
 0:0/0 = 0
 0:0/0/z_index = 2
@@ -4032,7 +4032,7 @@ texture = ExtResource("3_mmnfi")
 7:17/0 = 0
 7:17/0/z_index = 2
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xjaxa"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nqmjn"]
 texture = ExtResource("4_r774o")
 2:0/0 = 0
 5:0/0 = 0
@@ -4523,8 +4523,8 @@ texture = ExtResource("4_r774o")
 
 [sub_resource type="TileSet" id="TileSet_ggl4u"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_r1ri8")
-sources/2 = SubResource("TileSetAtlasSource_xjaxa")
+sources/0 = SubResource("TileSetAtlasSource_rcitb")
+sources/2 = SubResource("TileSetAtlasSource_nqmjn")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5iy5"]
 size = Vector2(30, 17)
