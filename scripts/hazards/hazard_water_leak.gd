@@ -25,6 +25,10 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 @export var puddle_br : AnimatedSprite2D # The puggle in the bottom right of the rug
 @export var puddle_tl : AnimatedSprite2D # The puddle in the top    left  of the rug
 @export var puddle_bl : AnimatedSprite2D # The puddle in the bottom left  of the rug
+@export var particle_tr : CPUParticles2D
+@export var particle_br : CPUParticles2D
+@export var particle_tl : CPUParticles2D
+@export var particle_bl : CPUParticles2D
 
 var game_controller : GameController: # instance of the game controller
 	set(value): game_controller = value
@@ -35,7 +39,7 @@ var rng = RandomNumberGenerator.new()
 # Called when the node is created
 func _ready() -> void:
 	rng.set_seed(Time.get_ticks_usec())
-	puddles = [Puddle.new(PUDDLE_TR, self, puddle_tr), Puddle.new(PUDDLE_BR, self, puddle_br),Puddle.new(PUDDLE_TL, self, puddle_tl),Puddle.new(PUDDLE_BL, self, puddle_bl)]
+	puddles = [Puddle.new(PUDDLE_TR, self, puddle_tr, particle_tr), Puddle.new(PUDDLE_BR, self, puddle_br, particle_br),Puddle.new(PUDDLE_TL, self, puddle_tl, particle_tl),Puddle.new(PUDDLE_BL, self, puddle_bl, particle_bl)]
 	
 # called to tick hazard events
 func haz_tick():
@@ -97,12 +101,14 @@ class Puddle:
 	var leaking = false         # Am I leaking?
 	var haz : HazWaterLeak     # Instance of the hazard
 	var puddle_sprite : AnimatedSprite2D
+	var puddle_particle : CPUParticles2D
 	
 	# Constructor
-	func _init(puddle_id, hazard : HazWaterLeak, sprite : AnimatedSprite2D) -> void:
+	func _init(puddle_id, hazard : HazWaterLeak, sprite : AnimatedSprite2D, particle : CPUParticles2D) -> void:
 		self.id = puddle_id
 		self.haz = hazard
 		self.puddle_sprite = sprite
+		self.puddle_particle = particle
 		@warning_ignore("integer_division") # The integer division is the intended behavior
 		puddle_grow_speed   = haz.puddle_target / haz.time_till_puddle_kills
 		@warning_ignore("integer_division") # The integer division is the intended behavior
@@ -112,10 +118,14 @@ class Puddle:
 	func tick():
 		#debug print
 		#if(leaking):
-			#print("Puddle {id}".format({"id": puddle_id}))
+			#print("Puddle {id}".format({"id": id}))
 			#print("Bucket: {b}".format({"b": bucketed}))
 			#print("{pp}/{pt}".format({"pp": puddle_progression, "pt": haz.puddle_target}))
 		
+		if(leaking): puddle_particle.emitting = true
+		else: puddle_particle.emitting = false
+		
+		puddle_size = clamp(haz.game_controller.map(puddle_progression, 0, haz.puddle_target, 0, haz.puddle_max_size), 0, haz.puddle_max_size - 1)
 		# update the puddle progressions
 		if(bucketed or !leaking): # Start recessing
 			puddle_progression = clamp(puddle_progression - puddle_shrink_speed, 0, haz.puddle_target)
@@ -124,7 +134,9 @@ class Puddle:
 			# Has the puddle maxxed and overflowed
 			if(puddle_progression >= haz.puddle_target):
 				haz.puddle_overflowed(id)
-		
+				puddle_sprite.set_frame(haz.puddle_max_size)
+			else:
+				puddle_sprite.set_frame(puddle_size)
 		# update the puddle sprite  # also this line is pain just let me create a util class and let me include that its not that hard i dont want to have to write the same funciton in every class or do weird object chaining or write global scene scripts have to load them and pull from that with children. I just want to include util.gd thats all.
-		puddle_size = clamp(haz.game_controller.map(puddle_progression, 0, haz.puddle_target, 0, haz.puddle_max_size), 0, haz.puddle_max_size)
-		puddle_sprite.set_frame(puddle_size)
+		
+		

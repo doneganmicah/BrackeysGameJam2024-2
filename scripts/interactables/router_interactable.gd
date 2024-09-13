@@ -9,6 +9,7 @@ func interact() -> void:
 	# tho probably not a terrible thing since nothing else will be happening on that thread
 	# ¯\_(ツ)_/¯
 	# if interact available
+	print("Interacting Router")
 	_flag_interacted = true
 #endregion
 ################################################################################
@@ -52,7 +53,9 @@ var _flag_interacted  = false
 var playing_dial      = false
 var dial_direction    = RIGHT
 var button_flag = false
+var already_interacted = false
 var storm_intensity = 0
+var kick_flag = false
 var rng = RandomNumberGenerator.new()
 
 ################################################################################
@@ -61,7 +64,7 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rng.set_seed(Time.get_ticks_usec())
-	can_interact = true
+	can_interact = false
 
 # Called every phys sim frame fixed to 60 sim calls from the engine per second
 func _physics_process(delta: float) -> void:
@@ -69,17 +72,17 @@ func _physics_process(delta: float) -> void:
 	# If the game is open we will play the dial animation
 	if(playing_dial):
 		# Lets space also work
-		if(Input.is_action_just_pressed("player_special") or Input.is_action_just_pressed("player_interact") or button_flag):
+		if(Input.is_action_just_pressed("player_special") or button_flag):
+			playing_dial = false
 			# Evaluate game state
 			kick()
-		
+			
 		# Flip direction of dial
 		if(dial.rotation_degrees >= DIAL_MAX_DEG): dial_direction = LEFT
 		elif(dial.rotation_degrees <= DIAL_MIN_DEG): dial_direction = RIGHT
-		
+
 		# Update dial position
 		dial.rotation_degrees = clamp(dial.rotation_degrees + (dial_speed * dial_direction), DIAL_MIN_DEG, DIAL_MAX_DEG)
-	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -98,10 +101,11 @@ func haz_tick(storm_intensity):
 	signal_integrity = clamp(signal_integrity - current_degradation, 0, SIGNAL_MAX)
 	
 	if(signal_integrity < SIGNAL_BEGIN_FAIL):
-		can_interact = true
+		if(!already_interacted): can_interact = true
 		# TODO This is where youll need to call to change the router colors
 		placeholde_light.color = Color(game_controller.map(signal_integrity, SIGNAL_BEGIN_FAIL, 0, 0.833, 1),game_controller.map(signal_integrity, SIGNAL_BEGIN_FAIL, 0, 0.833, 0) ,0)
 	else:
+		can_interact = false
 		placeholde_light.color = Color(0,0.663,0)
 		
 	if(signal_integrity > 0):
@@ -128,26 +132,32 @@ func open_ui():
 	playing_dial = true
 	_player.can_move = false
 	can_interact = false
+	already_interacted = true
 	dial_ui.visible = true
 
 func close_ui():
 	_player.can_move = true
-	can_interact = true # wait until the router falls below the first speed reduction
+	already_interacted = false
+	can_interact = false # wait until the router falls below the first speed reduction
 	dial_ui.visible = false
 	
 # Kick the router, Evaluate and score
 func kick():
 	print("Kicking")
 	playing_dial = false
+	var qte_hit = false
 	if dial_area.has_overlapping_areas():
 		for area : Area2D in dial_area.get_overlapping_areas():
 			if(area.is_in_group("dial_green")):
-				print("You Hit Green!")
+				
+				qte_hit = true
 				signal_integrity = SIGNAL_MAX
-				await get_tree().create_timer(0.75).timeout
-				close_ui()
+	if(qte_hit):
+		print("You Hit Green!")
+		await get_tree().create_timer(0.75).timeout
+		close_ui()	
 	else:
-		print("You Hit Red!")
+		print("You Hit Red")
 		await get_tree().create_timer(0.75).timeout
 		playing_dial = true
 

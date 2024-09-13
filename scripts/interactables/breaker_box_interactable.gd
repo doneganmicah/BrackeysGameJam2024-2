@@ -32,6 +32,7 @@ const       OFF = 0 # When the electrical grid is disconnected
 @export var btn_right : CheckButton
 @export var btn_center : CheckButton
 @export var temp_control : Control
+@export var main_light   : PointLight2D
 
 # local variables
 var switches = []
@@ -89,9 +90,15 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	var _unused = delta # remove unused var warning
 	# Enable interaction when power goes off 
-	if(power_status == ON):    can_interact = false
-	elif(power_status == OFF): can_interact = true
-	else:                      can_interact = false
+	if(power_status == ON):    
+		can_interact = false
+		main_light.enabled = true
+	elif(power_status == OFF): 
+		can_interact = true
+		main_light.enabled = false
+	else:                      
+		can_interact = false
+		main_light.enabled = false
 	
 	if _flag_interacted:
 		run_switch()
