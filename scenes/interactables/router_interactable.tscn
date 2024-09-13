@@ -43,7 +43,7 @@ placeholde_light = NodePath("Polygon2D")
 
 [node name="CollisionShape2D" parent="." index="0"]
 z_index = 9
-position = Vector2(-3, 8)
+position = Vector2(-2, 6)
 shape = SubResource("CircleShape2D_xudu6")
 
 [node name="AnimatedSprite2D" parent="." index="1"]

@@ -36,7 +36,7 @@ const RIGHT = 1
 @export var dial_speed_sec : float  = 225.0 # Speed of the dial in deg/sec
 var dial_speed : float = dial_speed_sec / 60.0 # Converted to deg per physim emulation per seconds
 
-@export var current_degradation = SIGNAL_MAX / degrade_time_max
+var current_degradation = SIGNAL_MAX / degrade_time_max
 
 @export_category("Hazard Nodes")
 @export var game_controller : GameController

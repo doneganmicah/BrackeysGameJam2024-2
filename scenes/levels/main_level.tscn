@@ -1,12 +1,32 @@
-[gd_scene load_steps=20 format=4 uid="uid://dnim4fe2dgi75"]
+[gd_scene load_steps=30 format=4 uid="uid://dnim4fe2dgi75"]
 
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="1_5jao3"]
+[ext_resource type="PackedScene" uid="uid://da02dp4q3ytht" path="res://scenes/hazards/world_environment.tscn" id="1_cvov4"]
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_vj1d1"]
+[ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="2_f0sis"]
 [ext_resource type="Texture2D" uid="uid://os0yetgkqd22" path="res://assets/rugs.png" id="3_mmnfi"]
 [ext_resource type="Texture2D" uid="uid://yprt4y6dg0iw" path="res://assets/tables_shadow.png" id="4_r774o"]
 [ext_resource type="Texture2D" uid="uid://cc8umfmjshmk7" path="res://assets/kitchen_tiles.png" id="5_vf8aj"]
 [ext_resource type="Texture2D" uid="uid://der71mcenrvbo" path="res://assets/beds_shadow.png" id="6_ricoc"]
 [ext_resource type="Texture2D" uid="uid://xmapq8mnsixu" path="res://assets/decorations.png" id="7_632yp"]
+[ext_resource type="PackedScene" uid="uid://etrlvf0qycc6" path="res://scenes/hazards/game_handler.tscn" id="8_x678y"]
+[ext_resource type="PackedScene" uid="uid://cfa8s1lrnoc7v" path="res://scenes/hazards/hazard_power_surge.tscn" id="9_7jekq"]
+[ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="10_nq0x6"]
+[ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="11_4uxlb"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
+[ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="13_4ra7d"]
+
+[sub_resource type="Gradient" id="Gradient_npgfg"]
+offsets = PackedFloat32Array(0.140562, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5ha6e"]
+gradient = SubResource("Gradient_npgfg")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.487179, 0.512821)
+fill_to = Vector2(0.034188, 0.0213675)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6hvtg"]
 texture = ExtResource("1_5jao3")
@@ -4540,11 +4560,34 @@ size = Vector2(14, 9)
 
 [node name="MainLevel" type="Node2D"]
 
+[node name="WorldEnvironment" parent="." instance=ExtResource("1_cvov4")]
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="WorldEnvironment"]
+color = Color(0.787551, 0.86201, 0.491636, 1)
+blend_mode = 1
+
+[node name="MainLightTemp" type="PointLight2D" parent="WorldEnvironment"]
+position = Vector2(-3.93391e-06, 4.5)
+scale = Vector2(0.757813, 0.683594)
+energy = 1.4
+blend_mode = 2
+texture = SubResource("GradientTexture2D_5ha6e")
+
+[node name="GlowLight_AffectsLightMask11" type="PointLight2D" parent="WorldEnvironment"]
+light_mask = 0
+visibility_layer = 0
+scale = Vector2(16.3789, 13.8418)
+energy = 1.4
+blend_mode = 2
+range_item_cull_mask = 1024
+texture = ExtResource("2_f0sis")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -10)
 zoom = Vector2(4, 4)
 
 [node name="Player" parent="." instance=ExtResource("1_vj1d1")]
+position = Vector2(0, 38)
 
 [node name="Tilemaps" type="Node" parent="."]
 
@@ -4742,3 +4785,35 @@ region_rect = Rect2(48, 0, 16, 32)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Furniture/Plant/StaticBody2D"]
 position = Vector2(0, 12.5)
 shape = SubResource("RectangleShape2D_nacew")
+
+[node name="Game Mechanics" type="Node" parent="."]
+
+[node name="GameHandler" parent="Game Mechanics" node_paths=PackedStringArray("_player", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge") instance=ExtResource("8_x678y")]
+_player = NodePath("../../Player")
+haz_water_leak = NodePath("../HazardWaterLeak")
+haz_electrical_outage = NodePath("../breaker_box_interactable")
+haz_signal_integrity = NodePath("../router_interactable")
+haz_door_open = NodePath("../door_interactable")
+haz_power_surge = NodePath("../HazardPowerSurge")
+
+[node name="HazardPowerSurge" parent="Game Mechanics" node_paths=PackedStringArray("game_controller") instance=ExtResource("9_7jekq")]
+game_controller = NodePath("../GameHandler")
+
+[node name="HazardWaterLeak" parent="Game Mechanics" node_paths=PackedStringArray("breaker_box") instance=ExtResource("10_nq0x6")]
+position = Vector2(0, 3)
+breaker_box = NodePath("../breaker_box_interactable")
+
+[node name="breaker_box_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller", "main_light") instance=ExtResource("11_4uxlb")]
+position = Vector2(-80, 12)
+game_controller = NodePath("../GameHandler")
+main_light = NodePath("../../WorldEnvironment/MainLightTemp")
+
+[node name="door_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller", "breaker_box") instance=ExtResource("12_wt1xp")]
+z_index = 3
+position = Vector2(40, -65)
+game_controller = NodePath("../GameHandler")
+breaker_box = NodePath("../breaker_box_interactable")
+
+[node name="router_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller") instance=ExtResource("13_4ra7d")]
+position = Vector2(73, -54)
+game_controller = NodePath("../GameHandler")

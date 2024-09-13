@@ -20,7 +20,7 @@ const NUMBER_FRAMES = 6
 ##                                  Variables                                 ##
 ################################################################################
 @export_category("Hazard Settings")
-@export var time_till_puddle_kills = 10
+@export var time_till_puddle_kills = 20
 @export var time_till_puddle_recesses = 25
 @export var puddle_target = 500
 

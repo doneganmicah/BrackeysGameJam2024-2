@@ -1,31 +1,14 @@
-[gd_scene load_steps=16 format=4 uid="uid://c7t6obuvy83ui"]
+[gd_scene load_steps=12 format=4 uid="uid://c7t6obuvy83ui"]
 
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_03mbu"]
-[ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_jutxf"]
-[ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="1_n1kr4"]
+[ext_resource type="PackedScene" uid="uid://da02dp4q3ytht" path="res://scenes/hazards/world_environment.tscn" id="1_wdf4g"]
 [ext_resource type="Texture2D" uid="uid://ce2dm51tinu22" path="res://assets/placeholder_assets/LevelBlocking.png" id="2_kjxbd"]
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="3_rvoox"]
+[ext_resource type="PackedScene" uid="uid://etrlvf0qycc6" path="res://scenes/hazards/game_handler.tscn" id="4_ls44y"]
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="5_1ocpd"]
 [ext_resource type="PackedScene" uid="uid://cfa8s1lrnoc7v" path="res://scenes/hazards/hazard_power_surge.tscn" id="5_vy72o"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="6_d2he6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="7_scnk1"]
-
-[sub_resource type="Environment" id="Environment_ir1o5"]
-background_mode = 3
-glow_enabled = true
-glow_blend_mode = 1
-
-[sub_resource type="Gradient" id="Gradient_npgfg"]
-offsets = PackedFloat32Array(0.140562, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3uwqy"]
-gradient = SubResource("Gradient_npgfg")
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2(0.487179, 0.512821)
-fill_to = Vector2(0.034188, 0.0213675)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c8tq5"]
 texture = ExtResource("2_kjxbd")
@@ -59,35 +42,10 @@ texture = ExtResource("2_kjxbd")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_c8tq5")
 
-[sub_resource type="GDScript" id="GDScript_tcg43"]
-script/source = "extends Timer
-"
-
 [node name="LevelProto" type="Node2D"]
 y_sort_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ir1o5")
-
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="WorldEnvironment"]
-color = Color(0.787551, 0.86201, 0.491636, 1)
-blend_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="WorldEnvironment"]
-position = Vector2(-3.93391e-06, 4.5)
-scale = Vector2(0.757813, 0.683594)
-energy = 1.4
-blend_mode = 2
-texture = SubResource("GradientTexture2D_3uwqy")
-
-[node name="PointLight2D2" type="PointLight2D" parent="WorldEnvironment"]
-light_mask = 0
-visibility_layer = 0
-scale = Vector2(16.3789, 13.8418)
-energy = 1.4
-blend_mode = 2
-range_item_cull_mask = 1024
-texture = ExtResource("1_n1kr4")
+[node name="WorldEnvironment" parent="." instance=ExtResource("1_wdf4g")]
 
 [node name="Player" parent="." instance=ExtResource("1_03mbu")]
 
@@ -202,50 +160,7 @@ scale = Vector2(0.125, 0.35)
 color = Color(1, 0.654902, 0, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
-[node name="GameHandler" type="Node" parent="." node_paths=PackedStringArray("_player", "_interval_timer", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge", "time_txt", "perc_txt")]
-script = ExtResource("1_jutxf")
-attempt_leak_min = 20
-attempt_leak_max = 60
-attempt_strike_min = 5
-outage_chance = 10
-attempt_door_min = 20
-attempt_door_max = 60
-_player = NodePath("../Player")
-_interval_timer = NodePath("Timer")
-haz_water_leak = NodePath("../HazardWaterLeak")
-haz_electrical_outage = NodePath("../breaker_box_interactable")
-haz_signal_integrity = NodePath("../router_interactable")
-haz_door_open = NodePath("../door_interactable")
-haz_power_surge = NodePath("../HazardPowerSurge")
-time_txt = NodePath("Control/Label")
-perc_txt = NodePath("Control/Label2")
-
-[node name="Timer" type="Timer" parent="GameHandler"]
-script = SubResource("GDScript_tcg43")
-
-[node name="Control" type="Control" parent="GameHandler"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 16.0
-offset_top = 17.0
-offset_right = 23.0
-offset_bottom = 40.0
-
-[node name="Label" type="Label" parent="GameHandler/Control"]
-layout_mode = 0
-offset_left = -182.0
-offset_top = -70.0
-offset_right = -131.0
-offset_bottom = -47.0
-text = "{Time}"
-
-[node name="Label2" type="Label" parent="GameHandler/Control"]
-layout_mode = 0
-offset_left = -184.0
-offset_top = -46.0
-offset_right = -91.0
-offset_bottom = 32.0
-text = "{perc}"
+[node name="GameHandler" parent="." instance=ExtResource("4_ls44y")]
 
 [node name="HazardWaterLeak" parent="." node_paths=PackedStringArray("breaker_box") instance=ExtResource("3_rvoox")]
 position = Vector2(0, 3)
@@ -253,26 +168,17 @@ time_till_puddle_kills = 20
 time_till_puddle_recesses = 35
 breaker_box = NodePath("../breaker_box_interactable")
 
-[node name="HazardPowerSurge" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("5_vy72o")]
-time_till_kills_max = 15.0
-time_till_kills_min = 8.0
-game_controller = NodePath("../GameHandler")
+[node name="HazardPowerSurge" parent="." instance=ExtResource("5_vy72o")]
 
-[node name="breaker_box_interactable" parent="." node_paths=PackedStringArray("game_controller", "main_light") instance=ExtResource("5_1ocpd")]
+[node name="breaker_box_interactable" parent="." instance=ExtResource("5_1ocpd")]
 y_sort_enabled = true
 position = Vector2(-76, 14)
-game_controller = NodePath("../GameHandler")
-main_light = NodePath("../WorldEnvironment/PointLight2D")
 
-[node name="router_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("6_d2he6")]
+[node name="router_interactable" parent="." instance=ExtResource("6_d2he6")]
 position = Vector2(72, -45)
-game_controller = NodePath("../GameHandler")
 
-[node name="door_interactable" parent="." node_paths=PackedStringArray("game_controller", "breaker_box") instance=ExtResource("7_scnk1")]
+[node name="door_interactable" parent="." node_paths=PackedStringArray("breaker_box") instance=ExtResource("7_scnk1")]
 z_index = 9
 position = Vector2(24, -63)
 time_till_puddle_kills = 20
-game_controller = NodePath("../GameHandler")
 breaker_box = NodePath("../breaker_box_interactable")
-
-[connection signal="timeout" from="GameHandler/Timer" to="GameHandler" method="_on_timer_timeout"]

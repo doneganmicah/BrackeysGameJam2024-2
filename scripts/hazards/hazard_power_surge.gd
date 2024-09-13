@@ -9,8 +9,8 @@ class_name HazPowerSurge
 ##                                  Variables                                 ##
 ################################################################################
 @export_category("Hazard Settings")
-@export var time_till_kills_max = 45.0
-@export var time_till_kills_min = 15.0
+@export var time_till_kills_max = 15.0
+@export var time_till_kills_min = 8.0
 var surge_speed_min = 100.0 / time_till_kills_max
 var surge_speed_max = 100.0 / time_till_kills_min
 var surge_speed = 0.0 

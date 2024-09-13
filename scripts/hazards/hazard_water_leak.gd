@@ -14,9 +14,9 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 ################################################################################
 @export_category("Hazard Settings")
 @export var time_till_puddle_kills    = 15 # The time in seconds for a puddle to KILL (from start)
-@export var time_till_puddle_recesses = 30 # The time in seconds for a puddle to shrink (from full)
+@export var time_till_puddle_recesses = 35 # The time in seconds for a puddle to shrink (from full)
 @export var puddle_max_size = 4
-@export var puddle_target = 500
+@export var puddle_target = 600
 @export var chance_no_drip = 10 # The percent chance that leaking stops and or doesnt start
 
 @export_category("Hazard Nodes")

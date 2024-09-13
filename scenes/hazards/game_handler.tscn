@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://etrlvf0qycc6"]
+
+[ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_mqg1m"]
+
+[sub_resource type="GDScript" id="GDScript_tcg43"]
+script/source = "extends Timer
+"
+
+[node name="GameHandler" type="Node" node_paths=PackedStringArray("_interval_timer", "time_txt", "perc_txt")]
+script = ExtResource("1_mqg1m")
+attempt_leak_min = 20
+attempt_leak_max = 60
+attempt_strike_min = 5
+outage_chance = 10
+attempt_door_min = 20
+attempt_door_max = 60
+_interval_timer = NodePath("Timer")
+time_txt = NodePath("Control/Label")
+perc_txt = NodePath("Control/Label2")
+
+[node name="Timer" type="Timer" parent="."]
+script = SubResource("GDScript_tcg43")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 17.0
+offset_right = 23.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -182.0
+offset_top = -70.0
+offset_right = -131.0
+offset_bottom = -47.0
+text = "{Time}"
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -46.0
+offset_right = -91.0
+offset_bottom = 32.0
+text = "{perc}"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -103,8 +103,6 @@ radius = 5.0
 z_index = 10
 y_sort_enabled = true
 script = ExtResource("1_qhabx")
-time_till_puddle_recesses = 600
-puddle_target = 600
 puddle_tr = NodePath("Puddles/Puddle top right/Sprite top right")
 puddle_br = NodePath("Puddles/Puddle bottom right/Sprite bot right")
 puddle_tl = NodePath("Puddles/Puddle top left/Sprite top left")
@@ -278,40 +276,6 @@ texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
-
-[node name="PowerStrips" type="Node" parent="."]
-
-[node name="Strip1" type="Polygon2D" parent="PowerStrips"]
-z_index = 2
-position = Vector2(-50, 14)
-rotation = -0.590766
-scale = Vector2(0.125, 0.35)
-color = Color(1, 0.654902, 0, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
-
-[node name="Strip2" type="Polygon2D" parent="PowerStrips"]
-z_index = 2
-position = Vector2(-24, -17)
-rotation = -0.157832
-scale = Vector2(0.125, 0.35)
-color = Color(1, 0.654902, 0, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
-
-[node name="Strip3" type="Polygon2D" parent="PowerStrips"]
-z_index = 2
-position = Vector2(44, -15)
-rotation = 0.37193
-scale = Vector2(0.125, 0.35)
-color = Color(1, 0.654902, 0, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
-
-[node name="Strip4" type="Polygon2D" parent="PowerStrips"]
-z_index = 2
-position = Vector2(51, 22)
-rotation = 0.67993
-scale = Vector2(0.125, 0.35)
-color = Color(1, 0.654902, 0, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [connection signal="area_entered" from="Puddles/Puddle top left" to="." method="_on_puddle_area_entered" binds= [3]]
 [connection signal="area_exited" from="Puddles/Puddle top left" to="." method="_on_puddle_area_exited" binds= [3]]
