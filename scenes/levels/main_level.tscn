@@ -18,7 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="11_4uxlb"]
 [ext_resource type="PackedScene" uid="uid://swju2vsfad13" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="13_4ra7d"]
-[ext_resource type="PackedScene" uid="uid://drf4uhcn5yh4q" path="res://scenes/hazards/upload_bar.tscn" id="16_b8rcf"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/upload_bar.tscn" id="16_b8rcf"]
+[ext_resource type="PackedScene" uid="uid://b4ddm3le7ph1t" path="res://scenes/audio_manager.tscn" id="19_74561"]
 
 [sub_resource type="Gradient" id="Gradient_npgfg"]
 offsets = PackedFloat32Array(0.140562, 1)
@@ -4825,9 +4826,10 @@ region_rect = Rect2(48, 0, 16, 32)
 position = Vector2(0, 12.5)
 shape = SubResource("RectangleShape2D_nacew")
 
-[node name="GameHandler" parent="." node_paths=PackedStringArray("upload_bar", "_player", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge") instance=ExtResource("8_x678y")]
+[node name="GameHandler" parent="." node_paths=PackedStringArray("upload_bar", "_player", "audio_manager", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge") instance=ExtResource("8_x678y")]
 upload_bar = NodePath("../UploadBar")
 _player = NodePath("../Player")
+audio_manager = NodePath("../AudioManager")
 haz_water_leak = NodePath("../HazardWaterLeak")
 haz_electrical_outage = NodePath("../breaker_box_interactable")
 haz_signal_integrity = NodePath("../router_interactable")
@@ -4867,3 +4869,5 @@ game_controller = NodePath("../GameHandler")
 unique_name_in_owner = true
 z_index = 19
 position = Vector2(0, -93)
+
+[node name="AudioManager" parent="." instance=ExtResource("19_74561")]
