@@ -63,6 +63,7 @@ var time_since_last_door = 0
 @export_category("Control Nodes")
 @export var _player : Player        # Instance of the player
 @export var _interval_timer : Timer # This is the instance of the Timer node which triggers every seccond
+@export var audio_manager : AudioManager
 @export_group("Hazards")
 @export var haz_water_leak : HazWaterLeak # instance of HazWaterLeak
 @export var haz_electrical_outage : BreakerBox # instance of the breaker box
@@ -84,9 +85,8 @@ var attempt = 0         # A random number
 ################################################################################
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	haz_water_leak.game_controller =  self as GameController
+	haz_water_leak.game_controller = self as GameController
 	upload_bar.hide()
-	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -98,6 +98,7 @@ func _process(delta: float) -> void:
 # This function is used to start the game round
 func start_game() -> void:
 	print("starting game")
+	audio_manager.start_ph2()
 	_player.can_move = true
 	rng.set_seed(Time.get_ticks_usec())
 	_interval_timer.start() # Start the timer
@@ -127,18 +128,23 @@ func update_progress():
 	if(current_time >= end_time):
 		lose_game(LOSE_TIME)
 		return
-		
-	# DEBUG PRINTS
-	print("Upload Progress:")
-	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
-	#NOTICE MICAH, This is probably where you want to put the draw_upload_bar() function call
-	# map(a,b,c,d,e) will be your friend
-	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
+	
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
 	var upload_bar_progression = map(float(upload_progression), 0.0, float(upload_target), 0.0, 1.0)
 	upload_bar.get_node('Label').text = "{perc}%".format({"perc": percent})
 	upload_bar.get_node('Bar').material.set_shader_parameter('health', upload_bar_progression)
-	#print("{perc}%".format({"perc": percent }))
+	
+	if(percent >= 90):
+		audio_manager.start_ph5()
+	elif(percent >= 50):
+		audio_manager.start_ph4()
+	elif(percent >= 20):
+		audio_manager.start_ph3()
+		
+	
+	# DEBUG PRINTS
+	print("Upload Progress:")
+	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
 	print("Upload Speed: {sp}".format({"sp": upload_speed}))
 	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
 	#print("Degrading at: {de}".format({"de": haz_signal_integrity.current_degradation}))
