@@ -127,6 +127,9 @@ func update_progress():
 	# DEBUG PRINTS
 	#print("Upload Progress:")
 	#print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
+	#NOTICE MICAH, This is probably where you want to put the draw_upload_bar() function call
+	# map(a,b,c,d,e) will be your friend
+	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
 	perc_txt.text = "{perc}%".format({"perc": percent})
 	time_txt.text = get_clock_time()
