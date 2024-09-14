@@ -100,7 +100,6 @@ radius = 5.0
 radius = 5.0
 
 [node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl", "particle_tr", "particle_br", "particle_tl", "particle_bl")]
-z_index = 10
 y_sort_enabled = true
 script = ExtResource("1_qhabx")
 puddle_tr = NodePath("Puddles/Puddle top right/Sprite top right")
@@ -130,6 +129,7 @@ shape = SubResource("RectangleShape2D_ivmgs")
 one_way_collision_margin = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bucket"]
+z_index = 10
 y_sort_enabled = true
 position = Vector2(0, 1)
 scale = Vector2(0.6, 0.6)

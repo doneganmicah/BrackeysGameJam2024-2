@@ -32,7 +32,9 @@ const NUMBER_FRAMES = 6
 
 # local variables
 var _flag_interacted = false
+@warning_ignore("integer_division") # The integer division is the intended behavior
 var puddle_grow_speed   = puddle_target / time_till_puddle_kills
+@warning_ignore("integer_division") # The integer division is the intended behavior
 var puddle_shrink_speed = puddle_target / time_till_puddle_recesses
 var puddle_progression = 0
 var door_open = false
@@ -44,9 +46,10 @@ var door_open = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	can_interact = false
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	var _unused = delta
 	if _flag_interacted:
 		swing_close()
 		_flag_interacted = false

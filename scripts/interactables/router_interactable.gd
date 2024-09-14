@@ -35,7 +35,7 @@ const RIGHT = 1
 @export var degrade_time_min = 15
 @export var dial_speed_sec : float  = 225.0 # Speed of the dial in deg/sec
 var dial_speed : float = dial_speed_sec / 60.0 # Converted to deg per physim emulation per seconds
-
+@warning_ignore("integer_division") # The integer division is the intended behavior
 var current_degradation = SIGNAL_MAX / degrade_time_max
 
 @export_category("Hazard Nodes")
@@ -92,8 +92,8 @@ func _process(delta: float) -> void:
 		_flag_interacted = false
 
 # Called to tick hazard events
-func haz_tick(storm_intensity):
-	self.storm_intensity = storm_intensity
+func haz_tick(intensity):
+	self.storm_intensity = intensity
 	# recalculate degradation speed based on storm intensity 
 	current_degradation = SIGNAL_MAX / game_controller.map(storm_intensity, 0, 10, degrade_time_max, degrade_time_min)
 	

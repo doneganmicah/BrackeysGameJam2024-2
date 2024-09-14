@@ -86,7 +86,6 @@ var attempt = 0         # A random number
 func _ready() -> void:
 	haz_water_leak.game_controller =  self as GameController
 	upload_bar.hide()
-	start_game() # will be called by player at some point
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -99,6 +98,7 @@ func _process(delta: float) -> void:
 # This function is used to start the game round
 func start_game() -> void:
 	print("starting game")
+	_player.can_move = true
 	rng.set_seed(Time.get_ticks_usec())
 	_interval_timer.start() # Start the timer
 	upload_bar.get_node('Bar').material.set_shader_parameter('health', 0.0)
@@ -129,19 +129,17 @@ func update_progress():
 		return
 		
 	# DEBUG PRINTS
-	#print("Upload Progress:")
-	#print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
+	print("Upload Progress:")
+	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
 	#NOTICE MICAH, This is probably where you want to put the draw_upload_bar() function call
 	# map(a,b,c,d,e) will be your friend
 	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
 	var upload_bar_progression = map(float(upload_progression), 0.0, float(upload_target), 0.0, 1.0)
-	perc_txt.text = "{perc}%".format({"perc": percent})
-	time_txt.text = get_clock_time()
 	upload_bar.get_node('Label').text = "{perc}%".format({"perc": percent})
 	upload_bar.get_node('Bar').material.set_shader_parameter('health', upload_bar_progression)
 	#print("{perc}%".format({"perc": percent }))
-	#print("Upload Speed: {sp}".format({"sp": upload_speed}))
+	print("Upload Speed: {sp}".format({"sp": upload_speed}))
 	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
 	#print("Degrading at: {de}".format({"de": haz_signal_integrity.current_degradation}))
 	#print("Game Time:")
@@ -228,13 +226,12 @@ func update_progress():
 # A game winning condition has been met.
 func win_game():
 	print("The game has been won")
-	perc_txt.text = "Win!"
 	upload_bar.get_node('Label').text = "100%"
 	stop_game()
 
 # A game losing condition has been met.
 func lose_game(lose : int):
-	perc_txt.text = "Lose! {reason}".format({"reason": lose})
+	#perc_txt.text = "Lose! {reason}".format({"reason": lose})
 	stop_game()
 	
 # Return the current time of the game as a string interpolated between 11:50pm and 12:00am

@@ -3,7 +3,7 @@ class_name Player
 
 @export var speed = 50.0
 @export var push_force = 5
-@export var can_move = true:
+@export var can_move = false:
 	set(value): can_move = value
 	get: return can_move
 
