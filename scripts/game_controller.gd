@@ -30,6 +30,7 @@ const LOSE_OTHER   = 4
 @export var upload_interupted = false: # flag for when the signal is so weak that the upload has stopped
 	get: return upload_interupted
 	set(value): upload_interupted = value
+@export var upload_bar : Node2D
 
 @export_group("Game time")
 @export_range(120, MAX_GAME_TIME) var end_time = 270: # The time when the game round ends set to 270 (4m30s)
@@ -84,6 +85,7 @@ var attempt = 0         # A random number
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	haz_water_leak.game_controller =  self as GameController
+	upload_bar.hide()
 	start_game() # will be called by player at some point
 	pass # Replace with function body.
 
@@ -99,6 +101,8 @@ func start_game() -> void:
 	print("starting game")
 	rng.set_seed(Time.get_ticks_usec())
 	_interval_timer.start() # Start the timer
+	upload_bar.get_node('Bar').material.set_shader_parameter('health', 0.0)
+	upload_bar.show()
 
 # This function is used to stop the game and cleanup
 func stop_game() -> void:
@@ -131,8 +135,11 @@ func update_progress():
 	# map(a,b,c,d,e) will be your friend
 	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
+	var upload_bar_progression = map(float(upload_progression), 0.0, float(upload_target), 0.0, 1.0)
 	perc_txt.text = "{perc}%".format({"perc": percent})
 	time_txt.text = get_clock_time()
+	upload_bar.get_node('Label').text = "{perc}%".format({"perc": percent})
+	upload_bar.get_node('Bar').material.set_shader_parameter('health', upload_bar_progression)
 	#print("{perc}%".format({"perc": percent }))
 	#print("Upload Speed: {sp}".format({"sp": upload_speed}))
 	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
@@ -222,6 +229,7 @@ func update_progress():
 func win_game():
 	print("The game has been won")
 	perc_txt.text = "Win!"
+	upload_bar.get_node('Label').text = "100%"
 	stop_game()
 
 # A game losing condition has been met.
