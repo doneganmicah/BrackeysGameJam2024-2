@@ -123,8 +123,8 @@ func update_progress():
 		return
 		
 	# DEBUG PRINTS
-	#print("Upload Progress:")
-	#print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
+	print("Upload Progress:")
+	print("{up}/{ut}".format({"up": upload_progression, "ut": upload_target}))
 	#NOTICE MICAH, This is probably where you want to put the draw_upload_bar() function call
 	# map(a,b,c,d,e) will be your friend
 	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
@@ -132,7 +132,7 @@ func update_progress():
 	#perc_txt.text = "{perc}%".format({"perc": percent})
 	#time_txt.text = get_clock_time()
 	#print("{perc}%".format({"perc": percent }))
-	#print("Upload Speed: {sp}".format({"sp": upload_speed}))
+	print("Upload Speed: {sp}".format({"sp": upload_speed}))
 	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
 	#print("Degrading at: {de}".format({"de": haz_signal_integrity.current_degradation}))
 	#print("Game Time:")

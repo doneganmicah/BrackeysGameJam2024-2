@@ -9,7 +9,12 @@ func interact() -> void:
 	# tho probably not a terrible thing since nothing else will be happening on that thread
 	# ¯\_(ツ)_/¯
 	# if interact available
-	_flag_interacted = true
+	if(UI_laptop.is_visible_in_tree() == true):
+		_player.can_move = true
+		UI_laptop.visible = false
+	else:
+		_player.can_move = false
+		UI_laptop.visible = true
 #endregion
 ################################################################################
 ##                                  Constants                                 ##
@@ -29,11 +34,13 @@ func interact() -> void:
 @export var UI_laptop : Control
 @export var panel : Panel
 @export var player : AnimationPlayer
+@export var emitter : CPUParticles2D
 
 @export var game_controller : GameController
 
 # local variables
 var _flag_interacted = false
+var _buffer_signal = true
 
 ################################################################################
 ##                                  Functions                                 ##
@@ -41,13 +48,24 @@ var _flag_interacted = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	can_interact = true
 	UI_title.visible = true
 	UI_start.visible = false
 	panel.visible = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if(_buffer_signal):
+		if(Input.is_action_just_pressed("player_special")):
+			_buffer_signal = false
+			boost_progress()
+			await get_tree().create_timer(0.2).timeout
+			_buffer_signal = true
 	var _unused = delta
+
+func boost_progress():
+	emitter.emitting = true
+	game_controller.upload_progression += 1
 
 func _on_tutorial_button_down() -> void:
 	print("tutorial")
@@ -83,3 +101,12 @@ func start_game():
 	panel.visible = false
 	game_controller.start_game()
 	
+
+func _on_buff_button_down() -> void:
+	if(_buffer_signal):
+		_buffer_signal = false
+		boost_progress()
+		await get_tree().create_timer(0.2).timeout
+		_buffer_signal = true
+	else:
+		pass
