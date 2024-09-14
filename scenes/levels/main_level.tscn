@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://dnim4fe2dgi75"]
+[gd_scene load_steps=33 format=4 uid="uid://dnim4fe2dgi75"]
 
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="1_5jao3"]
 [ext_resource type="PackedScene" uid="uid://da02dp4q3ytht" path="res://scenes/hazards/world_environment.tscn" id="1_cvov4"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cc8umfmjshmk7" path="res://assets/kitchen_tiles.png" id="5_vf8aj"]
 [ext_resource type="Texture2D" uid="uid://der71mcenrvbo" path="res://assets/beds_shadow.png" id="6_ricoc"]
 [ext_resource type="Texture2D" uid="uid://xmapq8mnsixu" path="res://assets/decorations.png" id="7_632yp"]
+[ext_resource type="Texture2D" uid="uid://d2wwb87016qke" path="res://assets/Socket.png" id="8_k4l27"]
 [ext_resource type="PackedScene" uid="uid://etrlvf0qycc6" path="res://scenes/hazards/game_handler.tscn" id="8_x678y"]
 [ext_resource type="PackedScene" uid="uid://cfa8s1lrnoc7v" path="res://scenes/hazards/hazard_power_surge.tscn" id="9_7jekq"]
 [ext_resource type="PackedScene" uid="uid://cahpk7oe6sh8s" path="res://scenes/interactables/laptop_interactable.tscn" id="10_i7yc6"]
@@ -2081,7 +2082,7 @@ texture = ExtResource("1_5jao3")
 37:13/0 = 0
 38:13/0 = 0
 38:13/0/z_index = 1
-38:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4.5, -8, -8, 8, -8, 8, -4.5)
+38:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 39:13/0 = 0
 0:14/0 = 0
 1:14/0 = 0
@@ -4552,7 +4553,7 @@ sources/2 = SubResource("TileSetAtlasSource_nqmjn")
 size = Vector2(30, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7376"]
-size = Vector2(96, 8)
+size = Vector2(96, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_76uii"]
 size = Vector2(26, 27)
@@ -4694,7 +4695,7 @@ region_rect = Rect2(48, 33, 16, 15)
 position = Vector2(1, -10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Furniture/Kitchen/StaticBody2D"]
-position = Vector2(-33, -47)
+position = Vector2(-33, -38)
 shape = SubResource("RectangleShape2D_r7376")
 
 [node name="Fridge" type="Sprite2D" parent="Furniture/Kitchen"]
@@ -4747,6 +4748,18 @@ scale = Vector2(1, 1.125)
 texture = ExtResource("3_mmnfi")
 region_enabled = true
 region_rect = Rect2(296, 232, 24, 8)
+
+[node name="Outlet" type="Sprite2D" parent="Furniture/Kitchen"]
+z_index = 5
+position = Vector2(-42, -59.1875)
+scale = Vector2(0.410417, 0.410417)
+texture = ExtResource("8_k4l27")
+
+[node name="Outlet2" type="Sprite2D" parent="Furniture/Kitchen"]
+z_index = 5
+position = Vector2(61.461, -57.6267)
+scale = Vector2(0.410417, 0.410417)
+texture = ExtResource("8_k4l27")
 
 [node name="BackDoorCarpet" type="Sprite2D" parent="Furniture"]
 z_index = 3
@@ -4826,6 +4839,10 @@ breaker_box = NodePath("../breaker_box_interactable")
 
 [node name="router_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("13_4ra7d")]
 position = Vector2(73, -54)
+signal_integrity = 500
+degrade_time_max = 30
+degrade_time_min = 15
+dial_speed_sec = 225.0
 game_controller = NodePath("../GameHandler")
 
 [node name="UploadBar" parent="." instance=ExtResource("16_b8rcf")]

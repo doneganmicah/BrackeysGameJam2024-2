@@ -34,6 +34,9 @@ const       OFF = 0 # When the electrical grid is disconnected
 @export var temp_control : Control
 @export var main_light   : PointLight2D
 
+@export var animation : AnimationPlayer
+@export var popup : Sprite2D
+
 # local variables
 var switches = []
 var _flag_interacted = false
@@ -112,6 +115,8 @@ func break_power():
 	switches[index].button_pressed = false
 	can_interact = true
 	power_status = OFF
+	popup.visible = true
+	animation.play("popup")
 	print("Power Outage")
 	
 # Run switch UI
@@ -130,6 +135,8 @@ func _on_breaker_switched(extra_arg_0: int) -> void:
 		if btn.button_pressed: good += 1
 	if(good == 3): 
 		print("Power Restored")
+		animation.stop()
+		popup.visible = false
 		_player.can_move = true
 		temp_control.visible = false
 		power_status = ON

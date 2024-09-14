@@ -4,6 +4,10 @@ extends Path2D
 @export var cable_line : Line2D
 @export var surge_line : Line2D
 @export var haz_controller : HazPowerSurge
+@export var animation : AnimationPlayer
+@export var popup : Sprite2D
+@export var anim_name : String
+
 @export_range(0,100) var surge_range : int:
 	set(value): surge_range = clamp(value,0,100)
 var surging = false:
@@ -25,6 +29,17 @@ func _physics_process(delta: float) -> void:
 	if(surge_range >= 100):
 		# Maxed surge line
 		haz_controller.surged()
+	
+	if (surging):
+		popup.visible = true
+		if(!animation.is_playing()):
+			animation.play(anim_name)
+	else:
+		if(animation.is_playing()):
+			animation.stop()
+		popup.visible = false
+		
+		animation.stop()
 	
 	var pointArray = self.curve.get_baked_points()
 	var total_points = pointArray.size()

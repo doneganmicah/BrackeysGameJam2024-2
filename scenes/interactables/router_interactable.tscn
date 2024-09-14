@@ -28,11 +28,10 @@ size = Vector2(15, 15)
 [node name="router_interactable" node_paths=PackedStringArray("dial_area", "lrg_gr_area", "sm_gr_area", "dial", "dial_range", "dial_ui", "placeholde_light") instance=ExtResource("1_r7a2g")]
 y_sort_enabled = true
 script = ExtResource("2_w37f0")
-signal_integrity = 500
-degrade_time_max = 30
-degrade_time_min = 15
-dial_speed_sec = 225.0
-current_degradation = null
+signal_integrity = null
+degrade_time_max = null
+degrade_time_min = null
+dial_speed_sec = null
 dial_area = NodePath("Control/Dial/dial/Area2D")
 lrg_gr_area = NodePath("Control/Dial/range/Bigger Green")
 sm_gr_area = NodePath("Control/Dial/range/Smalle Green")

@@ -20,6 +20,8 @@ func interact() -> void:
 ##                                  Variables                                 ##
 ################################################################################
 @export var haz_controller: HazPowerSurge
+@export var animation : AnimationPlayer
+@export var animation_name : String
 @export var index : int
 
 # local variables
@@ -32,7 +34,6 @@ var _flag_interacted = false
 func _ready() -> void:
 	can_interact = true
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

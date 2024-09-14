@@ -24,6 +24,7 @@ animations = [{
 
 [node name="powerstrip_interactable" instance=ExtResource("1_gv3gp")]
 script = ExtResource("2_evqm5")
+animation_name = ""
 index = 0
 
 [node name="CollisionShape2D" parent="." index="0"]
@@ -33,3 +34,10 @@ shape = SubResource("CircleShape2D_xi4r8")
 z_index = 9
 scale = Vector2(0.625, 0.625)
 sprite_frames = SubResource("SpriteFrames_buao7")
+
+[node name="Polygon2D" type="Polygon2D" parent="AnimatedSprite2D" index="0"]
+light_mask = 1024
+position = Vector2(0.0148651, -1.77838)
+scale = Vector2(1.08724, 1.08724)
+color = Color(0, 3, 0, 1)
+polygon = PackedVector2Array(-1.02344, -2.97656, 0.976563, -2.97656, 0.976563, -1.97656, -1.02344, -1.97656)

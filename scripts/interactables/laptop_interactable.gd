@@ -41,6 +41,7 @@ func interact() -> void:
 # local variables
 var _flag_interacted = false
 var _buffer_signal = true
+var animating = false
 
 ################################################################################
 ##                                  Functions                                 ##
@@ -75,7 +76,9 @@ func _on_tutorial_button_down() -> void:
 
 func _on_send_mail_down() -> void:
 	# Start the game!
-	player.play("start_to_game")
+	if(!animating):
+		animating = true
+		player.play("start_to_game")
 	#UI_start.visible = false
 	#panel.visible = false
 	#game_controller.start_game()
@@ -94,9 +97,15 @@ func _on_credits_back_down() -> void:
 	rect_credits.visible = false
 	
 func _on_start_button_down() -> void:
-	player.play("title_fade_to_start")
+	if(!animating):
+		animating = true
+		player.play("title_fade_to_start")
+
+func done_animation():
+	animating = false
 
 func start_game():
+	animating = false
 	UI_start.visible = false
 	panel.visible = false
 	game_controller.start_game()
