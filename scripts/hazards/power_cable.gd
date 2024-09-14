@@ -16,11 +16,10 @@ func _ready() -> void:
 	for point in self.curve.get_baked_points():
 		cable_line.add_point(point + self.position)
 	
-	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	
+	var _unused
 	surge_line.clear_points()
 	
 	if(surge_range >= 100):

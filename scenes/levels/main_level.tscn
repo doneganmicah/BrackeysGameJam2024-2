@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://dnim4fe2dgi75"]
+[gd_scene load_steps=31 format=4 uid="uid://dnim4fe2dgi75"]
 
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="1_5jao3"]
 [ext_resource type="PackedScene" uid="uid://da02dp4q3ytht" path="res://scenes/hazards/world_environment.tscn" id="1_cvov4"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://xmapq8mnsixu" path="res://assets/decorations.png" id="7_632yp"]
 [ext_resource type="PackedScene" uid="uid://etrlvf0qycc6" path="res://scenes/hazards/game_handler.tscn" id="8_x678y"]
 [ext_resource type="PackedScene" uid="uid://cfa8s1lrnoc7v" path="res://scenes/hazards/hazard_power_surge.tscn" id="9_7jekq"]
+[ext_resource type="PackedScene" uid="uid://cahpk7oe6sh8s" path="res://scenes/interactables/laptop_interactable.tscn" id="10_i7yc6"]
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="10_nq0x6"]
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="11_4uxlb"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
@@ -4559,6 +4560,7 @@ size = Vector2(26, 27)
 size = Vector2(14, 9)
 
 [node name="MainLevel" type="Node2D"]
+y_sort_enabled = true
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("1_cvov4")]
 
@@ -4788,6 +4790,9 @@ shape = SubResource("RectangleShape2D_nacew")
 
 [node name="Game Mechanics" type="Node" parent="."]
 
+[node name="laptop_interactable" parent="Game Mechanics" instance=ExtResource("10_i7yc6")]
+position = Vector2(0, 50)
+
 [node name="GameHandler" parent="Game Mechanics" node_paths=PackedStringArray("_player", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge") instance=ExtResource("8_x678y")]
 _player = NodePath("../../Player")
 haz_water_leak = NodePath("../HazardWaterLeak")
@@ -4811,6 +4816,7 @@ main_light = NodePath("../../WorldEnvironment/MainLightTemp")
 [node name="door_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller", "breaker_box") instance=ExtResource("12_wt1xp")]
 z_index = 3
 position = Vector2(40, -65)
+time_till_puddle_kills = 20
 game_controller = NodePath("../GameHandler")
 breaker_box = NodePath("../breaker_box_interactable")
 
