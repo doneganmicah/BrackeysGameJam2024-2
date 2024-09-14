@@ -9,6 +9,8 @@ class_name Player
 
 var _interactable : Interactable # The instance of the interactable within interaction range
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 func _physics_process(delta: float) -> void:
 	var _unused = delta # remove unused var warning
 	if(!can_move): return
@@ -16,8 +18,27 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("player_left", "player_right", "player_up", "player_down")
 	
 	if direction:
+		if direction.x > 0:
+			sprite.play('move_horizontal')
+			sprite.flip_h = 0
+		elif direction.x < 0:
+			sprite.play('move_horizontal')
+			sprite.flip_h = 1
+		elif direction.y > 0:
+			sprite.play('move_down')
+		elif direction.y < 0:
+			sprite.play('move_up')
+		
 		velocity = direction * speed
 	else:
+		match sprite.animation:
+			'move_horizontal':
+				sprite.play('idle_horizontal')
+			'move_down':
+				sprite.play('idle_down')
+			'move_up':
+				sprite.play('idle_up')
+		
 		velocity = Vector2.ZERO
 	
 	# This code handles the pushing of the bucket
