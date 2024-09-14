@@ -183,7 +183,7 @@ func update_progress():
 	# we reached the time to spawn, so spawn and reset the attempt timer
 	if (time_since_last_strike >= time_to_strike):
 		print("Lightning Struck")
-		haz_electrical_outage.draw_lightning = true
+		haz_electrical_outage.flicker_lights = true
 		if(surge_roll <= spawn_chance_per_strike):
 			haz_power_surge.create_surge()
 		if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
@@ -193,7 +193,7 @@ func update_progress():
 		# Attempts to spawn early with rarer chance
 		if attempt < map((time_since_last_strike / time_to_strike * 100), 0, 100, 0, 45):
 			print("Lightning Struck")
-			haz_electrical_outage.draw_lightning = true
+			haz_electrical_outage.flicker_lights = true
 			if(surge_roll <= spawn_chance_per_strike):
 				haz_power_surge.create_surge()
 			if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):

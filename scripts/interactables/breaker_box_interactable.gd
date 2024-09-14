@@ -43,6 +43,9 @@ var _flag_interacted = false
 var draw_lightning = false:  # a flag to initiate the drawing of lightning
 	set(value): draw_lightning = value
 	get: return draw_lightning
+var flicker_lights = false:
+	set(value): flicker_lights = value
+	get: return flicker_lights
 var rng = RandomNumberGenerator.new() # not really bothering to seed this since it just bakes the animations
 
 ################################################################################
@@ -65,14 +68,14 @@ var flick_count = 0
 var length_counter = 0
 func _physics_process(delta: float) -> void:
 	var _unused = delta # remove unused var warning
-	if(draw_lightning):
+	if(flicker_lights and power_status == ON):
 		if(!flicked):
 			# Light off
-			temp_bolt.color = Color(1,1,1,0)
+			main_light.enabled = true
 			if(rng.randi_range(0,100) < 10): flicked = true
 		else:
 			# Light on
-			temp_bolt.color = Color(1,1,1,1)
+			main_light.enabled = false
 			flick_count += 1
 			if(flick_count > flick_speed):
 				flick_count = 0
@@ -86,16 +89,17 @@ func _physics_process(delta: float) -> void:
 			flick_speed = 2
 			flick_count = 0
 			length_counter = 0
-			temp_bolt.color = Color(1,1,1,0)
-			draw_lightning = false
+			main_light.enabled = false
+			flicker_lights = false
 
 
 func _process(delta: float) -> void:
 	var _unused = delta # remove unused var warning
-	# Enable interaction when power goes off 
+	# Enable interaction when power goes off
 	if(power_status == ON):    
 		can_interact = false
-		main_light.enabled = true
+		if(!flicker_lights): 
+			main_light.enabled = true
 	elif(power_status == OFF): 
 		can_interact = true
 		main_light.enabled = false

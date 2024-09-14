@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=4 uid="uid://dnim4fe2dgi75"]
+[gd_scene load_steps=35 format=4 uid="uid://dnim4fe2dgi75"]
 
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="1_5jao3"]
 [ext_resource type="PackedScene" uid="uid://da02dp4q3ytht" path="res://scenes/hazards/world_environment.tscn" id="1_cvov4"]
 [ext_resource type="PackedScene" uid="uid://cj77wxhaj87aq" path="res://scenes/player.tscn" id="1_vj1d1"]
 [ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="2_f0sis"]
 [ext_resource type="Texture2D" uid="uid://os0yetgkqd22" path="res://assets/rugs.png" id="3_mmnfi"]
+[ext_resource type="Texture2D" uid="uid://8sbnfbhh1qn1" path="res://assets/PointLightTexture.webp" id="3_ua3u4"]
 [ext_resource type="Texture2D" uid="uid://yprt4y6dg0iw" path="res://assets/tables_shadow.png" id="4_r774o"]
 [ext_resource type="Texture2D" uid="uid://cc8umfmjshmk7" path="res://assets/kitchen_tiles.png" id="5_vf8aj"]
 [ext_resource type="Texture2D" uid="uid://der71mcenrvbo" path="res://assets/beds_shadow.png" id="6_ricoc"]
@@ -30,6 +31,9 @@ height = 256
 fill = 1
 fill_from = Vector2(0.487179, 0.512821)
 fill_to = Vector2(0.034188, 0.0213675)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gl8ar"]
+polygon = PackedVector2Array(-5, 39.9766, 1, 41.2868, 6.99219, 39.9922, 6, 42, -4, 42)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6hvtg"]
 texture = ExtResource("1_5jao3")
@@ -4575,6 +4579,7 @@ position = Vector2(-3.93391e-06, 4.5)
 scale = Vector2(0.757813, 0.683594)
 energy = 1.4
 blend_mode = 2
+range_item_cull_mask = 3
 texture = SubResource("GradientTexture2D_5ha6e")
 
 [node name="GlowLight_AffectsLightMask11" type="PointLight2D" parent="WorldEnvironment"]
@@ -4585,6 +4590,22 @@ energy = 1.4
 blend_mode = 2
 range_item_cull_mask = 1024
 texture = ExtResource("2_f0sis")
+
+[node name="Laptop" type="Node" parent="WorldEnvironment"]
+
+[node name="LaptopLight" type="PointLight2D" parent="WorldEnvironment/Laptop"]
+light_mask = 2
+position = Vector2(0, 50)
+energy = 1.54
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("3_ua3u4")
+texture_scale = 0.27
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="WorldEnvironment/Laptop"]
+position = Vector2(-1, 9)
+occluder = SubResource("OccluderPolygon2D_gl8ar")
+occluder_light_mask = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 y_sort_enabled = true
@@ -4840,10 +4861,6 @@ breaker_box = NodePath("../breaker_box_interactable")
 
 [node name="router_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("13_4ra7d")]
 position = Vector2(73, -54)
-signal_integrity = 500
-degrade_time_max = 30
-degrade_time_min = 15
-dial_speed_sec = 225.0
 game_controller = NodePath("../GameHandler")
 
 [node name="UploadBar" parent="." instance=ExtResource("16_b8rcf")]

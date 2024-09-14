@@ -598,7 +598,8 @@ z_index = 14
 sprite_frames = SubResource("SpriteFrames_87svg")
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D" index="0"]
-z_index = 15
+light_mask = 2
+z_index = 20
 position = Vector2(0, 3)
 texture = ExtResource("4_yatrw")
 
