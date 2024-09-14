@@ -33,3 +33,4 @@ Button/font_sizes/font_size = 50
 Button/styles/hover = SubResource("StyleBoxFlat_hgmge")
 Button/styles/normal = SubResource("StyleBoxFlat_b26it")
 Button/styles/pressed = SubResource("StyleBoxFlat_vpc5u")
+Label/font_sizes/font_size = 22

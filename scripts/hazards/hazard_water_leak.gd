@@ -57,8 +57,7 @@ func haz_attempt_spawn():
 		else: # turn the drip off
 			puddle.leaking = false
 
-func puddle_overflowed(puddle_id):
-	print("Bucket overflowed")
+func puddle_overflowed():
 	breaker_box.break_power()
 	# Run consequence
 	pass
@@ -135,7 +134,7 @@ class Puddle:
 		
 		# Has the puddle maxxed and overflowed
 		if(puddle_progression >= haz.puddle_target):
-			haz.puddle_overflowed(id)
+			haz.puddle_overflowed()
 			puddle_sprite.set_frame(haz.puddle_max_size)
 		else:
 			puddle_sprite.set_frame(puddle_size)

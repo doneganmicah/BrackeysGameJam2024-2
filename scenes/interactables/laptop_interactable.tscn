@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://cahpk7oe6sh8s"]
+[gd_scene load_steps=65 format=3 uid="uid://cahpk7oe6sh8s"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_yqe0n"]
 [ext_resource type="Script" path="res://scripts/interactables/laptop_interactable.gd" id="2_vo0f2"]
@@ -6,7 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://dl23nhjcgd0ka" path="res://assets/ui/title_typing.png" id="4_0wd3m"]
 [ext_resource type="Texture2D" uid="uid://bss10shdc08jp" path="res://assets/ui/title_email.png" id="4_gss7w"]
 [ext_resource type="Theme" uid="uid://bepswvvdulnm8" path="res://assets/themes/ui_theme.tres" id="4_q6lto"]
+[ext_resource type="Texture2D" uid="uid://d24sfxunxp8qh" path="res://assets/LaptopScreen.png" id="4_yatrw"]
 [ext_resource type="Texture2D" uid="uid://gcy8smipkhv3" path="res://assets/ui/title_temp.png" id="5_asyc3"]
+[ext_resource type="Theme" uid="uid://d1utud8c66msw" path="res://assets/themes/invisa_btn.tres" id="8_3etcn"]
+[ext_resource type="Texture2D" uid="uid://b5m5sy88br4s1" path="res://assets/ui/title_tutorial.png" id="9_qp3y2"]
+[ext_resource type="Texture2D" uid="uid://hlddon1qk0ws" path="res://assets/ui/title_credits.png" id="9_yydk1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd0h1"]
 size = Vector2(32, 19)
@@ -29,7 +33,7 @@ animations = [{
 [sub_resource type="Theme" id="Theme_qg0pk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66ek2"]
-bg_color = Color(0, 0, 0, 0.411765)
+bg_color = Color(0, 0, 0, 0.835294)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7rjny"]
 atlas = ExtResource("4_0wd3m")
@@ -326,21 +330,271 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="laptop_interactable" instance=ExtResource("1_yqe0n")]
+[sub_resource type="LabelSettings" id="LabelSettings_mh6gx"]
+font_size = 31
+
+[sub_resource type="LabelSettings" id="LabelSettings_jioie"]
+font_size = 32
+
+[sub_resource type="Animation" id="Animation_orrth"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BeginGame:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleCard:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TitleCard:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BeginGame:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Panel:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vxa3c"]
+resource_name = "start_to_game"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BeginGame:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_game"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.53333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BeginGame:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.73333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p2u7j"]
+resource_name = "title_fade_to_start"
+length = 1.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BeginGame:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleCard:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.03333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TitleCard:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BeginGame:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.966667, 1.66667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0imx8"]
+_data = {
+"RESET": SubResource("Animation_orrth"),
+"start_to_game": SubResource("Animation_vxa3c"),
+"title_fade_to_start": SubResource("Animation_p2u7j")
+}
+
+[node name="laptop_interactable" node_paths=PackedStringArray("UI_title", "rect_start", "rect_tutorial", "rect_credits", "UI_start", "panel", "player") instance=ExtResource("1_yqe0n")]
 script = ExtResource("2_vo0f2")
+UI_title = NodePath("CanvasLayer/TitleCard")
+rect_start = NodePath("CanvasLayer/BeginGame/StartMail")
+rect_tutorial = NodePath("CanvasLayer/BeginGame/TutorialMail")
+rect_credits = NodePath("CanvasLayer/BeginGame/CreditsMail")
+UI_start = NodePath("CanvasLayer/BeginGame")
+panel = NodePath("CanvasLayer/Panel")
+player = NodePath("CanvasLayer/AnimationPlayer")
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_sd0h1")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
-z_index = 11
+z_index = 14
 sprite_frames = SubResource("SpriteFrames_87svg")
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D" index="0"]
+z_index = 15
+position = Vector2(0, 3)
+texture = ExtResource("4_yatrw")
+
+[node name="Line2D" type="Line2D" parent="AnimatedSprite2D" index="1"]
+points = PackedVector2Array(-5.64114, 4.14888, -6.89092, 3.87956, -7.44773, 3.99092, -8.28295, 3.87956, -10.3153, 3.71251, -12.4034, 3.82388, -15.2431, 4.57557, -15.2431, 7.19259)
+width = 0.5
+default_color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[node name="Line2D2" type="Line2D" parent="AnimatedSprite2D" index="2"]
+position = Vector2(0, -5.45676)
+points = PackedVector2Array(-5.49232, 8.5143, -6.44547, 8.13917, -7.03012, 7.94428, -7.86534, 8.55678, -8.47783, 9.14143, -8.33863, 10.4499, -8.75624, 11.3408, -9.28521, 12.3709, -10.1204, 12.9556, -11.3211, 14.0702, -12.4372, 15.3104, -13.1317, 16.4513, -13.0821, 16.997)
+width = 0.5
+default_color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[node name="Line2D3" type="Line2D" parent="AnimatedSprite2D" index="3"]
+position = Vector2(0, -5.45676)
+points = PackedVector2Array(5.97751, 7.9193, 6.59001, 8.00283, 6.86841, 8.22555, 7.03546, 8.671, 6.84057, 9.75678, 6.72921, 10.592, 6.28376, 11.288, 5.86615, 11.6499, 5.08662, 12.0119, 4.75253, 12.2346, 4.16788, 12.8749, 3.69459, 13.3204, 3.02641, 13.9329, 2.77585, 14.7402, 2.66448, 15.4919, 2.66448, 16.0488, 2.74801, 16.4942, 2.80369, 16.8561)
+width = 0.5
+default_color = Color(0.223529, 0.223529, 0.223529, 1)
+
+[node name="Line2D4" type="Line2D" parent="AnimatedSprite2D" index="4"]
+position = Vector2(0, -5.45676)
+points = PackedVector2Array(6.00535, 8.94941, 6.39512, 8.92157, 6.61785, 8.89372, 6.84057, 8.61532, 7.17466, 8.671, 7.31386, 8.89372, 8.2326, 9.00509, 7.84283, 8.92157, 8.56669, 9.03293, 9.29054, 9.00509, 8.92862, 9.08861, 9.70815, 8.97725, 9.98656, 8.94941, 10.2928, 8.89372, 10.7383, 8.86588, 11.0445, 8.86588, 11.6013, 8.86588, 11.9076, 8.86588, 12.4365, 8.64316, 12.882, 8.47612, 13.4388, 8.30907, 13.9956, 8.33691, 14.4967, 8.39259, 14.8865, 8.5318, 14.9979, 8.83804, 15.1927, 9.31133)
+width = 0.5
+default_color = Color(0.223529, 0.223529, 0.223529, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="2"]
 
-[node name="TitleCard" type="Control" parent="CanvasLayer" index="0"]
+[node name="Panel" type="Panel" parent="CanvasLayer" index="0"]
 visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_qg0pk")
+theme_override_styles/panel = SubResource("StyleBoxFlat_66ek2")
+
+[node name="TitleCard" type="Control" parent="CanvasLayer" index="1"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -352,24 +606,14 @@ size_flags_vertical = 3
 theme = ExtResource("4_q6lto")
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="CanvasLayer/TitleCard" index="0"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_qg0pk")
-theme_override_styles/panel = SubResource("StyleBoxFlat_66ek2")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/TitleCard" index="1"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/TitleCard" index="0"]
 position = Vector2(955.222, 505)
 scale = Vector2(1.6037, 1.6037)
 sprite_frames = SubResource("SpriteFrames_bo3gi")
 autoplay = "default"
-frame_progress = 0.688337
+frame_progress = 0.540853
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TitleCard" index="2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TitleCard" index="1"]
 layout_mode = 0
 offset_left = 1161.0
 offset_top = 211.0
@@ -378,7 +622,7 @@ offset_bottom = 394.0
 scale = Vector2(0.809894, 0.852506)
 texture = ExtResource("5_asyc3")
 
-[node name="Start" type="Button" parent="CanvasLayer/TitleCard" index="3"]
+[node name="Start" type="Button" parent="CanvasLayer/TitleCard" index="2"]
 layout_mode = 0
 offset_left = 1270.0
 offset_top = 684.0
@@ -387,14 +631,22 @@ offset_bottom = 757.0
 scale = Vector2(2.24637, 2.24637)
 text = "Start"
 
-[node name="BeginGame" type="Control" parent="CanvasLayer" index="1"]
+[node name="Label" type="Label" parent="CanvasLayer/TitleCard" index="3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BeginGame" type="Control" parent="CanvasLayer" index="2"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+z_index = 25
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("4_q6lto")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/BeginGame" index="0"]
+[node name="StartMail" type="TextureRect" parent="CanvasLayer/BeginGame" index="0"]
 layout_mode = 0
 offset_left = 184.0
 offset_top = 59.0
@@ -403,11 +655,128 @@ offset_bottom = 788.0
 scale = Vector2(1.13906, 1.21905)
 texture = ExtResource("4_gss7w")
 
-[node name="Send" type="Button" parent="CanvasLayer/BeginGame" index="1"]
+[node name="Button2" type="Button" parent="CanvasLayer/BeginGame/StartMail" index="0"]
 layout_mode = 0
-offset_left = 1144.0
-offset_top = 742.0
-offset_right = 1417.0
-offset_bottom = 819.0
+offset_left = 99.2047
+offset_top = 218.203
+offset_right = 103.205
+offset_bottom = 222.203
+theme = ExtResource("8_3etcn")
+text = "Link: Tutorial"
+
+[node name="Button" type="Button" parent="CanvasLayer/BeginGame/StartMail" index="1"]
+layout_mode = 0
+offset_left = 100.96
+offset_top = 321.562
+offset_right = 104.96
+offset_bottom = 325.562
+theme = ExtResource("8_3etcn")
+text = "Link: Credits
+"
+
+[node name="Label" type="Label" parent="CanvasLayer/BeginGame/StartMail" index="2"]
+layout_mode = 0
+offset_left = 98.3267
+offset_top = 152.578
+offset_right = 1266.33
+offset_bottom = 455.578
+text = "Lorem ipsum dolor sit amet, consectetur,
+Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Love,
+Justin"
+
+[node name="Send" type="Button" parent="CanvasLayer/BeginGame/StartMail" index="3"]
+layout_mode = 0
+offset_left = 842.8
+offset_top = 560.272
+offset_right = 1115.8
+offset_bottom = 637.272
 scale = Vector2(1.78358, 1.78358)
 text = "Send Email"
+
+[node name="CreditsMail" type="TextureRect" parent="CanvasLayer/BeginGame" index="1"]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 59.0
+offset_right = 1549.0
+offset_bottom = 788.0
+scale = Vector2(1.139, 1.219)
+texture = ExtResource("9_yydk1")
+
+[node name="Label2" type="Label" parent="CanvasLayer/BeginGame/CreditsMail" index="0"]
+layout_mode = 0
+offset_left = 632.133
+offset_top = 141.92
+offset_right = 1310.13
+offset_bottom = 279.92
+text = "Music OC:
+  - StormMelody - TungstWn
+  - https://www.youtube.com/@tungstwn1241
+Sounds:
+  - Some sounds from Zapsplat.com
+  - RHumphries from freesound.org"
+label_settings = SubResource("LabelSettings_mh6gx")
+
+[node name="Label" type="Label" parent="CanvasLayer/BeginGame/CreditsMail" index="1"]
+layout_mode = 0
+offset_left = 36.8744
+offset_top = 141.099
+offset_right = 1061.87
+offset_bottom = 618.099
+text = "Level Design & Programming:
+    - Micah D.
+    - Micah L.
+Art Design:
+  - Hazards and UI
+      - Micah L. 
+  - Interior
+      - (Paid) Shubibubi : https://shubibubi.itch.io/cozy-interior
+  - Player Character 
+      - Game-Endeavor : https://game-endeavor.itch.io/mystic-woods"
+label_settings = SubResource("LabelSettings_jioie")
+
+[node name="Button" type="Button" parent="CanvasLayer/BeginGame/CreditsMail" index="2"]
+layout_mode = 0
+offset_left = 1121.16
+offset_top = 569.319
+offset_right = 1240.16
+offset_bottom = 642.319
+scale = Vector2(1.62678, 1.62678)
+text = "Back"
+
+[node name="TutorialMail" type="TextureRect" parent="CanvasLayer/BeginGame" index="2"]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 59.0
+offset_right = 1549.0
+offset_bottom = 788.0
+scale = Vector2(1.139, 1.219)
+texture = ExtResource("9_qp3y2")
+
+[node name="Button" type="Button" parent="CanvasLayer/BeginGame/TutorialMail" index="0"]
+layout_mode = 0
+offset_left = 617.208
+offset_top = 573.421
+offset_right = 736.208
+offset_bottom = 646.421
+scale = Vector2(1.62678, 1.62678)
+text = "Back"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_0imx8")
+}
+
+[connection signal="button_down" from="CanvasLayer/TitleCard/Start" to="." method="_on_start_button_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/StartMail/Button2" to="." method="_on_tutorial_button_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/StartMail/Button" to="." method="_on_credit_button_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/StartMail/Send" to="." method="_on_send_mail_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/CreditsMail/Button" to="." method="_on_credits_back_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/TutorialMail/Button" to="." method="_on_tutorial_back_down"]

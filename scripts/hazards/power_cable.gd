@@ -19,7 +19,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	var _unused
+	var _unused = delta
 	surge_line.clear_points()
 	
 	if(surge_range >= 100):

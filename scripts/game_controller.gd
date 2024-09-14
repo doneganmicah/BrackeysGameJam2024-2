@@ -84,8 +84,6 @@ var attempt = 0         # A random number
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	haz_water_leak.game_controller =  self as GameController
-	start_game() # will be called by player at some point
-	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -131,8 +129,8 @@ func update_progress():
 	# map(a,b,c,d,e) will be your friend
 	# map takes in a value between b and c and maps it to d and e ie map(5, 1, 10,1, 100) will return 50 precision is lost with ints
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
-	perc_txt.text = "{perc}%".format({"perc": percent})
-	time_txt.text = get_clock_time()
+	#perc_txt.text = "{perc}%".format({"perc": percent})
+	#time_txt.text = get_clock_time()
 	#print("{perc}%".format({"perc": percent }))
 	#print("Upload Speed: {sp}".format({"sp": upload_speed}))
 	#print("Signal Integrity: {si}".format({"si": haz_signal_integrity.signal_integrity}))
@@ -221,12 +219,12 @@ func update_progress():
 # A game winning condition has been met.
 func win_game():
 	print("The game has been won")
-	perc_txt.text = "Win!"
+	#perc_txt.text = "Win!"
 	stop_game()
 
 # A game losing condition has been met.
 func lose_game(lose : int):
-	perc_txt.text = "Lose! {reason}".format({"reason": lose})
+	#perc_txt.text = "Lose! {reason}".format({"reason": lose})
 	stop_game()
 	
 # Return the current time of the game as a string interpolated between 11:50pm and 12:00am

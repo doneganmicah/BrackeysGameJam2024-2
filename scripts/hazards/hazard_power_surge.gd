@@ -36,11 +36,6 @@ func _ready() -> void:
 	rng.set_seed(Time.get_ticks_usec())
 	surge_lines = [surge_1, surge_2, surge_3, surge_4]
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func create_surge():
 	print("create surge")
 	var random = rng.randi_range(0, 3)
@@ -51,20 +46,9 @@ func haz_tick(storm_intensity):
 	
 	surge_speed = game_controller.map(storm_intensity,0,10, surge_speed_min, surge_speed_max)
 	
-	#debug prints
-	print("Surging")
-	print(surge_speed)
-	print(time_till_kills_max)
-	print(time_till_kills_min)
-	print(surge_speed_min)
-	print(surge_speed_max)
-	
 	for surge_line : SurgeLine in surge_lines:
 		if(surge_line.surging):
-			print("surgerbf")
-			print(surge_line.surge_range)
 			surge_line.surge_range = surge_speed + surge_line.surge_range
-			print(surge_line.surge_range)
 
 func fix_surge(index : int):
 	surge_lines[index].surging = false

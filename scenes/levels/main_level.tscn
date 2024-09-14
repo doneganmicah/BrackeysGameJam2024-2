@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cahpk7oe6sh8s" path="res://scenes/interactables/laptop_interactable.tscn" id="10_i7yc6"]
 [ext_resource type="PackedScene" uid="uid://ckif30bwjtonq" path="res://scenes/hazards/hazard_water_leak.tscn" id="10_nq0x6"]
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="11_4uxlb"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
+[ext_resource type="PackedScene" uid="uid://swju2vsfad13" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="13_4ra7d"]
 
 [sub_resource type="Gradient" id="Gradient_npgfg"]
@@ -4725,10 +4725,11 @@ region_rect = Rect2(0, 368, 16, 16)
 
 [node name="FumeHood" type="Sprite2D" parent="Furniture/Kitchen"]
 z_index = 3
+texture_repeat = 1
 position = Vector2(-24, -72)
 texture = ExtResource("5_vf8aj")
 region_enabled = true
-region_rect = Rect2(16, 336, 16, 32)
+region_rect = Rect2(16, 337.229, 16, 28.98)
 
 [node name="BeegCabinet" type="Sprite2D" parent="Furniture/Kitchen"]
 z_index = 3
@@ -4790,9 +4791,6 @@ shape = SubResource("RectangleShape2D_nacew")
 
 [node name="Game Mechanics" type="Node" parent="."]
 
-[node name="laptop_interactable" parent="Game Mechanics" instance=ExtResource("10_i7yc6")]
-position = Vector2(0, 50)
-
 [node name="GameHandler" parent="Game Mechanics" node_paths=PackedStringArray("_player", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge") instance=ExtResource("8_x678y")]
 _player = NodePath("../../Player")
 haz_water_leak = NodePath("../HazardWaterLeak")
@@ -4807,6 +4805,10 @@ game_controller = NodePath("../GameHandler")
 [node name="HazardWaterLeak" parent="Game Mechanics" node_paths=PackedStringArray("breaker_box") instance=ExtResource("10_nq0x6")]
 position = Vector2(0, 3)
 breaker_box = NodePath("../breaker_box_interactable")
+
+[node name="laptop_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller") instance=ExtResource("10_i7yc6")]
+position = Vector2(0, 47)
+game_controller = NodePath("../GameHandler")
 
 [node name="breaker_box_interactable" parent="Game Mechanics" node_paths=PackedStringArray("game_controller", "main_light") instance=ExtResource("11_4uxlb")]
 position = Vector2(-80, 12)

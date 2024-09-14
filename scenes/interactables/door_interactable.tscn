@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dm4xm18uuhhrr"]
+[gd_scene load_steps=26 format=3 uid="uid://swju2vsfad13"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_661o2"]
 [ext_resource type="Texture2D" uid="uid://br3po2c6g1oi1" path="res://assets/wallpapers.png" id="2_3npfl"]
