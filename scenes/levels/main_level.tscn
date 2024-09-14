@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://beyt4jksujctr" path="res://scenes/interactables/breaker_box_interactable.tscn" id="11_4uxlb"]
 [ext_resource type="PackedScene" uid="uid://swju2vsfad13" path="res://scenes/interactables/door_interactable.tscn" id="12_wt1xp"]
 [ext_resource type="PackedScene" uid="uid://ctthnbjjb2muc" path="res://scenes/interactables/router_interactable.tscn" id="13_4ra7d"]
-[ext_resource type="PackedScene" path="res://scenes/hazards/upload_bar.tscn" id="16_b8rcf"]
+[ext_resource type="PackedScene" uid="uid://drf4uhcn5yh4q" path="res://scenes/hazards/upload_bar.tscn" id="16_b8rcf"]
 
 [sub_resource type="Gradient" id="Gradient_npgfg"]
 offsets = PackedFloat32Array(0.140562, 1)
@@ -4818,6 +4818,7 @@ game_controller = NodePath("../GameHandler")
 
 [node name="HazardWaterLeak" parent="." node_paths=PackedStringArray("breaker_box") instance=ExtResource("10_nq0x6")]
 position = Vector2(0, 3)
+puddle_max_size = 5
 breaker_box = NodePath("../breaker_box_interactable")
 
 [node name="laptop_interactable" parent="." node_paths=PackedStringArray("game_controller") instance=ExtResource("10_i7yc6")]

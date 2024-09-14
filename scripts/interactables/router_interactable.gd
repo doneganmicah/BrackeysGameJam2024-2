@@ -106,7 +106,7 @@ func haz_tick(intensity):
 		placeholde_light.color = Color(game_controller.map(signal_integrity, SIGNAL_BEGIN_FAIL, 0, 0.833, 1),game_controller.map(signal_integrity, SIGNAL_BEGIN_FAIL, 0, 0.833, 0) ,0)
 	else:
 		can_interact = false
-		placeholde_light.color = Color(0,0.663,0)
+		placeholde_light.color = Color(0,3.663,0)
 		
 	if(signal_integrity > 0):
 		game_controller.upload_speed = clamp(game_controller.map(signal_integrity, 0, SIGNAL_BEGIN_FAIL, 1, game_controller.UPLOAD_MAX_SPEED), 1, game_controller.UPLOAD_MAX_SPEED)
