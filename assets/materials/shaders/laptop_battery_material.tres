@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://g2x63o6gj6ch"]
+
+[ext_resource type="Shader" path="res://assets/materials/shaders/laptop_battery_shader.gdshader" id="1_wejwu"]
+
+[resource]
+shader = ExtResource("1_wejwu")
+shader_parameter/color = Color(0, 2, 0, 1)
+shader_parameter/health = 1.0

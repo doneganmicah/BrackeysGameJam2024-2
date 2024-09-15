@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4ddm3le7ph1t"]
+[gd_scene load_steps=15 format=3 uid="uid://b4ddm3le7ph1t"]
 
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="1_f5byo"]
 [ext_resource type="AudioStream" uid="uid://cq8ol60k7ih8n" path="res://assets/Music/Storm1Extended.mp3" id="2_6f1qd"]
@@ -6,70 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://gkpv6bjbiugh" path="res://assets/Music/Storm3Extended.mp3" id="4_tiyub"]
 [ext_resource type="AudioStream" uid="uid://dcc8umn03w6ui" path="res://assets/Music/Storm4Extended.mp3" id="5_a6fqv"]
 [ext_resource type="AudioStream" uid="uid://cjlcg8tn6ks52" path="res://assets/Music/Storm5Extended.mp3" id="6_xihti"]
-
-[sub_resource type="Animation" id="Animation_rgxfk"]
-resource_name = "fade_1_to_2"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AudioStreamPlayer2D:volume_db")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, -80.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AudioStreamPlayer2D2:volume_db")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [-80.0, 0.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AudioStreamPlayer2D3:volume_db")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-80.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AudioStreamPlayer2D4:volume_db")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-80.0]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AudioStreamPlayer2D5:volume_db")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-80.0]
-}
+[ext_resource type="AudioStream" uid="uid://bmpu5ue0hkwi8" path="res://assets/Sounds/zapsplat_emergency_alarm_siren_small_digital_beeps_slow_39926.mp3" id="7_ks7fg"]
+[ext_resource type="AudioStream" uid="uid://dsy05vdudwpm" path="res://assets/Sounds/zapsplat_nature_thunderstorm_approaching_distant_rumbles_rain_then_rain_heavier_at_2m50s_57911.mp3" id="8_ljifd"]
 
 [sub_resource type="Animation" id="Animation_ahewq"]
 length = 0.001
@@ -133,6 +71,99 @@ tracks/4/keys = {
 "update": 0,
 "values": [-80.0]
 }
+
+[sub_resource type="Animation" id="Animation_rgxfk"]
+resource_name = "fade_1_to_2"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -80.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D2:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5.06667, 6.46667, 11.6333),
+"transitions": PackedFloat32Array(1, 0.392292, 1),
+"update": 0,
+"values": [-80.0, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D3:volume_db")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer2D4:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer2D5:volume_db")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(5.46667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"restart_musics"
+}]
+}
+tracks/6/type = "audio"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SFX")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"clips": [{
+"end_offset": 30.0658,
+"start_offset": 0.0,
+"stream": ExtResource("7_ks7fg")
+}],
+"times": PackedFloat32Array(2.1)
+}
+tracks/6/use_blend = true
 
 [sub_resource type="Animation" id="Animation_m6sg5"]
 resource_name = "fade_2_to_3"
@@ -372,3 +403,12 @@ panning_strength = 0.0
 libraries = {
 "": SubResource("AnimationLibrary_s3f6d")
 }
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]
+volume_db = -18.078
+panning_strength = 0.0
+
+[node name="RainFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_ljifd")
+volume_db = -13.533
+panning_strength = 0.0

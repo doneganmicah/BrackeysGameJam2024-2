@@ -1,8 +1,8 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://nr22tsddje8l"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dtbneildxfige"]
 
 [ext_resource type="Shader" path="res://assets/materials/shaders/upload_bar.gdshader" id="1_qwgj5"]
 
 [resource]
 shader = ExtResource("1_qwgj5")
 shader_parameter/color = Color(0, 3, 0, 1)
-shader_parameter/health = 0.0
+shader_parameter/health = 1.0

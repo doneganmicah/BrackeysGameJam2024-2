@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://drf4uhcn5yh4q"]
+[gd_scene load_steps=5 format=3 uid="uid://bypyn8l2wll8a"]
 
 [ext_resource type="Texture2D" uid="uid://hllp8kk4vhgi" path="res://assets/LoadingBar.png" id="1_5tvre"]
-[ext_resource type="Material" uid="uid://nr22tsddje8l" path="res://assets/materials/shaders/upload_bar.tres" id="1_bkmir"]
+[ext_resource type="Material" uid="uid://dtbneildxfige" path="res://assets/materials/shaders/upload_bar.tres" id="1_bkmir"]
 [ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="2_ma45m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n7gf3"]
@@ -22,9 +22,11 @@ texture = ExtResource("2_ma45m")
 texture = ExtResource("1_5tvre")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -23.0
-offset_right = 20.0
-text = "X"
+offset_left = -17.0
+offset_top = -12.0
+offset_right = 101.0
+offset_bottom = 11.0
+scale = Vector2(0.292917, 0.292917)
+text = "Uploading 0%"
 label_settings = SubResource("LabelSettings_n7gf3")
 horizontal_alignment = 1

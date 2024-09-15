@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://cahpk7oe6sh8s"]
+[gd_scene load_steps=75 format=3 uid="uid://cahpk7oe6sh8s"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_yqe0n"]
 [ext_resource type="Script" path="res://scripts/interactables/laptop_interactable.gd" id="2_vo0f2"]
@@ -7,10 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://bss10shdc08jp" path="res://assets/ui/title_email.png" id="4_gss7w"]
 [ext_resource type="Theme" uid="uid://bepswvvdulnm8" path="res://assets/themes/ui_theme.tres" id="4_q6lto"]
 [ext_resource type="Texture2D" uid="uid://d24sfxunxp8qh" path="res://assets/LaptopScreen.png" id="4_yatrw"]
+[ext_resource type="Texture2D" uid="uid://gbl6ruulhv6r" path="res://assets/battery.png" id="5_8yx4v"]
 [ext_resource type="Texture2D" uid="uid://gcy8smipkhv3" path="res://assets/ui/title_temp.png" id="5_asyc3"]
+[ext_resource type="Material" uid="uid://g2x63o6gj6ch" path="res://assets/materials/shaders/laptop_battery_material.tres" id="6_r3ip6"]
+[ext_resource type="Texture2D" uid="uid://d2cfdn3awjven" path="res://assets/A_Fricking_Blank_Square.png" id="7_cbalm"]
 [ext_resource type="Theme" uid="uid://d1utud8c66msw" path="res://assets/themes/invisa_btn.tres" id="8_3etcn"]
 [ext_resource type="Texture2D" uid="uid://b5m5sy88br4s1" path="res://assets/ui/title_tutorial.png" id="9_qp3y2"]
 [ext_resource type="Texture2D" uid="uid://hlddon1qk0ws" path="res://assets/ui/title_credits.png" id="9_yydk1"]
+[ext_resource type="AudioStream" uid="uid://bpnja4jc06td1" path="res://assets/Sounds/keyboard.ogg" id="11_nf2h3"]
 [ext_resource type="Texture2D" uid="uid://cdt56naljksi3" path="res://assets/ui/laptop_paper_airplane.png" id="12_7p7wt"]
 [ext_resource type="Texture2D" uid="uid://dj0sijo0u8fv6" path="res://assets/particles/booster_particle.png" id="12_ipixe"]
 
@@ -363,6 +367,25 @@ func _process(delta: float) -> void:
 	self.progress += 5
 "
 
+[sub_resource type="GDScript" id="GDScript_2sw0o"]
+resource_name = "Exit"
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_button_down() -> void:
+	get_tree().quit(0)
+"
+
 [sub_resource type="Animation" id="Animation_orrth"]
 length = 0.001
 tracks/0/type = "value"
@@ -503,6 +526,20 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"music_call"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_p2u7j"]
 resource_name = "title_fade_to_start"
@@ -577,8 +614,11 @@ _data = {
 "title_fade_to_start": SubResource("Animation_p2u7j")
 }
 
-[node name="laptop_interactable" node_paths=PackedStringArray("UI_title", "rect_start", "rect_tutorial", "rect_credits", "UI_start", "UI_laptop", "panel", "player", "emitter") instance=ExtResource("1_yqe0n")]
+[node name="laptop_interactable" node_paths=PackedStringArray("UI_title", "rect_start", "rect_tutorial", "rect_credits", "UI_start", "UI_laptop", "panel", "player", "emitter", "battery", "batt_material") instance=ExtResource("1_yqe0n")]
 script = ExtResource("2_vo0f2")
+max_power = 500
+power_drain = 25
+power_charge = 8
 UI_title = NodePath("CanvasLayer/TitleCard")
 rect_start = NodePath("CanvasLayer/BeginGame/StartMail")
 rect_tutorial = NodePath("CanvasLayer/BeginGame/TutorialMail")
@@ -588,6 +628,8 @@ UI_laptop = NodePath("CanvasLayer/Laptop")
 panel = NodePath("CanvasLayer/Panel")
 player = NodePath("CanvasLayer/AnimationPlayer")
 emitter = NodePath("CanvasLayer/Laptop/Send/CPUParticles2D")
+battery = NodePath("Battery")
+batt_material = NodePath("Battery/Sprite2D/Sprite2D")
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2(0, -6.5)
@@ -626,7 +668,28 @@ points = PackedVector2Array(6.00535, 8.94941, 6.39512, 8.92157, 6.61785, 8.89372
 width = 0.5
 default_color = Color(0.223529, 0.223529, 0.223529, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="2"]
+[node name="Battery" type="Control" parent="." index="2"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.33266, 0.332585)
+
+[node name="Sprite2D" type="Sprite2D" parent="Battery" index="0"]
+z_index = 18
+position = Vector2(-32.7819, 0.452415)
+texture = ExtResource("5_8yx4v")
+
+[node name="Sprite2D" type="Sprite2D" parent="Battery/Sprite2D" index="0"]
+z_index = -1
+material = ExtResource("6_r3ip6")
+position = Vector2(0.00028317, 1.51211)
+rotation = -1.56991
+scale = Vector2(0.093536, -0.0353525)
+texture = ExtResource("7_cbalm")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="3"]
 
 [node name="Panel" type="Panel" parent="CanvasLayer" index="0"]
 visible = false
@@ -659,11 +722,10 @@ frame_progress = 0.540853
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/TitleCard" index="1"]
 layout_mode = 0
-offset_left = 1161.0
-offset_top = 211.0
-offset_right = 1724.0
-offset_bottom = 394.0
-scale = Vector2(0.809894, 0.852506)
+offset_left = 215.404
+offset_top = 425.727
+offset_right = 1169.4
+offset_bottom = 681.727
 texture = ExtResource("5_asyc3")
 
 [node name="Start" type="Button" parent="CanvasLayer/TitleCard" index="2"]
@@ -679,6 +741,10 @@ text = "Start"
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Keyboard" type="AudioStreamPlayer2D" parent="CanvasLayer/TitleCard" index="4"]
+stream = ExtResource("11_nf2h3")
+autoplay = true
 
 [node name="BeginGame" type="Control" parent="CanvasLayer" index="2"]
 visible = false
@@ -724,13 +790,13 @@ offset_left = 98.3267
 offset_top = 152.578
 offset_right = 1266.33
 offset_bottom = 455.578
-text = "Lorem ipsum dolor sit amet, consectetur,
-Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+text = "What up Prof,
+I hope this message reaches you in time as I am submitting really close to the deadline!
 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Hopefully nothing happens that would prevent me from turning work in for my FAVORITE prof, Right?
+And even if something did happen; I feel like I'm capable of taking care of it. I CAN HANDLE ANYTHING!
 
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Anyway, i could really use that grade bump, I know you've said no 100 times but just hear me out again tomorrow.
 Love,
 Justin"
 
@@ -860,7 +926,17 @@ rotation = 0.654959
 scale = Vector2(3, 3)
 texture = ExtResource("12_7p7wt")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" index="4"]
+[node name="Button" type="Button" parent="CanvasLayer" index="4"]
+offset_left = 1663.97
+offset_top = 82.9824
+offset_right = 1681.97
+offset_bottom = 113.982
+scale = Vector2(2.71324, 2.11324)
+text = "X
+"
+script = SubResource("GDScript_2sw0o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" index="5"]
 libraries = {
 "": SubResource("AnimationLibrary_0imx8")
 }
@@ -872,3 +948,4 @@ libraries = {
 [connection signal="button_down" from="CanvasLayer/BeginGame/CreditsMail/Button" to="." method="_on_credits_back_down"]
 [connection signal="button_down" from="CanvasLayer/BeginGame/TutorialMail/Button" to="." method="_on_tutorial_back_down"]
 [connection signal="button_down" from="CanvasLayer/Laptop/Send" to="." method="_on_buff_button_down"]
+[connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_button_down"]
