@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://cahpk7oe6sh8s"]
+[gd_scene load_steps=76 format=3 uid="uid://cahpk7oe6sh8s"]
 
 [ext_resource type="PackedScene" uid="uid://8pftd86ppdje" path="res://scenes/interactables/Interactable.tscn" id="1_yqe0n"]
 [ext_resource type="Script" path="res://scripts/interactables/laptop_interactable.gd" id="2_vo0f2"]
@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://bpnja4jc06td1" path="res://assets/Sounds/keyboard.ogg" id="11_nf2h3"]
 [ext_resource type="Texture2D" uid="uid://cdt56naljksi3" path="res://assets/ui/laptop_paper_airplane.png" id="12_7p7wt"]
 [ext_resource type="Texture2D" uid="uid://dj0sijo0u8fv6" path="res://assets/particles/booster_particle.png" id="12_ipixe"]
+[ext_resource type="Texture2D" uid="uid://cxhbrh0ri8mgg" path="res://assets/ui/title_tutorial_pg_2.png" id="15_4q7go"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sd0h1"]
 size = Vector2(32, 19)
@@ -614,7 +615,7 @@ _data = {
 "title_fade_to_start": SubResource("Animation_p2u7j")
 }
 
-[node name="laptop_interactable" node_paths=PackedStringArray("UI_title", "rect_start", "rect_tutorial", "rect_credits", "UI_start", "UI_laptop", "panel", "player", "emitter", "battery", "batt_material") instance=ExtResource("1_yqe0n")]
+[node name="laptop_interactable" node_paths=PackedStringArray("UI_title", "rect_start", "rect_tutorial", "rect_credits", "UI_start", "UI_laptop", "rect_tutorial_two", "panel", "player", "emitter", "battery", "batt_material") instance=ExtResource("1_yqe0n")]
 script = ExtResource("2_vo0f2")
 max_power = 500
 power_drain = 25
@@ -625,6 +626,7 @@ rect_tutorial = NodePath("CanvasLayer/BeginGame/TutorialMail")
 rect_credits = NodePath("CanvasLayer/BeginGame/CreditsMail")
 UI_start = NodePath("CanvasLayer/BeginGame")
 UI_laptop = NodePath("CanvasLayer/Laptop")
+rect_tutorial_two = NodePath("CanvasLayer/BeginGame/TutorialMail2")
 panel = NodePath("CanvasLayer/Panel")
 player = NodePath("CanvasLayer/AnimationPlayer")
 emitter = NodePath("CanvasLayer/Laptop/Send/CPUParticles2D")
@@ -751,9 +753,11 @@ visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 25
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("4_q6lto")
 
 [node name="StartMail" type="TextureRect" parent="CanvasLayer/BeginGame" index="0"]
@@ -879,6 +883,35 @@ offset_bottom = 646.421
 scale = Vector2(1.62678, 1.62678)
 text = "Back"
 
+[node name="Button2" type="Button" parent="CanvasLayer/BeginGame/TutorialMail" index="1"]
+layout_mode = 0
+offset_left = 1009.27
+offset_top = 575.785
+offset_right = 1140.27
+offset_bottom = 648.785
+scale = Vector2(1.57732, 1.57732)
+text = "More
+"
+
+[node name="TutorialMail2" type="TextureRect" parent="CanvasLayer/BeginGame" index="3"]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 59.0
+offset_right = 1549.0
+offset_bottom = 788.0
+scale = Vector2(1.139, 1.219)
+texture = ExtResource("15_4q7go")
+
+[node name="Button" type="Button" parent="CanvasLayer/BeginGame/TutorialMail2" index="0"]
+layout_mode = 0
+offset_left = 617.208
+offset_top = 573.421
+offset_right = 736.208
+offset_bottom = 646.421
+scale = Vector2(1.62678, 1.62678)
+text = "Back"
+
 [node name="Laptop" type="Control" parent="CanvasLayer" index="3"]
 visible = false
 layout_mode = 3
@@ -947,5 +980,7 @@ libraries = {
 [connection signal="button_down" from="CanvasLayer/BeginGame/StartMail/Send" to="." method="_on_send_mail_down"]
 [connection signal="button_down" from="CanvasLayer/BeginGame/CreditsMail/Button" to="." method="_on_credits_back_down"]
 [connection signal="button_down" from="CanvasLayer/BeginGame/TutorialMail/Button" to="." method="_on_tutorial_back_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/TutorialMail/Button2" to="." method="_on_button_2_button_down"]
+[connection signal="button_down" from="CanvasLayer/BeginGame/TutorialMail2/Button" to="." method="_on_tutorial_back_down"]
 [connection signal="button_down" from="CanvasLayer/Laptop/Send" to="." method="_on_buff_button_down"]
 [connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_button_down"]

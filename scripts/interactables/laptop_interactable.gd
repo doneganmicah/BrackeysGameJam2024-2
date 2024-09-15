@@ -37,6 +37,7 @@ var current_power = 500
 @export var rect_credits : Control
 @export var UI_start : Control
 @export var UI_laptop : Control
+@export var rect_tutorial_two : Control
 @export var panel : Panel
 @export var player : AnimationPlayer
 @export var emitter : CPUParticles2D
@@ -58,7 +59,7 @@ var animating = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	can_interact = true
+	can_interact = false
 	UI_title.visible = true
 	UI_start.visible = false
 	panel.visible = true
@@ -118,6 +119,7 @@ func _on_credit_button_down() -> void:
 func _on_tutorial_back_down() -> void:
 	rect_start.visible = true
 	rect_tutorial.visible = false
+	rect_tutorial_two.visible = false
 	
 func _on_credits_back_down() -> void:
 	rect_start.visible = true
@@ -136,6 +138,7 @@ func music_call():
 	game_controller.audio_manager.start_ph2()
 
 func start_game():
+	can_interact = true
 	animating = false
 	UI_start.visible = false
 	panel.visible = false
@@ -150,3 +153,8 @@ func _on_buff_button_down() -> void:
 		_buffer_signal = true
 	else:
 		pass
+
+
+func _on_button_2_button_down() -> void:
+	rect_tutorial.visible = false
+	rect_tutorial_two.visible = true
