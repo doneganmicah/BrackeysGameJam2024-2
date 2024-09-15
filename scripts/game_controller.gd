@@ -70,9 +70,13 @@ var time_since_last_door = 0
 @export var haz_signal_integrity : Router # instance of the wifi router
 @export var haz_door_open : BackDoor # instance of the swinging back door
 @export var haz_power_surge : HazPowerSurge
+@export var haz_laptop_battery : Laptop
+@export var winning_airplane : Control
+@export var done_button : Control
+@export var finish_label : Control
+@export var final_screen : CanvasLayer
+@export var clock : Label
 
-@export var time_txt : Label
-@export var perc_txt : Label
 
 
 # Local variables
@@ -85,7 +89,6 @@ var attempt = 0         # A random number
 ################################################################################
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	haz_water_leak.game_controller = self as GameController
 	upload_bar.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -109,6 +112,8 @@ func start_game() -> void:
 func stop_game() -> void:
 	print("ending the game")
 	_interval_timer.stop() # Stop the timer
+	final_screen.visible = true
+	
 	# probably pass whatever parameters to the end screen needed 
 	# or start some animation ui to show completion
 	
@@ -120,6 +125,9 @@ func update_progress():
 	# May need tweaked if end_time is changed
 	storm_intensity = abs(pow(current_time * 0.011, 2) + sin(current_time * 0.1) + sin(current_time * 0.001 + 1) + sin(current_time * 0.05 + 10))
 	storm_intensity = int(clamp(storm_intensity, 0, 10))
+	
+	clock.text = get_clock_time()
+	
 	# Upload finished before time expired
 	if(upload_progression >= upload_target):
 		win_game()
@@ -131,12 +139,12 @@ func update_progress():
 	
 	var percent = map(upload_progression, 0, upload_target, 0, 100)
 	var upload_bar_progression = map(float(upload_progression), 0.0, float(upload_target), 0.0, 1.0)
-	upload_bar.get_node('Label').text = "{perc}%".format({"perc": percent})
+	upload_bar.get_node('Label').text = "Uploading: {perc}%".format({"perc": percent})
 	upload_bar.get_node('Bar').material.set_shader_parameter('health', upload_bar_progression)
 	
-	if(percent >= 90):
+	if(percent >= 70):
 		audio_manager.start_ph5()
-	elif(percent >= 50):
+	elif(percent >= 45):
 		audio_manager.start_ph4()
 	elif(percent >= 20):
 		audio_manager.start_ph3()
@@ -184,12 +192,14 @@ func update_progress():
 	var time_to_strike = map(storm_intensity, 0, 10, attempt_strike_max, attempt_strike_min)
 	attempt = rng.randi_range(0, 100)
 	var power_roll = rng.randi_range(0,100)
+	var flicker_roll = rng.randi_range(0,100)
 	var surge_roll = rng.randi_range(0,100)
 	
 	# we reached the time to spawn, so spawn and reset the attempt timer
 	if (time_since_last_strike >= time_to_strike):
 		print("Lightning Struck")
-		haz_electrical_outage.flicker_lights = true
+		if(flicker_roll > 80):
+			haz_electrical_outage.flicker_lights = true
 		if(surge_roll <= spawn_chance_per_strike):
 			haz_power_surge.create_surge()
 		if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
@@ -199,7 +209,8 @@ func update_progress():
 		# Attempts to spawn early with rarer chance
 		if attempt < map((time_since_last_strike / time_to_strike * 100), 0, 100, 0, 45):
 			print("Lightning Struck")
-			haz_electrical_outage.flicker_lights = true
+			if(flicker_roll > 80):
+				haz_electrical_outage.flicker_lights = true
 			if(surge_roll <= spawn_chance_per_strike):
 				haz_power_surge.create_surge()
 			if(power_roll <= outage_chance + storm_intensity and haz_electrical_outage.power_status == haz_electrical_outage.ON):
@@ -217,7 +228,7 @@ func update_progress():
 		time_since_last_door = 0
 	else:
 		# Attempts to spawn early with rare chance
-		if(attempt < map((time_since_last_door / time_to_door * 100), 0, 100, 0, 45)):
+		if(attempt < map((time_since_last_door / time_to_door * 100), 0, 100, 0, 30)):
 			haz_door_open.swing_open()
 			time_since_last_door = 0
 	#endregion
@@ -227,6 +238,7 @@ func update_progress():
 	haz_signal_integrity.haz_tick(storm_intensity) # Tick the signal integrity hazard
 	haz_door_open.haz_tick()
 	haz_power_surge.haz_tick(storm_intensity)
+	haz_laptop_battery.haz_tick()
 	
 	
 # A game winning condition has been met.
@@ -234,11 +246,24 @@ func win_game():
 	print("The game has been won")
 	upload_bar.get_node('Label').text = "100%"
 	stop_game()
+	finish_label.text = "You Win!"
+	winning_airplane.visible = true
+	
 
 # A game losing condition has been met.
 func lose_game(lose : int):
 	#perc_txt.text = "Lose! {reason}".format({"reason": lose})
 	stop_game()
+	audio_manager.stop()
+	match lose:
+		LOSE_BATTERY:
+			finish_label.text = "Your Laptop Battery Died!"
+		LOSE_SURGE:
+			finish_label.text = "Laptop Was Fried By A Surge!"
+		LOSE_TIME:
+			finish_label.text = "        12:00 AM\nSubmission Late!"
+		LOSE_OTHER:
+			finish_label.text = "How did i get here?"
 	
 # Return the current time of the game as a string interpolated between 11:50pm and 12:00am
 func get_clock_time() -> String:

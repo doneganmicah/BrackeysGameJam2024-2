@@ -6,6 +6,7 @@ class_name AudioManager
 @onready var ap_ph3 = $AudioStreamPlayer2D3
 @onready var ap_ph4 = $AudioStreamPlayer2D4
 @onready var ap_ph5 = $AudioStreamPlayer2D5
+@onready var rain = $RainFX
 @export var animation : AnimationPlayer
 
 var phase = 0
@@ -22,8 +23,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 	
+func stop():
+	ap_ph1.stop()
+	ap_ph2.stop()
+	ap_ph3.stop()
+	ap_ph4.stop()
+	ap_ph5.stop()
+	rain.stop()
+
+func restart_musics():
+	ap_ph2.play(0.0)
+	ap_ph3.play()
+	ap_ph4.play()
+	ap_ph5.play()
+	rain.play()
+
 func start_ph2():
-	
 	if(phase == 2): return
 	print("1 to 2")
 	animation.play("fade_1_to_2")

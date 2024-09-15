@@ -24,6 +24,11 @@ func interact() -> void:
 ##                                  Variables                                 ##
 ################################################################################
 @export_category("Settings")
+@export var max_power = 500
+@export var power_drain = 25
+@export var power_charge = 8
+var current_power = 500
+
 
 @export_category("Nodes")
 @export var UI_title : Control
@@ -37,6 +42,10 @@ func interact() -> void:
 @export var emitter : CPUParticles2D
 
 @export var game_controller : GameController
+@export var power : BreakerBox
+@export var battery : Control
+@export var batt_material : Sprite2D
+@onready var keyboard_fx = $CanvasLayer/TitleCard/Keyboard
 
 # local variables
 var _flag_interacted = false
@@ -64,6 +73,23 @@ func _process(delta: float) -> void:
 			_buffer_signal = true
 	var _unused = delta
 
+func haz_tick():
+	if(power.power_status != power.ON):
+		current_power = clamp(current_power - power_drain, 0,max_power)
+	else:
+		current_power = clamp(power_charge + current_power, 0,max_power)
+	
+	batt_material.material.set_shader_parameter("health", game_controller.map(current_power as float, 0.0, max_power as float, 0.0, 1.0))
+	
+	if(current_power < max_power):
+		battery.visible = true
+	elif(current_power == max_power):
+		battery.visible = false
+	
+	if(current_power <= 0):
+		game_controller.lose_game(game_controller.LOSE_BATTERY)
+	
+
 func boost_progress():
 	emitter.emitting = true
 	game_controller.upload_progression += 1
@@ -77,6 +103,7 @@ func _on_tutorial_button_down() -> void:
 func _on_send_mail_down() -> void:
 	# Start the game!
 	if(!animating):
+		$CanvasLayer/Button.visible = false
 		animating = true
 		player.play("start_to_game")
 	#UI_start.visible = false
@@ -98,11 +125,15 @@ func _on_credits_back_down() -> void:
 	
 func _on_start_button_down() -> void:
 	if(!animating):
+		keyboard_fx.stop()
 		animating = true
 		player.play("title_fade_to_start")
 
 func done_animation():
 	animating = false
+
+func music_call():
+	game_controller.audio_manager.start_ph2()
 
 func start_game():
 	animating = false

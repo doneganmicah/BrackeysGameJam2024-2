@@ -1,12 +1,61 @@
-[gd_scene load_steps=3 format=3 uid="uid://etrlvf0qycc6"]
+[gd_scene load_steps=10 format=3 uid="uid://etrlvf0qycc6"]
 
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_mqg1m"]
+[ext_resource type="Theme" uid="uid://bepswvvdulnm8" path="res://assets/themes/ui_theme.tres" id="2_onm1n"]
+[ext_resource type="Texture2D" uid="uid://cdt56naljksi3" path="res://assets/ui/laptop_paper_airplane.png" id="3_aat8t"]
 
 [sub_resource type="GDScript" id="GDScript_tcg43"]
 script/source = "extends Timer
 "
 
-[node name="GameHandler" type="Node" node_paths=PackedStringArray("_interval_timer", "time_txt", "perc_txt")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sps3k"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_whou0"]
+Label/font_sizes/font_size = 118
+
+[sub_resource type="Curve2D" id="Curve2D_0s7h6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -73, 105, -128.693, -35.3553, 128.693, 35.3553, 180, 133, -56.5685, -43.8406, 56.5685, 43.8406, 390, 232, -35.3553, -24.0416, 35.3553, 24.0416, 513, 316, -60.8112, -19.799, 60.8112, 19.799, 622, 371, -90.5097, -4.24264, 90.5097, 4.24264, 747, 398, -31.1127, 8.48528, 31.1127, -8.48528, 878, 384, -15.5564, 1.41421, 15.5564, -1.41421, 942, 363, -89.0955, -22.6274, 89.0955, 22.6274, 1077, 381, -16.9706, -8.48528, 16.9706, 8.48528, 1206, 429, -43.8406, -19.799, 43.8406, 19.799, 1299, 463, -15.5564, 1.41421, 15.5564, -1.41421, 1450, 485, -39.598, -4.24264, 39.598, 4.24264, 1551, 479, 0, 0, 0, 0, 1669, 495, 0, 0, 0, 0, 1775, 527, 0, 0, 0, 0, 1857, 541, 0, 0, 0, 0, 1947, 541, 0, 0, 0, 0, 2037, 546, 0, 0, 0, 0, 2077, 583, 0, 0, 0, 0, 2115, 634, 0, 0, 0, 0, 2145, 689, 0, 0, 0, 0, 2161, 748, 0, 0, 0, 0, 2168, 808)
+}
+point_count = 23
+
+[sub_resource type="GDScript" id="GDScript_xcreb"]
+resource_name = "path_follow"
+script/source = "extends PathFollow2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	self.progress += 8
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_4r36l"]
+resource_name = "the_reloader"
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_button_down() -> void:
+	get_tree().reload_current_scene()
+"
+
+[node name="GameHandler" type="Node" node_paths=PackedStringArray("_interval_timer", "winning_airplane", "done_button", "finish_label", "final_screen")]
 script = ExtResource("1_mqg1m")
 attempt_leak_min = 20
 attempt_leak_max = 60
@@ -15,10 +64,78 @@ outage_chance = 10
 attempt_door_min = 20
 attempt_door_max = 60
 _interval_timer = NodePath("Timer")
-time_txt = NodePath("")
-perc_txt = NodePath("")
+winning_airplane = NodePath("CanvasLayer/Control2/Control")
+done_button = NodePath("CanvasLayer/Control2/Done")
+finish_label = NodePath("CanvasLayer/Control2/CenterContainer/Label")
+final_screen = NodePath("CanvasLayer")
 
 [node name="Timer" type="Timer" parent="."]
 script = SubResource("GDScript_tcg43")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control2" type="Control" parent="CanvasLayer"]
+z_index = 75
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_onm1n")
+theme_override_styles/panel = SubResource("StyleBoxFlat_sps3k")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control2/CenterContainer"]
+layout_mode = 2
+theme = SubResource("Theme_whou0")
+text = "You Won!"
+
+[node name="Control" type="Control" parent="CanvasLayer/Control2"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Path2D" type="Path2D" parent="CanvasLayer/Control2/Control"]
+curve = SubResource("Curve2D_0s7h6")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CanvasLayer/Control2/Control/Path2D"]
+position = Vector2(-73, 105)
+rotation = 0.110223
+script = SubResource("GDScript_xcreb")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control2/Control/Path2D/PathFollow2D"]
+rotation = 0.516323
+scale = Vector2(3.58808, 3.58808)
+texture = ExtResource("3_aat8t")
+
+[node name="Done" type="Button" parent="CanvasLayer/Control2"]
+layout_mode = 0
+offset_left = 891.0
+offset_top = 768.0
+offset_right = 1023.0
+offset_bottom = 841.0
+theme = ExtResource("2_onm1n")
+text = "Done"
+script = SubResource("GDScript_4r36l")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="button_down" from="CanvasLayer/Control2/Done" to="CanvasLayer/Control2/Done" method="_on_button_down"]

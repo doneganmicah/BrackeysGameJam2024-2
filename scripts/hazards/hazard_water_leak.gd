@@ -29,9 +29,8 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 @export var particle_tl : CPUParticles2D
 @export var particle_bl : CPUParticles2D
 @export var breaker_box : BreakerBox
+@export var game_controller : GameController
 
-var game_controller : GameController: # instance of the game controller
-	set(value): game_controller = value
 var puddles = [] # An array of puddles
 
 var rng = RandomNumberGenerator.new()
