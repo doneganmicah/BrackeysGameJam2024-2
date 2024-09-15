@@ -4850,6 +4850,7 @@ region_rect = Rect2(165, 530, 24, 24)
 
 [node name="GameHandler" parent="." node_paths=PackedStringArray("upload_bar", "_player", "audio_manager", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge", "haz_laptop_battery", "clock") instance=ExtResource("8_x678y")]
 upload_bar = NodePath("../UploadBar")
+_time_multiplier = 10
 attempt_door_min = 30
 _player = NodePath("../Player")
 audio_manager = NodePath("../AudioManager")

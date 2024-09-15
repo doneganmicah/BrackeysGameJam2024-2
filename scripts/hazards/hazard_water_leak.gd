@@ -28,6 +28,11 @@ enum {PUDDLE_TR = 1, PUDDLE_BR = 2, PUDDLE_TL = 3, PUDDLE_BL = 4}
 @export var particle_br : CPUParticles2D
 @export var particle_tl : CPUParticles2D
 @export var particle_bl : CPUParticles2D
+@export var sparks_tr : CPUParticles2D
+@export var sparks_br : CPUParticles2D
+@export var sparks_tl : CPUParticles2D
+@export var sparks_bl : CPUParticles2D
+
 @export var breaker_box : BreakerBox
 @export var game_controller : GameController
 
@@ -38,7 +43,7 @@ var rng = RandomNumberGenerator.new()
 # Called when the node is created
 func _ready() -> void:
 	rng.set_seed(Time.get_ticks_usec())
-	puddles = [Puddle.new(PUDDLE_TR, self, puddle_tr, particle_tr), Puddle.new(PUDDLE_BR, self, puddle_br, particle_br),Puddle.new(PUDDLE_TL, self, puddle_tl, particle_tl),Puddle.new(PUDDLE_BL, self, puddle_bl, particle_bl)]
+	puddles = [Puddle.new(PUDDLE_TR, self, puddle_tr, particle_tr, sparks_tr), Puddle.new(PUDDLE_BR, self, puddle_br, particle_br, sparks_br),Puddle.new(PUDDLE_TL, self, puddle_tl, particle_tl, sparks_tl),Puddle.new(PUDDLE_BL, self, puddle_bl, particle_bl, sparks_bl)]
 	
 # called to tick hazard events
 func haz_tick():
@@ -101,13 +106,15 @@ class Puddle:
 	var haz : HazWaterLeak     # Instance of the hazard
 	var puddle_sprite : AnimatedSprite2D
 	var puddle_particle : CPUParticles2D
+	var puddle_sparks : CPUParticles2D
 	
 	# Constructor
-	func _init(puddle_id, hazard : HazWaterLeak, sprite : AnimatedSprite2D, particle : CPUParticles2D) -> void:
+	func _init(puddle_id, hazard : HazWaterLeak, sprite : AnimatedSprite2D, particle : CPUParticles2D, sparks : CPUParticles2D) -> void:
 		self.id = puddle_id
 		self.haz = hazard
 		self.puddle_sprite = sprite
 		self.puddle_particle = particle
+		self.puddle_sparks = sparks
 		@warning_ignore("integer_division") # The integer division is the intended behavior
 		puddle_grow_speed   = haz.puddle_target / haz.time_till_puddle_kills
 		@warning_ignore("integer_division") # The integer division is the intended behavior
@@ -134,6 +141,7 @@ class Puddle:
 		# Has the puddle maxxed and overflowed
 		if(puddle_progression >= haz.puddle_target):
 			haz.puddle_overflowed()
+			puddle_sparks.emitting = true
 			puddle_sprite.set_frame(haz.puddle_max_size)
 		else:
 			puddle_sprite.set_frame(puddle_size)

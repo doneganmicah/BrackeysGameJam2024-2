@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://ckif30bwjtonq"]
+[gd_scene load_steps=25 format=3 uid="uid://ckif30bwjtonq"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://db7taetd4wmjn" path="res://assets/materials/physics/phy_mat_bucket.tres" id="1_iahnv"]
 [ext_resource type="Script" path="res://scripts/hazards/hazard_water_leak.gd" id="1_qhabx"]
 [ext_resource type="Texture2D" uid="uid://d1mp17ltk2fj" path="res://assets/Bucket.png" id="3_6bero"]
 [ext_resource type="Texture2D" uid="uid://brhvmo5lab5bp" path="res://assets/Puddle1.png" id="4_5ffyv"]
 [ext_resource type="Texture2D" uid="uid://dw0o8nggpip3b" path="res://assets/particles/water_droplet.png" id="5_84wdu"]
+[ext_resource type="Texture2D" uid="uid://s78c3ptaf1mg" path="res://assets/particles/spark_particle.png" id="6_karmo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ivmgs"]
 size = Vector2(5.98964, 3)
@@ -90,6 +91,10 @@ particles_anim_loop = false
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Gradient" id="Gradient_lk31u"]
+offsets = PackedFloat32Array(0.00909091, 0.286364, 0.609091, 0.981818)
+colors = PackedColorArray(3, 3, 3, 1, 2, 1.5, 0, 1, 2, 0.5, 0, 1, 2, 0, 0, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_urp3s"]
 radius = 5.0
 
@@ -99,17 +104,21 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_lhhr4"]
 radius = 5.0
 
-[node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl", "particle_tr", "particle_br", "particle_tl", "particle_bl")]
+[node name="HazardWaterLeak" type="Node2D" node_paths=PackedStringArray("puddle_tr", "puddle_br", "puddle_tl", "puddle_bl", "particle_tr", "particle_br", "particle_tl", "particle_bl", "sparks_tr", "sparks_br", "sparks_tl", "sparks_bl")]
 y_sort_enabled = true
 script = ExtResource("1_qhabx")
 puddle_tr = NodePath("Puddles/Puddle top right/Sprite top right")
 puddle_br = NodePath("Puddles/Puddle bottom right/Sprite bot right")
 puddle_tl = NodePath("Puddles/Puddle top left/Sprite top left")
 puddle_bl = NodePath("Puddles/Puddle bottom left/Sprite bot left")
-particle_tr = NodePath("Puddles/Puddle top right/Particel top right")
+particle_tr = NodePath("Puddles/Puddle top right/Particle top right")
 particle_br = NodePath("Puddles/Puddle bottom right/Particle bot right")
 particle_tl = NodePath("Puddles/Puddle top left/Particle top left")
 particle_bl = NodePath("Puddles/Puddle bottom left/Particle bot left")
+sparks_tr = NodePath("Puddles/Puddle top right/Sparks top right")
+sparks_br = NodePath("Puddles/Puddle bottom right/Sparks bot right")
+sparks_tl = NodePath("Puddles/Puddle top left/Sparks top left")
+sparks_bl = NodePath("Puddles/Puddle bottom left/SParks bot left")
 
 [node name="Bucket" type="RigidBody2D" parent="." groups=["Bucket"]]
 y_sort_enabled = true
@@ -186,6 +195,28 @@ gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
 
+[node name="Sparks top left" type="CPUParticles2D" parent="Puddles/Puddle top left"]
+light_mask = 1024
+z_index = 5
+position = Vector2(10.77, -8.83217)
+rotation = -0.27496
+emitting = false
+lifetime = 0.25
+one_shot = true
+speed_scale = 1.48
+randomness = 0.2
+lifetime_randomness = 0.41
+texture = ExtResource("6_karmo")
+direction = Vector2(0, -1)
+spread = 53.06
+gravity = Vector2(0, 450)
+initial_velocity_min = 44.77
+initial_velocity_max = 111.94
+angle_min = -96.7
+angle_max = 161.2
+color = Color(1, 0.5, 0, 1)
+color_ramp = SubResource("Gradient_lk31u")
+
 [node name="Puddle bottom right" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(38, 19)
@@ -215,6 +246,28 @@ texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
+
+[node name="Sparks bot right" type="CPUParticles2D" parent="Puddles/Puddle bottom right"]
+light_mask = 1024
+z_index = 5
+position = Vector2(9.19275, 9.6692)
+rotation = 0.597714
+emitting = false
+lifetime = 0.25
+one_shot = true
+speed_scale = 1.48
+randomness = 0.2
+lifetime_randomness = 0.41
+texture = ExtResource("6_karmo")
+direction = Vector2(0, -1)
+spread = 53.06
+gravity = Vector2(0, 450)
+initial_velocity_min = 44.77
+initial_velocity_max = 111.94
+angle_min = -96.7
+angle_max = 161.2
+color = Color(1, 0.5, 0, 1)
+color_ramp = SubResource("Gradient_lk31u")
 
 [node name="Puddle bottom left" type="Area2D" parent="Puddles"]
 z_index = 5
@@ -246,6 +299,28 @@ gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
 
+[node name="SParks bot left" type="CPUParticles2D" parent="Puddles/Puddle bottom left"]
+light_mask = 1024
+z_index = 5
+position = Vector2(-10.1192, 4.75406)
+rotation = -0.27496
+emitting = false
+lifetime = 0.25
+one_shot = true
+speed_scale = 1.48
+randomness = 0.2
+lifetime_randomness = 0.41
+texture = ExtResource("6_karmo")
+direction = Vector2(0, -1)
+spread = 53.06
+gravity = Vector2(0, 450)
+initial_velocity_min = 44.77
+initial_velocity_max = 111.94
+angle_min = -96.7
+angle_max = 161.2
+color = Color(1, 0.5, 0, 1)
+color_ramp = SubResource("Gradient_lk31u")
+
 [node name="Puddle top right" type="Area2D" parent="Puddles"]
 z_index = 5
 position = Vector2(31, -12)
@@ -265,7 +340,7 @@ sprite_frames = SubResource("SpriteFrames_txx6u")
 autoplay = "default"
 frame_progress = 0.926866
 
-[node name="Particel top right" type="CPUParticles2D" parent="Puddles/Puddle top right"]
+[node name="Particle top right" type="CPUParticles2D" parent="Puddles/Puddle top right"]
 material = SubResource("CanvasItemMaterial_hf5fb")
 position = Vector2(21.5508, -16.2654)
 rotation = 0.924263
@@ -276,6 +351,28 @@ texture = ExtResource("5_84wdu")
 gravity = Vector2(0, 100)
 scale_amount_curve = SubResource("Curve_vojwg")
 anim_offset_max = 1.0
+
+[node name="Sparks top right" type="CPUParticles2D" parent="Puddles/Puddle top right"]
+light_mask = 1024
+z_index = 5
+position = Vector2(10.226, 8.56903)
+rotation = 0.932283
+emitting = false
+lifetime = 0.25
+one_shot = true
+speed_scale = 1.48
+randomness = 0.2
+lifetime_randomness = 0.41
+texture = ExtResource("6_karmo")
+direction = Vector2(0, -1)
+spread = 53.06
+gravity = Vector2(0, 450)
+initial_velocity_min = 44.77
+initial_velocity_max = 111.94
+angle_min = -96.7
+angle_max = 161.2
+color = Color(1, 0.5, 0, 1)
+color_ramp = SubResource("Gradient_lk31u")
 
 [connection signal="area_entered" from="Puddles/Puddle top left" to="." method="_on_puddle_area_entered" binds= [3]]
 [connection signal="area_exited" from="Puddles/Puddle top left" to="." method="_on_puddle_area_exited" binds= [3]]
