@@ -48,6 +48,9 @@ var current_degradation = SIGNAL_MAX / degrade_time_max
 @export var dial_ui : Control
 @export var placeholde_light : Polygon2D # TODO Replace with animated sprite and frames and animation
 
+@export var animation : AnimationPlayer
+@export var popup : Sprite2D
+
 # local variables
 var _flag_interacted  = false
 var playing_dial      = false
@@ -114,6 +117,10 @@ func haz_tick(intensity):
 	else:
 		game_controller.upload_speed = 0
 		game_controller.upload_interupted = true
+	
+	if(signal_integrity <= 250.0):
+		popup.visible = true
+		animation.play('popup')
 
 # Open the dial kicker
 func open_ui():
@@ -152,10 +159,13 @@ func kick():
 				
 				qte_hit = true
 				signal_integrity = SIGNAL_MAX
+				
+				animation.stop()
+				popup.visible = false
 	if(qte_hit):
 		print("You Hit Green!")
 		await get_tree().create_timer(0.75).timeout
-		close_ui()	
+		close_ui()
 	else:
 		print("You Hit Red")
 		await get_tree().create_timer(0.75).timeout

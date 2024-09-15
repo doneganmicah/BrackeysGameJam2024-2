@@ -4840,6 +4840,14 @@ offset_bottom = -50.0957
 scale = Vector2(0.214355, 0.223905)
 text = "11:50 pm"
 
+[node name="StarryNight" type="Sprite2D" parent="Furniture"]
+z_index = 4
+position = Vector2(-10, -70)
+scale = Vector2(0.31926, 0.31926)
+texture = ExtResource("7_632yp")
+region_enabled = true
+region_rect = Rect2(165, 530, 24, 24)
+
 [node name="GameHandler" parent="." node_paths=PackedStringArray("upload_bar", "_player", "audio_manager", "haz_water_leak", "haz_electrical_outage", "haz_signal_integrity", "haz_door_open", "haz_power_surge", "haz_laptop_battery", "clock") instance=ExtResource("8_x678y")]
 upload_bar = NodePath("../UploadBar")
 attempt_door_min = 30
