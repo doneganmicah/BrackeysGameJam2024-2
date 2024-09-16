@@ -13,7 +13,8 @@ config_version=5
 config/name="BrackeysGameJam2024-2"
 run/main_scene="res://scenes/levels/main_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://assets/Logo.png"
+config/icon="res://assets/icon.ico"
+config/windows_native_icon="res://assets/icon.ico"
 
 [display]
 

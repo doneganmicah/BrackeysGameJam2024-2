@@ -112,6 +112,7 @@ func start_game() -> void:
 func stop_game() -> void:
 	print("ending the game")
 	_interval_timer.stop() # Stop the timer
+	haz_laptop_battery.UI_laptop.visible = false
 	final_screen.visible = true
 	
 	# probably pass whatever parameters to the end screen needed 
